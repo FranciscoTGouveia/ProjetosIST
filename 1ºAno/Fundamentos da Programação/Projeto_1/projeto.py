@@ -1,13 +1,16 @@
+### Nome: Francisco Catanho Barreto Tomé Gouveia
+### IST_ID: ist1102571
+### 1ªAno LEIC-T
+
 # Correção da Documentação
 def corrigir_palavra(palavra):
     """A função recebe uma palavra (potencialmente modificada por um surto de letras) e devolve-a corrigida.
-    string --->>> string"""
+    corrigir_palavra: string --->>> string"""
     def par_minuscula_maiuscula(letra, letra_seguinte):
         """Avalia duas letras consecutivas e avalie se são um par minuscula/maiuscula.
-        string, string --->>> boolean"""
+        par_minuscula_maiuscula: string, string --->>> boolean"""
         return ord(letra) == (ord(letra_seguinte) - 32) or ord(letra) == (ord(letra_seguinte) + 32)
 
-    ### Encapsular toda a gigagoga de eleiminar pares min/maius numa funcao e devolver bool. Enquanto houver alterações (true), ir chamando a função
     limpa = False
     while not limpa:
         index = 0
@@ -24,7 +27,7 @@ def corrigir_palavra(palavra):
 
 def eh_anagrama(palavra1, palavra2):
     """A função recebe 2 palavras e devolve um Boolean consoante se são anagramas uma da outra.
-    string, string --->>> boolean"""
+    eh_anagrama: string, string --->>> boolean"""
     # As strings passam a ser listas ordenadas.
     # Se as listas forem exatamente iguais, estamos na presença de um anagrama.
     palavra1 = list(palavra1.lower())
@@ -38,7 +41,7 @@ def corrigir_doc(documento):
     """A função recebe uma cadeia de caracteres e devolve-a filtrada.
     Cadeia filtrada: com palavras corrigidas e anagramas retirados
     O argumento necessita de ser constituido apenas por letras para ser considerado válido.
-    string --->>> string"""
+    corrigir_doc: string --->>> string"""
     if not type(documento) == str:
         raise ValueError("corrigir_doc: argumento invalido")
     documento = documento.split(" ")
@@ -53,7 +56,6 @@ def corrigir_doc(documento):
     while i < len(documento):
         if i not in lista_a_eliminar:
             for j in range(i + 1, len(documento)):
-                # Depois eliminar a primeira parte do if
                 if documento[j] not in documento[:j] and eh_anagrama(documento[i], documento[j]) and documento[i].lower() != documento[j].lower():
                     lista_a_eliminar.append(j)
         i += 1
@@ -69,7 +71,7 @@ def corrigir_doc(documento):
 # Descoberta do PIN
 def obter_posicao(direcao, posicao_atual):
     """A função recebe uma direção "c, b, e, d" e a posição inicial, devolvendo a próxima posição.
-    string, int --->>> int"""
+    obter_posicao: string, int --->>> int"""
     # Garante-se a validade dos movimentos de acordo com as posições
     if direcao == "C" and posicao_atual not in (1, 2, 3):
         return posicao_atual - 3
@@ -85,7 +87,7 @@ def obter_posicao(direcao, posicao_atual):
 
 def obter_digito(movimentos, posicao_inicial):
     """A função recebe uma sequência e uma posição inicial, e devolve o número após finalizar os movimentos.
-    string, int --->>> int"""
+    obter_digito: string, int --->>> int"""
     for direcao in movimentos:
         if direcao not in ("C", "B", "E", "D"):
             raise ValueError("obter_pin: argumento invalido")
@@ -95,8 +97,7 @@ def obter_digito(movimentos, posicao_inicial):
 
 def obter_pin(sequencias_movimentos):
     """A função recebe um conjunto de sequencias de movimentos e devolve um pin.
-    tuple --->>> tuple"""
-    # Rever o comentario (não há necessidade de ter o i)
+    obter_pin: tuple --->>> tuple"""
     pin = ()
     ultima_posicao_registada = 5
     if not (type(sequencias_movimentos) == tuple and 4 <= len(sequencias_movimentos) <= 10):
@@ -114,12 +115,14 @@ def obter_pin(sequencias_movimentos):
 # Verificação de dados
 def eh_entrada(entradas):
     """A funcao recebe uma cifra, checksum, e um numero de segurança e verifica se estes são válidos.
-    universal ---> booleano"""
+    eh_entrada: universal ---> booleano"""
     if not (type(entradas) == tuple and len(entradas) == 3):
         return False
     return eh_cifra(entradas[0]) and eh_checksum(entradas[1]) and eh_num_seguranca(entradas[2])
 
 def eh_cifra(cifra):
+    """A funcao recebe uma cifra e verifica se esta é válida.
+    eh_cifra: string --->>> boolean"""
     if type(cifra) != str or not cifra:
         return False
     for index, carater in enumerate(cifra):
@@ -133,6 +136,8 @@ def eh_cifra(cifra):
     return True
 
 def eh_checksum(checksum):
+    """A funcao recebe o parametro checksum, e verifica a sua validade.
+    eh_checksum: string --->>> boolean"""
     if type(checksum) != str or not(len(checksum) == 7) or checksum[0] != "[" or checksum[-1] != "]":
         return False
     for letra in checksum[1:6]:
@@ -165,6 +170,7 @@ def validar_cifra(cifra, checksum):
     if "-" in ocurrencias:
         del ocurrencias["-"]
     ocurrencias_ordenadas = sorted(ocurrencias.items())
+
     def bubble_sort(lista):
         houve_mudanca = True
         tamanho = len(lista) - 1
@@ -185,6 +191,10 @@ def validar_cifra(cifra, checksum):
 
 
 def filtrar_bdb(lista_entradas):
+    """A funcao recebe uam lista contendo uma ou mais entradas da BDB.
+    Verifica cada entrada, e devolve uma lista com as entradas não válidas, na mesma ordem da lista original.
+    Uma entrada não válida verifica se o checksum é coerente com a cifra.
+    filtrar_bdb: list --->>> list"""
     lista_nao_coerentes = []
     if type(lista_entradas) != list or not lista_entradas:
         raise ValueError("filtrar_bdb: argumento invalido")
@@ -199,8 +209,8 @@ def filtrar_bdb(lista_entradas):
 # Desencriptacao de dados
 def obter_num_seguranca(tuplo):
     """A funcao recebe uma sequencia de seguranca e encontra o numero de seguranca.
-    Numero de seguranca: menor diferenca entre numeros
-    tuple --->>> int"""
+    Numero de seguranca: menor diferenca entre numeros.
+    obter_num_seguranca: tuple --->>> int"""
     diferenca, i = None, 0
     while i < len(tuplo) - 1:
         for j in range(i + 1, len(tuplo)):
@@ -216,11 +226,11 @@ def obter_num_seguranca(tuplo):
 
 def decifrar_texto(cifra, num_seguranca):
     """A funcao recebe uma cifra e numero de seguranca, com o qual decifra a cifra.
-    string, int --->>> string"""
+    decifrar_texto: string, int --->>> string"""
     i = 0
     def volta_alfabeto(num):
         """A funcao altera o codigo decimal ASCII, de forma a corresponder a uma letra minuscula.
-        int --->>> int"""
+        volta_alfabeto: int --->>> int"""
         while num > 122:
             num -= 26
         return num
@@ -267,17 +277,17 @@ def decifrar_bdb(entradas):
 # Depuração de Senhas
 def eh_utilizador(informacao):
     """Recebe qualqer tipo de argumento e verifica se é um dicionário contendo informação do utilizador válida,
-    universal --->>> boolean"""
+    eh_utilizador: universal --->>> boolean"""
     def avalia_dicionario(dicionario):
         """Funcao auxiliar que verifica a validade do dicionario passado.
-        universal --->>> boolean"""
+        avalia_dicionario: universal --->>> boolean"""
         if type(dicionario) == dict and len(dicionario) == 3 and \
             "name" in dicionario and "pass" in dicionario and "rule" in dicionario:
             return True
         return False
     def avalia_name(dicionario):
         """Funcao auxiliar que verifica o par chave-valor "name".
-        dict --->>> boolean"""
+        avalia_name: dict --->>> boolean"""
         if type(dicionario["name"]) != str or dicionario["name"] == "":
             return False
         for letra in dicionario["name"]:
@@ -287,18 +297,17 @@ def eh_utilizador(informacao):
     ### Avaliar os fors, porque a função pode nao devolver nada se tiver IndexOutOfRange
     def avalia_pass(dicionario):
         """Funcao auxiliar que verifica o par chave-valor "pass".
-        dict --->>> boolen"""
+        avalia_pass: dict --->>> boolen"""
         return type(dicionario["pass"]) == str and dicionario["pass"].isalpha()
     def avalia_regra(dicionario_rule):
         """Funcao auxiliar que verifica a regra individual.
-        dict --->>> boolean"""
-        if not (len(dicionario_rule) == 2 and type(dicionario_rule["vals"]) == tuple and
+        avalia_regra: dict --->>> boolean"""
+        return (len(dicionario_rule) == 2 and type(dicionario_rule["vals"]) == tuple and
                 len(dicionario_rule["vals"]) == 2 and dicionario_rule["vals"][0] > 0 and
                 dicionario_rule["vals"][1] > 0 and
                 type(dicionario_rule["char"]) == str and len(dicionario_rule["char"]) == 1 and
-                dicionario_rule["vals"][0] < dicionario_rule["vals"][1]):
-            return False
-        return True
+                dicionario_rule["vals"][0] < dicionario_rule["vals"][1])
+
 
     return avalia_dicionario(informacao) and avalia_name(informacao) and avalia_pass(informacao) and avalia_regra(informacao["rule"])
 
@@ -306,12 +315,12 @@ def eh_utilizador(informacao):
 
 def eh_senha_valida(senha, dicionario_regras):
     """A funcao recebe uma senha e um dicionario e verifica que a senha cumpre as regras defenidas no dicionario.
-    string, dict --->>> boolean"""
+    eh_senha_valida: string, dict --->>> boolean"""
     def regras_gerais(senha):
         """Verifica se a senha cumpre as regras gerias, que sao:
         -> Conter pelo menos tres vogais minusculas;
         -> Conter pelo menos um carater que apareca duas vezes consecutivas
-        string --->>> boolean"""
+        regras_gerais: string --->>> boolean"""
         contador_vogais = 0
         for letra in senha:
             if letra in "aeiou":
@@ -330,7 +339,7 @@ def eh_senha_valida(senha, dicionario_regras):
     def regras_especificas(senha, dicionario_regras):
         """Verifica se a senha cumpre a regra especifica, que e:
         -> Existe um determinado numero de ocurrencias (guardada em "vals") de uma certa letra (guardade em "char"):
-        string, dict --->>> boolean"""
+        regras_especificas: string, dict --->>> boolean"""
 
         min_ocurrencias = dicionario_regras["vals"][0]
         max_ocurrencias = dicionario_regras["vals"][1]
@@ -338,9 +347,7 @@ def eh_senha_valida(senha, dicionario_regras):
         for letra in senha:
             if letra == dicionario_regras["char"]:
                 count_ocurrencias += 1
-        if min_ocurrencias <= count_ocurrencias <= max_ocurrencias:
-            return True
-        return False
+        return min_ocurrencias <= count_ocurrencias <= max_ocurrencias
 
     return regras_gerais(senha) and regras_especificas(senha, dicionario_regras)
 
@@ -348,7 +355,7 @@ def eh_senha_valida(senha, dicionario_regras):
 def filtrar_senhas(lista_entradas):
     """A funcao recebe uma lista de entradas da BDB.
     Devolve a lista ordenada alfabeticamente dos utilizadores com senhas erradas.
-    list ---> list"""
+    filtrar_senhas: list ---> list"""
     if not lista_entradas or type(lista_entradas) != list:
         raise ValueError("filtrar_senhas: argumento invalido")
     lista_senhas_erradas = []
