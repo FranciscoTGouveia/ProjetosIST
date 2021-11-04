@@ -19,7 +19,7 @@ def cria_copia_posicao(p):
     # Se sim, podemos utilizar o metodo obter_pos_x/y, invés de p[0] e p[1] ?
     if type(p) != tuple or len(p) != 2 or p[0] < 0 or p[1] < 0:
         raise ValueError("cria_copia_posicao: argumentos invalidos")
-    return p
+    return (obter_pos_x(p), obter_pos_y(p))
 
 # Seletores
 def obter_pos_x(p):
@@ -81,18 +81,7 @@ def ordenar_posicoes(t):
     """Devolve um tuplo contendo as mesmas posicoes mas de acordo com a ordem de leitura do prado.
     ordenar_posicoes: tuple --->>> tuple"""
     t = list(t)
-    t.sort(key=lambda x:x[0])
-    def bubble_sort(lista):
-        houve_mudanca = True
-        tamanho = len(lista) - 1
-        while houve_mudanca:
-            houve_mudanca = False
-            for i in range(tamanho):
-                if lista[i][1] > lista[i + 1][1]:
-                    lista[i], lista[i + 1] = lista[i + 1], lista[i]
-                    houve_mudanca = True
-            tamanho -= 1
-        return lista
-    bubble_sort(t)
+    t.sort(key=lambda x:x[::-1])
     return tuple(t)
+
 
