@@ -447,3 +447,50 @@ def prado_para_str(m):
                     string_final += "."
         string_final += "\n"
     return string_final[:-1]
+
+# Funcoes de Alto Nivel
+def obter_valor_numerico(m, p):
+    """Devolve o valor numérico correspondente à leitura do prado.
+    obter_valor_numerico: prado, posicao --->>> int"""
+    return obter_pos_x(p) + obter_tamanho_x(m) * obter_pos_y(p)
+
+
+def obter_movimento(m, p):
+    """Devolve a posicao seguinte do animal na posicao p de acordo com as regras de movimento.
+    Regras de movimento:
+    --->>> Os animais movem-se para cima ou baixo, esquerda ou direita.
+    --->>> As montanhas e rochedo não podem ser ocupados por nenhum animal.
+    --->>> Se não houver posicoes adjacentes vazias, o animal permanece na posicao.
+    --->>> Os predadores tentam mover-se para uma posicao adjacente que tenha uma presa.
+    --->>>
+    obter_movimento: prado, posicao --->>> prado"""
+    def verifica_posicao(m, p):
+        coord_x = obter_tamanho_x(m)
+        coord_y = obter_tamanho_y(m)
+        return obter_pos_x(p) < coord_x and obter_pos_y(p) < coord_y
+
+    valor_n = obter_valor_numerico(m, p)
+    if eh_predador(obter_animal(m,p)):
+        posicoes_possiveis = tuple(filter(lambda x: verifica_posicao(m, x) and not eh_posicao_obstaculo(m, x), obter_posicoes_adjacentes(p)))
+        if any(filter(lambda x: eh_posicao_animal(m, x), posicoes_possiveis)):
+            posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x), posicoes_possiveis))
+
+        n_pos_possiveis = len(posicoes_possiveis)
+        if not posicoes_possiveis:
+            return p
+        elif len(posicoes_possiveis) == 1:
+            return posicoes_possiveis[0]
+        else: # Se + que 1 posicao disponivel
+            movimento = valor_n % n_pos_possiveis
+            return posicoes_possiveis[movimento]
+
+    else:
+        posicoes_possiveis = tuple(filter(lambda x: verifica_posicao(m, x) and eh_posicao_livre(m, x), obter_posicoes_adjacentes(p)))
+        n_pos_possiveis = len(posicoes_possiveis)
+        if not posicoes_possiveis:
+            return p
+        elif len(posicoes_possiveis) == 1:
+            return posicoes_possiveis[0]
+        else: # Se + que 1 posicao disponivel
+            movimento = valor_n % n_pos_possiveis
+            return posicoes_possiveis[movimento]
