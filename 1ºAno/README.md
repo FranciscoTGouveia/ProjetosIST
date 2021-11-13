@@ -1,7 +1,7 @@
 # 1º Ano
 ---
 ### 1º Semestre
-+ [Fundamentos da Programação (*Python*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/master/1ºAno/)
++ [Fundamentos da Programação (*Python*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/1%C2%BAAno/Fundamentos%20da%20Programa%C3%A7%C3%A3o)
 + [Lógica para a Programação (*Prolog*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/master/1ºAno)
 ### 2º Semestre
 + [Introdução aos Algoritmos e Estruturas de Dados (*C*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/master/1ºAno)
