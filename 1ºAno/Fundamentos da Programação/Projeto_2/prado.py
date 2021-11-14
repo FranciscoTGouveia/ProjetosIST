@@ -251,6 +251,7 @@ def reproduz_animal(a):
     reset_idade(a)
     return novo_animal
 
+
 # TAD Prado
 # Representacao[prado]: {roch_extr: d, roch_prad: r, animais_prado: a, posicoes_animais: p}
 # Construtores:
@@ -462,7 +463,6 @@ def obter_movimento(m, p):
     --->>> As montanhas e rochedo não podem ser ocupados por nenhum animal.
     --->>> Se não houver posicoes adjacentes vazias, o animal permanece na posicao.
     --->>> Os predadores tentam mover-se para uma posicao adjacente que tenha uma presa.
-    --->>>
     obter_movimento: prado, posicao --->>> prado"""
     def verifica_posicao(m, p):
         coord_x = obter_tamanho_x(m)
@@ -472,8 +472,9 @@ def obter_movimento(m, p):
     valor_n = obter_valor_numerico(m, p)
     if eh_predador(obter_animal(m,p)):
         posicoes_possiveis = tuple(filter(lambda x: verifica_posicao(m, x) and not eh_posicao_obstaculo(m, x), obter_posicoes_adjacentes(p)))
-        if any(filter(lambda x: eh_posicao_animal(m, x), posicoes_possiveis)):
-            posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x), posicoes_possiveis))
+        if any(filter(lambda x: eh_posicao_animal(m, x) and eh_animal_fertil(obter_animal(m, x)), posicoes_possiveis)):
+            posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x) and eh_animal_fertil(obter_animal(m,x)), posicoes_possiveis))
+            # Os predadores só comem presas !!!!
 
         n_pos_possiveis = len(posicoes_possiveis)
         if not posicoes_possiveis:
@@ -494,3 +495,44 @@ def obter_movimento(m, p):
         else: # Se + que 1 posicao disponivel
             movimento = valor_n % n_pos_possiveis
             return posicoes_possiveis[movimento]
+
+
+# Funcoes Adicionais
+def geracao(m):
+    """Modifica o prado fornecido como argumento de acordo com a evolucao correspondente a uma geracao completa.
+    Seguindo a ordem de leitura do prado, cada animal (vivo), realiza o seu turno de ação, de acordo com as regras.
+    No inicio do turno de cada animal, a sua idade e fome sao incrementadas.
+    A seguir, o animal tenta realizar um movimento e eventualmente reproduzir-se alimentar, ou morrer.
+    Apos cada animal ter realizado o seu turno e devolvido o prado com as devidas alteracoes.
+    Esta funcao modifica destrutivamente o prado m.
+    geracao: prado --->>> prado"""
+    for posicao in obter_posicao_animais(m):
+        animal = obter_animal(m, posicao)
+        if eh_predador(animal):
+            aumenta_fome(animal)
+            aumenta_idade(animal)
+            if eh_animal_faminto(animal):
+                eliminar_animal(m, posicao)
+            else:
+                if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
+                    try:
+                        if eh_presa(obter_animal(m, obter_movimento(m, posicao))):
+                            eliminar_animal(m, obter_movimento(m, posicao))
+                            reset_fome(animal)
+                            mover_animal(m, posicao, obter_movimento(m, posicao))
+                            inserir_animal(m, reproduz_animal(animal), posicao)
+                    except:
+                        mover_animal(m, posicao, obter_movimento(m, posicao))
+                        inserir_animal(m, reproduz_animal(animal), posicao)
+                else:
+                    if obter_movimento(m, posicao) == posicao: pass
+                    else: mover_animal(m, posicao, obter_movimento(m, posicao))
+        else:
+            aumenta_idade(animal)
+            if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
+                    mover_animal(m, posicao, obter_movimento(m, posicao))
+                    inserir_animal(m, reproduz_animal(animal), posicao)
+            else:
+                if obter_movimento(m, posicao) == posicao: pass
+                else: mover_animal(m, posicao, obter_movimento(m, posicao))
+    return m
