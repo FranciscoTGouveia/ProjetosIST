@@ -259,9 +259,9 @@ def cria_prado(d, r, a, p):
     """Recebe uma posicao d (montanho do canto inferior direito), um tuplo r com posicoes de rochedos, um tuplo a de animais, e um tuplo p com as posicoes ocupadas por esses animais.
     A funcao devole o prado que representa internamente o mapa e os animais presentes.
     cria_prado: posicao, tuplo, tuplo --->>> prado"""
-    if not(eh_posicao(d) and type(r) == tuple and len(r) >= 0 and verifica_rochedos(r) and
+    if not(eh_posicao(d) and type(r) == tuple and len(r) >= 0 and verifica_rochedos(r, d) and
             type(a) == tuple and len(a) > 0 and verifica_animais(a) and
-            type(p) == tuple and len(p) == len(a) and verifica_posicoes_animais(p)):
+            type(p) == tuple and len(p) == len(a) and verifica_posicoes_animais(p, d, r)):
         raise ValueError("cria_prado: argumentos invalidos")
 
     return {"rochedo_extremidade": d,
@@ -269,16 +269,19 @@ def cria_prado(d, r, a, p):
             "animais_prado": a,
             "posicoes_animais": p
             }
-
-def verifica_rochedos(r):
+def verifica_rochedos(r, d):
     # Funcao auxiliar
-    return all(map(lambda x: eh_posicao(x), r))
+    lim_direita = obter_pos_x(d)
+    lim_baixo = obter_pos_y(d)
+    return all(map(lambda x: eh_posicao(x) and 0 < obter_pos_x(x) < lim_direita and 0 < obter_pos_y(x) < lim_baixo, r))
 def verifica_animais(a):
     # Funcao auxiliar
     return all(map(lambda x: eh_animal(x), a))
-def verifica_posicoes_animais(p):
+def verifica_posicoes_animais(p, d, r):
     # Funcao auxiliar
-    return any(map(lambda x: eh_posicao(x), p))
+    lim_direita = obter_pos_x(d)
+    lim_baixo = obter_pos_y(d)
+    return any(map(lambda x: eh_posicao(x) and x not in r and 0 < obter_pos_x(x) < lim_direita and 0 < obter_pos_y(x) < lim_baixo, p))
 
 
 def cria_copia_prado(m):
@@ -382,9 +385,9 @@ def eh_prado(arg):
     eh_prado: universal --->>> boolean"""
     return type(arg) == dict and  len(arg) == 4 and  \
             type(arg["rochedo_extremidade"]) == tuple and eh_posicao(arg["rochedo_extremidade"]) and \
-            type(arg["rochedos_prado"]) == tuple and verifica_rochedos(arg["rochedos_prado"]) and \
+            type(arg["rochedos_prado"]) == tuple and verifica_rochedos(arg["rochedos_prado"], arg["rochedo_extremidade"]) and \
             type(arg["animais_prado"]) == tuple and verifica_animais(arg["animais_prado"]) and \
-            type(arg["posicoes_animais"]) == tuple and verifica_posicoes_animais(arg["posicoes_animais"])
+            type(arg["posicoes_animais"]) == tuple and verifica_posicoes_animais(arg["posicoes_animais"], arg["rochedo_extremidade"], arg["rochedos_prado"])
 
 
 def eh_posicao_animal(m, p):
@@ -467,14 +470,16 @@ def obter_movimento(m, p):
     def verifica_posicao(m, p):
         coord_x = obter_tamanho_x(m)
         coord_y = obter_tamanho_y(m)
-        return obter_pos_x(p) < coord_x and obter_pos_y(p) < coord_y
+        return 0 < obter_pos_x(p) < coord_x and 0 < obter_pos_y(p) < coord_y
 
     valor_n = obter_valor_numerico(m, p)
     if eh_predador(obter_animal(m,p)):
         posicoes_possiveis = tuple(filter(lambda x: verifica_posicao(m, x) and not eh_posicao_obstaculo(m, x), obter_posicoes_adjacentes(p)))
-        if any(filter(lambda x: eh_posicao_animal(m, x) and eh_animal_fertil(obter_animal(m, x)), posicoes_possiveis)):
-            posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x) and eh_animal_fertil(obter_animal(m,x)), posicoes_possiveis))
+        if any(filter(lambda x: eh_posicao_animal(m, x) and eh_presa(obter_animal(m, x)), posicoes_possiveis)):
+            posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x) and eh_presa(obter_animal(m,x)), posicoes_possiveis))
             # Os predadores só comem presas !!!!
+        else:
+            posicoes_possiveis = tuple(filter(lambda x: not (eh_posicao_animal(m,x) and eh_predador(obter_animal(m, x))), posicoes_possiveis))
 
         n_pos_possiveis = len(posicoes_possiveis)
         if not posicoes_possiveis:
@@ -536,3 +541,11 @@ def geracao(m):
                 if obter_movimento(m, posicao) == posicao: pass
                 else: mover_animal(m, posicao, obter_movimento(m, posicao))
     return m
+
+
+def simula_ecossistema(f, g, v):
+    """A funcao recebe uma string f, correspondente ao nome do ficheiro de configuracao da simulacao.
+    O valor inteiro g corresponde ao numero de geracoes a simular.
+    O booleano v ativa o modo verboso se True, ou o modo quiet se False.
+    simula_ecossistema: string, int, int --->>> tuplo"""
+    pass
