@@ -76,6 +76,8 @@ def obter_posicoes_adjacentes(p):
 def ordenar_posicoes(t):
     """Devolve um tuplo contendo as mesmas posicoes mas de acordo com a ordem de leitura do prado.
     ordenar_posicoes: tuple --->>> tuple"""
+    # Problema de Abstraçãooo
+    #####  REVERRRR #########
     t = list(t)
     t.sort(key=lambda x: x[::-1])
     return tuple(t)
@@ -287,13 +289,15 @@ def verifica_posicoes_animais(p, d, r):
 def cria_copia_prado(m):
     """Recebe um prado e devolve uma nova copia do prado.
     cria_copia_prado: prado --->>> prado"""
+    ### Problema de abstração
+    ######## REVER #########
     return {"rochedo_extremidade": (obter_tamanho_x(m) - 1, obter_tamanho_y(m) - 1),
             "rochedos_prado": obter_rochedos(m),
             "animais_prado": obter_animais(m),
             "posicoes_animais": m["posicoes_animais"] #Rever expressao
             }
 
-    
+
 # Seletores
 def obter_tamanho_x(m):
     """Devolve o valor correspondente à dimensao x do prado (comprimento).
@@ -313,7 +317,7 @@ def obter_rochedos(m):
     obter_rochedos: prado --->>> tuple"""
     return m["rochedos_prado"]
 
-    
+
 def obter_animais(m):
     # Funcao auxiliar
     """ Devolve o conjunto de animais do prado.
@@ -511,35 +515,47 @@ def geracao(m):
     Apos cada animal ter realizado o seu turno e devolvido o prado com as devidas alteracoes.
     Esta funcao modifica destrutivamente o prado m.
     geracao: prado --->>> prado"""
+    copia_prado = cria_copia_prado(m)
+    ####### Depois de um animal ter tido o seu turno não se pode mexer mais.
     for posicao in obter_posicao_animais(m):
-        animal = obter_animal(m, posicao)
-        if eh_predador(animal):
-            aumenta_fome(animal)
-            aumenta_idade(animal)
-            if eh_animal_faminto(animal):
-                eliminar_animal(m, posicao)
-            else:
+        if obter_animal(m, posicao) == obter_animal(copia_prado, posicao):
+            animal = obter_animal(m, posicao)
+            if eh_predador(animal):
+                aumenta_fome(animal)
+                aumenta_idade(animal)
                 if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
                     try:
                         if eh_presa(obter_animal(m, obter_movimento(m, posicao))):
-                            eliminar_animal(m, obter_movimento(m, posicao))
+                            movimento_pretendido = obter_movimento(m, posicao)
+                            eliminar_animal(m, movimento_pretendido)
                             reset_fome(animal)
-                            mover_animal(m, posicao, obter_movimento(m, posicao))
+                            mover_animal(m, posicao, movimento_pretendido)
                             inserir_animal(m, reproduz_animal(animal), posicao)
                     except:
+                        mover_animal(m, posicao, obter_movimento(m, posicao))
+                        inserir_animal(m, reproduz_animal(animal), posicao)
+
+                if obter_movimento(m, posicao) != posicao:
+                    try:
+                        if eh_presa(obter_animal(m, obter_movimento(m, posicao))):
+                            movimento_pretendido = obter_movimento(m, posicao)
+                            eliminar_animal(m, movimento_pretendido)
+                            reset_fome(animal)
+                            mover_animal(m, posicao, movimento_pretendido)
+                    except:
+                        movimento_pretendido = obter_movimento(m, posicao)
+                        mover_animal(m, posicao, movimento_pretendido)
+
+                if eh_animal_faminto(animal):
+                    eliminar_animal(m, movimento_pretendido)
+            else:
+                aumenta_idade(animal)
+                if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
                         mover_animal(m, posicao, obter_movimento(m, posicao))
                         inserir_animal(m, reproduz_animal(animal), posicao)
                 else:
                     if obter_movimento(m, posicao) == posicao: pass
                     else: mover_animal(m, posicao, obter_movimento(m, posicao))
-        else:
-            aumenta_idade(animal)
-            if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
-                    mover_animal(m, posicao, obter_movimento(m, posicao))
-                    inserir_animal(m, reproduz_animal(animal), posicao)
-            else:
-                if obter_movimento(m, posicao) == posicao: pass
-                else: mover_animal(m, posicao, obter_movimento(m, posicao))
     return m
 
 
@@ -547,5 +563,44 @@ def simula_ecossistema(f, g, v):
     """A funcao recebe uma string f, correspondente ao nome do ficheiro de configuracao da simulacao.
     O valor inteiro g corresponde ao numero de geracoes a simular.
     O booleano v ativa o modo verboso se True, ou o modo quiet se False.
-    simula_ecossistema: string, int, int --->>> tuplo"""
-    pass
+    simula_ecossistema: string, int, boolean --->>> tuplo"""
+    ficheiro = open(f, "r")
+    d = eval(ficheiro.readline())
+    dimensao = cria_posicao(d[0], d[1])
+    obs = eval(ficheiro.readline())
+    obstaculos = ()
+    for rochedo in obs:
+        obstaculos += (cria_posicao(rochedo[0], rochedo[1]),)
+    animais = ()
+    posicoes_animais = ()
+    while True:
+        linha = ficheiro.readline()
+        if not linha:
+            break
+        linha = eval(linha)
+        animais += (cria_animal(linha[0], linha[1], linha[2]),)
+        posicoes_animais += (cria_posicao(linha[3][0], linha[3][1]),)
+
+    prado = cria_prado(dimensao, obstaculos, animais, posicoes_animais)
+    string_final = "Predadores: {} vs Presas: {} (Gen. 0)\n".format(obter_numero_predadores(prado), obter_numero_presas(prado))
+    string_final += prado_para_str(prado)
+
+    if v:
+        for i in range(1, g+1):
+            copia_prado = cria_copia_prado(prado)
+            geracao(prado)
+            if obter_numero_presas(prado) != obter_numero_presas(copia_prado) or obter_numero_predadores(prado) != obter_numero_predadores(copia_prado):
+                string_final += "\nPredadores: {} vs Presas: {} (Gen. {})\n".format(obter_numero_predadores(prado), obter_numero_presas(prado), i)
+                string_final += prado_para_str(prado)
+            else:
+                pass
+        string_final += "\n({}, {})".format(obter_numero_predadores(prado), obter_numero_presas(prado))
+
+    else:
+        for i in range(g):
+            geracao(prado)
+        string_final += "\nPredadores: {} vs Presas: {} (Gen. {})\n".format(obter_numero_predadores(prado), obter_numero_presas(prado), g)
+        string_final += prado_para_str(prado)
+        string_final += "\n({}, {})".format(obter_numero_predadores(prado), obter_numero_presas(prado))
+
+    return string_final
