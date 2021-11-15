@@ -603,4 +603,4 @@ def simula_ecossistema(f, g, v):
         string_final += prado_para_str(prado)
         string_final += "\n({}, {})".format(obter_numero_predadores(prado), obter_numero_presas(prado))
 
-    return string_final
+    print(string_final)
