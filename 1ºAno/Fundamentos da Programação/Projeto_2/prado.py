@@ -92,10 +92,13 @@ def ordenar_posicoes(t):
     """Devolve um tuplo contendo as mesmas posicoes mas de acordo com a ordem de leitura do prado.
     ordenar_posicoes: tuple --->>> tuple"""
     posicao_para_lista = []
+    posicoes_final = ()
     for posicao in t:
-        posicao_para_lista += (posicao,)
+        posicao_para_lista += ((obter_pos_x(posicao), obter_pos_y(posicao)),)
     posicao_para_lista.sort(key=lambda x: x[::-1])
-    return tuple(posicao_para_lista)
+    for posicao in posicao_para_lista:
+        posicoes_final += (cria_posicao(posicao[0], posicao[1]),)
+    return posicoes_final
 
 
 # TAD Animal
@@ -300,7 +303,7 @@ def verifica_posicoes_animais(p, d, r):
     # Funcao auxiliar
     lim_direita = obter_pos_x(d)
     lim_baixo = obter_pos_y(d)
-    return any(map(lambda x: eh_posicao(x) and x not in r and 0 < obter_pos_x(x) < lim_direita and 0 < obter_pos_y(x) < lim_baixo, p))
+    return any(map(lambda x: eh_posicao(x) and x not in r and obter_pos_x(x) not in (0,lim_direita) and obter_pos_y(x) not in (0,lim_baixo), p))
 
 
 def cria_copia_prado(m):
@@ -630,3 +633,9 @@ def simula_ecossistema(f, g, v):
     print(string_final)
     tuplo_final = (obter_numero_predadores(prado), obter_numero_presas(prado))
     return tuplo_final
+
+dim = cria_posicao(9,5)
+obs = (cria_posicao(3,2), cria_posicao(4,2), cria_posicao(3,3), cria_posicao(7,3), cria_posicao(6,4))
+animais = (cria_animal("wolf", 3, 5), cria_animal("rabbit", 3, 0), cria_animal("rabbit", 3, 0), cria_animal("wolf", 3, 5), cria_animal("wolf", 3, 5), cria_animal("rabbit", 3, 0), cria_animal("rabbit", 3, 0))
+posicoes = (cria_posicao(5,1), cria_posicao(5,2), cria_posicao(6,2), cria_posicao(7,2), cria_posicao(5,3), cria_posicao(4,4), cria_posicao(2,5))
+prado = cria_prado(dim, obs, animais, posicoes)
