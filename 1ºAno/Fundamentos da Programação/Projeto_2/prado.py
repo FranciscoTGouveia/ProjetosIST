@@ -64,8 +64,6 @@ def obter_posicoes_adjacentes(p):
     obter_posicoes_adjacentes: posicao --->>> tuplo"""
     tuplo_posicoes = ()
     x, y = obter_pos_x(p), obter_pos_y(p)
-    ### REVER A ABSTRACAO DE DADOS
-    # No eh_posicao, utilizar a funcao criar_posicao
     try:
         if eh_posicao(cria_posicao(x, y - 1)):
             tuplo_posicoes += (cria_posicao(x, y - 1),)
@@ -129,12 +127,7 @@ def cria_copia_animal(a):
             obter_freq_alimentacao(a) >= 0 and obter_idade(a) >= 0 and obter_fome(a) >= 0):
         raise ValueError("cria_copia_animal: argumentos invalidos")
 
-    return {"especie": obter_especie(a),
-            "idade": obter_idade(a),
-            "frequencia_reproducao": obter_freq_reproducao(a),
-            "fome": obter_fome(a),
-            "frequencia_alimentacao": obter_freq_alimentacao(a)
-            }
+    return cria_animal(obter_especie(a), obter_freq_reproducao(a), obter_freq_alimentacao(a))
 
 
 # Seletores
@@ -546,8 +539,12 @@ def geracao(m):
     Apos cada animal ter realizado o seu turno e devolvido o prado com as devidas alteracoes.
     Esta funcao modifica destrutivamente o prado m.
     geracao: prado --->>> prado"""
+    # Um animal faminto move-se primeiro e só depois morre. Pode dar-se o caso de ele se alimentar entretanto. Caso não o faça, então morre.
     copia_prado = cria_copia_prado(m)
-    ####### Depois de um animal ter tido o seu turno não se pode mexer mais.
+    ########################## IMPORTANTE ########################################
+    # Depois de um animal ter tido o seu turno não se pode mexer mais.
+    # Um animal recem nascido não se pode mover, mas pode ser comido.
+    # Fazer estas reformulações amanha até ao 11h30.
     for posicao in obter_posicao_animais(m):
         if obter_animal(m, posicao) == obter_animal(copia_prado, posicao):
             animal = obter_animal(m, posicao)
