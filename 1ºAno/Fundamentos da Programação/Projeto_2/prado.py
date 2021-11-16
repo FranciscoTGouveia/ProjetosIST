@@ -310,11 +310,13 @@ def cria_copia_prado(m):
     """Recebe um prado e devolve uma nova copia do prado.
     cria_copia_prado: prado --->>> prado"""
     ### Problema de abstração
-    return {"rochedo_extremidade": (obter_tamanho_x(m) - 1, obter_tamanho_y(m) - 1),
-            "rochedos_prado": obter_rochedos(m),
-            "animais_prado": obter_animais(m),
-            "posicoes_animais": m["posicoes_animais"] #Rever expressao
-            }
+    # No return, utilizar o cria_prado
+    return cria_prado(cria_posicao(obter_tamanho_x(m) - 1, obter_tamanho_y(m) - 1), obter_rochedos(m), obter_animais(m), obter_posicoes_nao_ordenadas(m))
+    #return {"rochedo_extremidade": (obter_tamanho_x(m) - 1, obter_tamanho_y(m) - 1),
+            #"rochedos_prado": obter_rochedos(m),
+            #"animais_prado": obter_animais(m),
+            #"posicoes_animais": m["posicoes_animais"] #Rever expressao
+            #}
 
 
 # Seletores
