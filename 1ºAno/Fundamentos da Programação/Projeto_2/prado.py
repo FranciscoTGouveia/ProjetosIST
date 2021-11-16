@@ -363,7 +363,8 @@ def obter_posicao_animais(m):
 def obter_animal(m, p):
     """Devolve o animal do prado que se encontra na posicao p.
     obter_animal: prado, posicao --->>> animal"""
-    return obter_animais(m)[m["posicoes_animais"].index(p)]
+    return m["animais_prado"][m["posicoes_animais"].index(p)]
+
 
 
 # Modificadores
@@ -531,13 +532,13 @@ def geracao(m):
     Apos cada animal ter realizado o seu turno e devolvido o prado com as devidas alteracoes.
     Esta funcao modifica destrutivamente o prado m.
     geracao: prado --->>> prado"""
-    copia_prado = cria_copia_prado(m)
+    for animal in obter_animais(m):
+            aumenta_fome(animal)
+            aumenta_idade(animal)
     for posicao in obter_posicao_animais(m):
         animal = obter_animal(m, posicao)
         if not obter_foi_movimentado(animal):
             if eh_predador(animal):
-                aumenta_fome(animal)
-                aumenta_idade(animal)
                 if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
                     try:
                         if eh_presa(obter_animal(m, obter_movimento(m, posicao))):
@@ -566,9 +567,8 @@ def geracao(m):
                         altera_foi_movimentado(animal)
 
                 if eh_animal_faminto(animal):
-                    eliminar_animal(m, movimento_pretendido)
+                    eliminar_animal(m, movimento_pretendido) #Rever esta expressao
             else:
-                aumenta_idade(animal)
                 if eh_animal_fertil(animal) and obter_movimento(m, posicao) != posicao:
                         mover_animal(m, posicao, obter_movimento(m, posicao))
                         altera_foi_movimentado(animal)
