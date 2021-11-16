@@ -223,7 +223,6 @@ def eh_presa(arg):
 def animais_iguais(a1, a2):
     """Verifica se os dois animais passados como argumentos são iguais.
     animais_iguais: animal, animal --->>> boolean"""
-    #return a1 == a2
     return eh_animal(a1) and eh_animal(a2) and \
             obter_especie(a1) == obter_especie(a2) and \
             obter_idade(a1) == obter_idade(a2) and \
@@ -267,7 +266,7 @@ def eh_animal_faminto(a):
 
 def reproduz_animal(a):
     """Recebe um animal a devolvendo um novo animal da mesma especie, mas com idade e e fome igual a 0 (zero).
-    Esta funcao modifica destrutivamente o animal passado como argumetno, alterando a sua idade para 0 (zero).
+    Esta funcao modifica destrutivamente o animal passado como argumento, alterando a sua idade para 0 (zero).
     reproduz_animal: animal --->>> animal"""
     novo_animal = reset_idade(reset_fome(cria_copia_animal(a)))
     reset_idade(a)
@@ -303,7 +302,7 @@ def verifica_posicoes_animais(p, d, r):
     # Funcao auxiliar
     lim_direita = obter_pos_x(d)
     lim_baixo = obter_pos_y(d)
-    return any(map(lambda x: eh_posicao(x) and x not in r and obter_pos_x(x) not in (0,lim_direita) and obter_pos_y(x) not in (0,lim_baixo), p))
+    return all(map(lambda x: eh_posicao(x) and x not in r and obter_pos_x(x) not in (0,lim_direita) and obter_pos_y(x) not in (0,lim_baixo), p))
 
 
 def cria_copia_prado(m):
@@ -318,13 +317,13 @@ def cria_copia_prado(m):
 def obter_tamanho_x(m):
     """Devolve o valor correspondente à dimensao x do prado (comprimento).
     obter_tamanho: prado --->>> int"""
-    return m["rochedo_extremidade"][0] + 1
+    return obter_pos_x(m["rochedo_extremidade"]) + 1
 
 
 def obter_tamanho_y(m):
     """Devolve o valor correspondente a dimensao y do prado (largura).
     obter_tamanho_y: prado --->>> int"""
-    return m["rochedo_extremidade"][1] + 1
+    return obter_pos_y(m["rochedo_extremidade"]) + 1
 
 
 def obter_rochedos(m):
@@ -380,6 +379,7 @@ def eliminar_animal(m, p):
     del elimina_anim[ind]
     ##### REVER ######
     ### Cuidado com a abstracao da linha abaixo!
+    # Ideia: Criar um novo prado, com as devidas alteracoes
     m["posicoes_animais"], m["animais_prado"] = tuple(elimina_pos), tuple(elimina_anim)
     return m
 
@@ -442,12 +442,31 @@ def eh_posicao_livre(m, p):
 def prados_iguais(p1, p2):
     """Verifica se o prado p1 é igual ao prado p2, devolvendo um valor logico de acordo.
     prados_iguais: prado, prado --->>> boolean"""
-    return obter_tamanho_x(p1) == obter_tamanho_x(p2) and \
+    def check_posicoes():
+        default = True
+        posicoes_p1 = obter_posicao_animais(p1)
+        posicoes_p2 = obter_posicao_animais(p2)
+        for i in range(len(posicoes_p1)):
+            if not posicoes_iguais(posicoes_p1[i], posicoes_p2[i]):
+                default = False
+        return default
+
+    def check_animais():
+        default = True
+        animais_p1 = obter_animais(p1)
+        animais_p2 = obter_animais(p2)
+        for i in range(len(animais_p1)):
+            if not animais_iguais(animais_p1[i], animais_p2[i]):
+                default = False
+        return default
+
+    return eh_prado(p1) and eh_prado(p2) and \
+            obter_tamanho_x(p1) == obter_tamanho_x(p2) and \
             obter_tamanho_y(p1) == obter_tamanho_y(p2) and \
-            obter_rochedos(p1) == obter_rochedos(p2) and \
-            obter_animais(p1) == obter_animais(p2) and \
-            obter_posicoes_nao_ordenadas(p1) == obter_posicoes_nao_ordenadas(p2)
-            # Ter em atencao que "posicoes_animais" está pela ordem dos animais, e "obter_posicao_animais" esta ordenado de forma diferente.
+            ordenar_posicoes(obter_rochedos(p1)) == ordenar_posicoes(obter_rochedos(p2)) and \
+            len(obter_posicao_animais(p1)) == len(obter_posicao_animais(p2)) and \
+            check_posicoes() and len(obter_animais(p1)) == len(obter_animais(p2)) and \
+            check_animais()
 
 
 # Transformador
@@ -500,7 +519,7 @@ def obter_movimento(m, p):
     valor_n = obter_valor_numerico(m, p)
     if eh_predador(obter_animal(m,p)):
         posicoes_possiveis = tuple(filter(lambda x: verifica_posicao(m, x) and not eh_posicao_obstaculo(m, x), obter_posicoes_adjacentes(p)))
-        if any(filter(lambda x: eh_posicao_animal(m, x) and eh_presa(obter_animal(m, x)), posicoes_possiveis)):
+        if any(tuple(map(lambda x: eh_posicao_animal(m, x) and eh_presa(obter_animal(m, x)), posicoes_possiveis))):
             posicoes_possiveis = tuple(filter(lambda x: eh_posicao_animal(m, x) and eh_presa(obter_animal(m,x)), posicoes_possiveis))
         else:
             posicoes_possiveis = tuple(filter(lambda x: not (eh_posicao_animal(m,x) and eh_predador(obter_animal(m, x))), posicoes_possiveis))
@@ -634,8 +653,5 @@ def simula_ecossistema(f, g, v):
     tuplo_final = (obter_numero_predadores(prado), obter_numero_presas(prado))
     return tuplo_final
 
-dim = cria_posicao(9,5)
-obs = (cria_posicao(3,2), cria_posicao(4,2), cria_posicao(3,3), cria_posicao(7,3), cria_posicao(6,4))
-animais = (cria_animal("wolf", 3, 5), cria_animal("rabbit", 3, 0), cria_animal("rabbit", 3, 0), cria_animal("wolf", 3, 5), cria_animal("wolf", 3, 5), cria_animal("rabbit", 3, 0), cria_animal("rabbit", 3, 0))
-posicoes = (cria_posicao(5,1), cria_posicao(5,2), cria_posicao(6,2), cria_posicao(7,2), cria_posicao(5,3), cria_posicao(4,4), cria_posicao(2,5))
-prado = cria_prado(dim, obs, animais, posicoes)
+print(simula_ecossistema("config.txt", 200, True))
+########## REVER PRADOS_IGUAIS ###############
