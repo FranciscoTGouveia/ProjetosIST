@@ -5,4 +5,4 @@
 + Nota: 19,25
 ## Projeto 2:
 + [*O Prado*](https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/1%C2%BAAno/Fundamentos%20da%20Programa%C3%A7%C3%A3o/Projeto_2)
-+ Nota: 19,35
++ Nota: 19,48
