@@ -1,4 +1,7 @@
-% Predicado extrai_ilhas_linha
+% Predicado: extrai_ilhas_linha/3
+/* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
+   com o numero de pontes de uma linha e a sua posicao no puzzle.
+*/
 extrai_ilhas_linha(N_L, Linha, Ilhas) :- extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
 extrai_ilhas_linha(N_L, [], Ilhas, Ilhas, _).
 
