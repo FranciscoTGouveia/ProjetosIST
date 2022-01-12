@@ -18,6 +18,7 @@ extrai_ilhas_linha(N_L, [_Cabeca | Resto], Acc, Ilhas, Index) :-
 
 
 
+
 % Predicado: ilhas/2
 /* Objetivo: Devolve uma lista com todos os predicados ilha/2,
    ordenados por posicao no puzzle.
@@ -30,3 +31,25 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
     append(Acc, Linha_Limpa, NovoAcc),
     NovoIndex is Index + 1,
     ilhas(Resto, NovoAcc, Ilhas, NovoIndex).
+
+
+
+
+% Predicado: vizinhas/3
+/* Objetivo: Devolve a lista de ilhas vizinhas a Ilha.
+   Criterio de vizinhanca:
+       -> As ilhas encontram-se na mesma linha ou coluna;
+       -> Entre elas nao existem outras ilhas;
+       -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
+*/
+vizinhas(Ilhas, Ilha, Vizinhas) :- vizinhas(Ilhas, Ilha, [], Vizinhas). % Engorda do predicado
+vizinhas([], Ilha, Vizinhas, Vizinhas). % Condicao de paragem
+
+vizinhas([Cabeca | Resto], Ilha, Acc, Vizinhas) :-
+    % uma serie de comparacoes para verificar criterios
+    % nao esquecer de escrever o corte
+    append(Acc, [Cabeca], NovoAcc),
+    vizinhas(Resto, Ilha, NovoAcc, Vizinhas).
+
+vizinhas([Cabeca | Resto], Ilha, Acc, Vizinhas) :-
+    vizinhas(Resto, Ilha, Acc, Vizinhas).
