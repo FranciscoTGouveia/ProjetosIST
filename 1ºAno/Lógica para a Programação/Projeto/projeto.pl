@@ -139,4 +139,14 @@ cria_ponte((L1, C1), (L2, C2), Ponte) :-
     (L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
     L2 > L1, Ponte = ponte((L2,C2), (L1,C1));
     ((C1 < C2) -> Ponte = ponte((L1,C1), (L2,C2)); Ponte = ponte((L2,C2), (L1,C1)))).
-    
+
+
+
+
+% Predicado: caminho_livre/5
+% Objetivo: Devolve um valor logico conforme o caminho esteja ou nao livre.
+caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
+    Posicoes \== [],
+    posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
+    intersection(EntreIlhaVz, Posicoes, Intersecoes),
+    (Intersecoes = []; Intersecoes == Posicoes).
