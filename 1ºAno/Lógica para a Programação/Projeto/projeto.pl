@@ -97,3 +97,20 @@ vizinhas(Ilhas, Ilha, Acc, Vizinhas) :-
     vizinhas([], Ilha, NovoAcc, Vizinhas).
 
 
+
+
+% Predicado: estado/2
+/* Objetivo: Representar o estado de um puzzle durante a sua resolucao,
+   num dado momento na seguinte disposicao:
+   -> O primeiro elemento e uma ilha;
+   -> O segundo elemento e a lista das vizinhas dessa ilha;
+   -> A terceira e a lista das pontes da ilha, (vazia no estado inicial);
+*/
+estado(Ilhas, Estado) :- estado(Ilhas, Ilhas, [], Estado).
+estado([], _Ilhas, Estado, Estado).
+estado([Ilha | Resto], Ilhas, Acc, Estado) :- 
+    vizinhas(Ilhas, Ilha, Vizinhas),
+    StatusIlha = [Ilha, Vizinhas, []],
+    append(Acc, [StatusIlha], NovoAcc),
+    estado(Resto, Ilhas, NovoAcc, Estado).
+
