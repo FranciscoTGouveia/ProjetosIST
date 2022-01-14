@@ -84,7 +84,7 @@ lista_direita([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) 
 
 
 vizinhas(Ilhas, Ilha, Vizinhas) :- vizinhas(Ilhas, Ilha, [], Vizinhas).
-vizinhas([], _Ilha, Vizinhas, Vizinhas).
+vizinhas([], _Ilha, Vizinhas, Vizinhas) :- !.
 vizinhas(Ilhas, Ilha, Acc, Vizinhas) :-
     lista_cima(Ilhas, Ilha, LimiteCima),
     lista_esquerda(Ilhas, Ilha, LimiteEsquerda),
@@ -114,3 +114,19 @@ estado([Ilha | Resto], Ilhas, Acc, Estado) :-
     append(Acc, [StatusIlha], NovoAcc),
     estado(Resto, Ilhas, NovoAcc, Estado).
 
+
+
+
+% Predicado: posicoes_entre/3
+/* Objetivo: Devolve a lista ordenada de posicoes entre Pos1 e Pos2,
+   salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha 
+   ou coluna, o resultado sera false.
+*/
+posicoes_entre((L1, C1), (L2, C2), Posicoes) :-
+    (L1 == L2, C1 \== C2,
+    ((C2 > C1) -> C1Novo is C1 + 1, C2Novo is C2 - 1; C1Novo is C1 - 1, C2Novo is C2 + 1),
+    ((C2Novo > C1Novo) -> findall((L1, CC), between(C1Novo, C2Novo, CC), Posicoes); findall((L1, CC), between(C2Novo, C1Novo, CC), Posicoes));
+    C1 == C2, L1 \== L2,
+    ((L2 > L1) -> L1Novo is L1 + 1, L2Novo is L2 - 1; L1Novo is L1 - 1, L2Novo is L2 + 1),
+    ((L2Novo > L1Novo) -> findall((LL, C1), between(L1Novo, L2Novo, LL), Posicoes); findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes))).
+     
