@@ -1,4 +1,4 @@
-:- ['codigo_comum.pl', 'puzzles_publicos.pl'].
+%:- ['codigo_comum.pl', 'puzzles_publicos.pl'].
 % Predicado: extrai_ilhas_linha/3
 /* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
    com o numero de pontes de uma linha e a sua posicao no puzzle.
@@ -42,14 +42,58 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
        -> Entre elas nao existem outras ilhas;
        -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
 */
-vizinhas(Ilhas, Ilha, Vizinhas) :- vizinhas(Ilhas, Ilha, [], Vizinhas). % Engorda do predicado
-vizinhas([], Ilha, Vizinhas, Vizinhas). % Condicao de paragem
+lista_cima(Ilhas, Ilha, ListaFinal) :- lista_cima(Ilhas, Ilha, [], ListaFinal).
+lista_cima([], _Ilha, ListaFinal, ListaFinal).
+lista_cima([ilha(P, (L,C)) | Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
+    C == Coluna,
+    L < Linha, !,
+    NovoAcc = [ilha(P, (L,C))],
+    lista_cima(Resto, ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
+lista_cima([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
+    lista_cima(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
 
-vizinhas([Cabeca | Resto], Ilha, Acc, Vizinhas) :-
-    % uma serie de comparacoes para verificar criterios
-    % nao esquecer de escrever o corte
-    append(Acc, [Cabeca], NovoAcc),
-    vizinhas(Resto, Ilha, NovoAcc, Vizinhas).
+lista_esquerda(Ilhas, Ilha, ListaFinal) :- lista_esquerda(Ilhas, Ilha, [], ListaFinal).
+lista_esquerda([], _Ilha, ListaFinal, ListaFinal).
+lista_esquerda([ilha(P, (L,C)) | Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
+    L == Linha,
+    C < Coluna, !,
+    NovoAcc = [ilha(P, (L,C))],
+    lista_esquerda(Resto, ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
+lista_esquerda([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
+    lista_esquerda(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
 
-vizinhas([Cabeca | Resto], Ilha, Acc, Vizinhas) :-
-    vizinhas(Resto, Ilha, Acc, Vizinhas).
+lista_baixo(Ilhas, Ilha, ListaFinal) :- lista_baixo(Ilhas, Ilha, [], ListaFinal).
+lista_baixo([], _Ilha, ListaFinal, ListaFinal).
+lista_baixo([ilha(P, (L,C)) | _Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
+    C == Coluna,
+    L > Linha, !,
+    NovoAcc = [ilha(P, (L,C))],
+    lista_baixo([], ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
+lista_baixo([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
+    lista_baixo(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+
+lista_direita(Ilhas, Ilha, ListaFinal) :- lista_direita(Ilhas, Ilha, [], ListaFinal).
+lista_direita([], _Ilha, ListaFinal, ListaFinal).
+lista_direita([ilha(P, (L,C)) | _Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
+    L == Linha,
+    C > Coluna, !,
+    NovoAcc = [ilha(P, (L,C))],
+    lista_direita([], ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
+lista_direita([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
+    lista_direita(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+
+
+vizinhas(Ilhas, Ilha, Vizinhas) :- vizinhas(Ilhas, Ilha, [], Vizinhas).
+vizinhas([], _Ilha, Vizinhas, Vizinhas).
+vizinhas(Ilhas, Ilha, Acc, Vizinhas) :-
+    lista_cima(Ilhas, Ilha, LimiteCima),
+    lista_esquerda(Ilhas, Ilha, LimiteEsquerda),
+    lista_baixo(Ilhas, Ilha, LimiteBaixo),
+    lista_direita(Ilhas, Ilha, LimiteDireita),
+    append(Acc, LimiteCima, Acc1),
+    append(Acc1, LimiteEsquerda, Acc2),
+    append(Acc2, LimiteDireita, Acc3),
+    append(Acc3, LimiteBaixo, NovoAcc),
+    vizinhas([], Ilha, NovoAcc, Vizinhas).
+
+
