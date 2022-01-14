@@ -130,3 +130,13 @@ posicoes_entre((L1, C1), (L2, C2), Posicoes) :-
     ((L2 > L1) -> L1Novo is L1 + 1, L2Novo is L2 - 1; L1Novo is L1 - 1, L2Novo is L2 + 1),
     ((L2Novo > L1Novo) -> findall((LL, C1), between(L1Novo, L2Novo, LL), Posicoes); findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes))).
      
+
+
+
+% Predicado: cria_ponte/3
+% Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
+cria_ponte((L1, C1), (L2, C2), Ponte) :-
+    (L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
+    L2 > L1, Ponte = ponte((L2,C2), (L1,C1));
+    ((C1 < C2) -> Ponte = ponte((L1,C1), (L2,C2)); Ponte = ponte((L2,C2), (L1,C1)))).
+    
