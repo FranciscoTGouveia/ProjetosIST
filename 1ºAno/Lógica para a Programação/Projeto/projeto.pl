@@ -192,3 +192,18 @@ tira_ilhas(Ilhas_term, [Viz | Resto], Acc, NovasVizinhas) :-
 tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
     tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas),
     Nova_Entrada = [Ilha, NovasVizinhas, Pontes].    
+
+
+
+
+% Predicado: tira_ilhas_terminadas/3
+/* Objetivo: Recebe um estado e atualiza as vizinhas de cada ilha
+   de acordo com as ilhas ja terminadas.
+*/
+tira_ilhas_terminadas(Estado, Ilhas_term, Novo_Estado) :-
+    tira_ilhas_terminadas(Estado, Ilhas_term, [], Novo_Estado).
+tira_ilhas_terminadas([], _Ilhas_term, Novo_Estado, Novo_Estado).
+tira_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
+    tira_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
+    append(Acc, [AtualizaEntrada], NovoAcc),
+    tira_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
