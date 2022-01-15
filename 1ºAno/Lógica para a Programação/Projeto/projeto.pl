@@ -155,7 +155,30 @@ caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_v
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
     intersection(EntreIlhaVz, Posicoes, Intersecoes),
     Intersecoes == [].
+caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
+    posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
+    intersection(EntreIlhaVz, Posicoes, Intersecoes),
+    Intersecoes == Posicoes.
 
+
+% Predicado: actualiza_vizinhas_entrada/5
+/* Objetivo: Atualiza a entrada de uma determinada ilha e as suas respetivas
+   vizinhas, apos a criacao de uma ponte entre Pos1 e Pos2. NovaEntrada ficara
+   entao igual a Entrada com a respetiva atualizacao na lista das vizinhas.
+*/
+lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, Vizinhas, ListaFinal) :-
+    lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, Vizinhas, [], ListaFinal).
+lista_vizinhas(_Pos1, _Pos2, _Posicoes, _Ilha, [], ListaFinal, ListaFinal).
+lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, [Viz | Resto], Acc, ListaFinal) :-
+    caminho_livre(Pos1, Pos2, Posicoes, Ilha, Viz),
+    append(Acc, [Viz], NovoAcc),
+    lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, Resto, NovoAcc, ListaFinal).
+lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, [_Viz | Resto], Acc, ListaFinal) :-
+    lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, Resto, Acc, ListaFinal).
+
+actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Novo_Estado) :-
+    lista_vizinhas(Pos1, Pos2, Posicoes, Ilha, Vizinhas, ListaVizinhasFinal),
+    Novo_Estado = [Ilha, ListaVizinhasFinal, Pontes].
 
 
 
