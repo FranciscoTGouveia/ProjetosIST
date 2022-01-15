@@ -146,7 +146,30 @@ cria_ponte((L1, C1), (L2, C2), Ponte) :-
 % Predicado: caminho_livre/5
 % Objetivo: Devolve um valor logico conforme o caminho esteja ou nao livre.
 caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
-    Posicoes \== [],
+    (Posicoes \== [],
+    not(member((L_ilha, C_ilha), Posicoes)),
+    not(member((L_vz, C_vz), Posicoes)),
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
     intersection(EntreIlhaVz, Posicoes, Intersecoes),
-    (Intersecoes = []; Intersecoes == Posicoes).
+    (Intersecoes = []; Intersecoes == Posicoes);
+    Posicoes == [];
+    posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
+    EntreIlhaVz == []).
+
+
+
+
+% Predicado: ilhas_terminadas/2
+/* Objetivo: Devolve as ilhas que ja tem todas as pontes associadas,
+   tambem designdas por terminadas.
+*/
+ilhas_terminadas(Estado, Ilhas_term) :- ilhas_terminadas(Estado, [], Ilhas_term).
+ilhas_terminadas([], Ilhas_term, Ilhas_term).
+ilhas_terminadas([[ilha(N_pontes, Pos), _Vizinhas, Pontes] | Resto], Acc, Ilhas_term) :-
+    N_pontes \== 'X',
+    length(Pontes, LenPontes),
+    LenPontes == N_pontes,
+    append(Acc, [ilha(N_pontes, Pos)], NovoAcc),
+    ilhas_terminadas(Resto, NovoAcc, Ilhas_term).
+ilhas_terminadas([_Estado | Resto], Acc, Ilhas_term) :-
+    ilhas_terminadas(Resto, Acc, Ilhas_term).
