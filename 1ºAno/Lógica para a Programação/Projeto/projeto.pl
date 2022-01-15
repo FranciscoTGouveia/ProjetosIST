@@ -207,3 +207,15 @@ tira_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
     tira_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
     append(Acc, [AtualizaEntrada], NovoAcc),
     tira_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
+
+
+
+
+% Predicado: marca_ilhas_terminadas_entrada/3
+/* Objetivo: Caso a ilha de uma entrada esteja nas ilhas terminadas,
+   o seu numero de pontes sera substituido por x.
+*/
+marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
+    (member(ilha(P,(L,C)), Ilhas_term),
+    Nova_Entrada = [ilha('X', (L,C)), Vizinhas, Pontes];
+    Nova_Entrada = [ilha(P, (L,C)), Vizinhas, Pontes]).
