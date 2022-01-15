@@ -235,3 +235,15 @@ marca_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
     marca_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
     append(Acc, [AtualizaEntrada], NovoAcc),
     marca_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
+
+
+
+
+% Predicado: trata_ilhas_terminadas/2
+/* Objetivo: Atualiza estado apos a aplicacao dos prediacos
+   tira_ilhas_terminadas e marca_ilhas_terminadas.
+*/
+trata_ilhas_terminadas(Estado, Novo_Estado) :-
+   ilhas_terminadas(Estado, IlhasTerminadas),
+   tira_ilhas_terminadas(Estado, IlhasTerminadas, EstadoAlpha),
+   marca_ilhas_terminadas(EstadoAlpha, IlhasTerminadas, Novo_Estado).
