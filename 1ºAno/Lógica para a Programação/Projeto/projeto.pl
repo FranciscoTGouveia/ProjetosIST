@@ -122,16 +122,22 @@ estado([Ilha | Resto], Ilhas, Acc, Estado) :-
    salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha 
    ou coluna, o resultado sera false.
 */
-posicoes_entre((L1, C1), (L2, C2), Posicoes) :-
-    (L1 == L2, C1 \== C2,
-    ((C2 > C1) -> C1Novo is C1 + 1, C2Novo is C2 - 1; C1Novo is C1 - 1, C2Novo is C2 + 1),
-    ((C2Novo > C1Novo) -> findall((L1, CC), between(C1Novo, C2Novo, CC), Posicoes); findall((L1, CC), between(C2Novo, C1Novo, CC), Posicoes));
-    C1 == C2, L1 \== L2,
-    ((L2 > L1) -> L1Novo is L1 + 1, L2Novo is L2 - 1; L1Novo is L1 - 1, L2Novo is L2 + 1),
-    ((L2Novo > L1Novo) -> findall((LL, C1), between(L1Novo, L2Novo, LL), Posicoes); findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes))).
-     
-
-
+posicoes_entre((L1,C1), (L2, C2), Posicoes) :-
+    L1 == L2, C2 > C1, C1Novo is C1+1, C2Novo is C2-1, !,
+    findall((L1, CC), between(C1Novo, C2Novo, CC), Posicoes).
+    
+posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
+    L1 == L2, C2 < C1, C1Novo is C1-1, C2Novo is C2+1, !,
+    findall((L1, CC), between(C2Novo, C1Novo, CC), Posicoes).
+    
+posicoes_entre((L1,C1), (L2, C2), Posicoes) :-
+    C1 == C2, L2 > L1, L1Novo is L1+1, L2Novo is L2-1, !,
+    findall((LL, C1), between(L1Novo, L2Novo, LL), Posicoes).
+    
+posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
+    C1 == C2, L2 < L1, L1Novo is L1-1, L2Novo is L2+1, !,
+    findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes).
+    
 
 % Predicado: cria_ponte/3
 % Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
@@ -146,15 +152,10 @@ cria_ponte((L1, C1), (L2, C2), Ponte) :-
 % Predicado: caminho_livre/5
 % Objetivo: Devolve um valor logico conforme o caminho esteja ou nao livre.
 caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
-    (Posicoes \== [],
-    not(member((L_ilha, C_ilha), Posicoes)),
-    not(member((L_vz, C_vz), Posicoes)),
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
     intersection(EntreIlhaVz, Posicoes, Intersecoes),
-    (Intersecoes = []; Intersecoes == Posicoes);
-    Posicoes == [];
-    posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
-    EntreIlhaVz == []).
+    Intersecoes == [].
+
 
 
 
@@ -216,6 +217,21 @@ tira_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
    o seu numero de pontes sera substituido por x.
 */
 marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
-    (member(ilha(P,(L,C)), Ilhas_term),
-    Nova_Entrada = [ilha('X', (L,C)), Vizinhas, Pontes];
-    Nova_Entrada = [ilha(P, (L,C)), Vizinhas, Pontes]).
+    member(ilha(P,(L,C)), Ilhas_term),
+    Nova_Entrada = [ilha('X', (L,C)), Vizinhas, Pontes].
+marca_ilhas_terminadas_entrada(_Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
+    Nova_Entrada = [ilha(P, (L,C)), Vizinhas, Pontes].
+
+
+
+% Predicado: marca_ilhas_terminadas/3
+/* Objetivo: Recebe um estado e atualiza as ilhas caso ja tenham
+   sido marcadas com um x.
+*/
+marca_ilhas_terminadas(Estado, Ilhas_term, Novo_Estado) :-
+    marca_ilhas_terminadas(Estado, Ilhas_term, [], Novo_Estado).
+marca_ilhas_terminadas([], _Ilhas_term, Novo_Estado, Novo_Estado).
+marca_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
+    marca_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
+    append(Acc, [AtualizaEntrada], NovoAcc),
+    marca_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
