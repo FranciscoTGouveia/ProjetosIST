@@ -157,8 +157,10 @@ caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_v
     Intersecoes == [].
 caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
-    intersection(EntreIlhaVz, Posicoes, Intersecoes),
-    Intersecoes == Posicoes.
+    EntreIlhaVz == Posicoes.
+    
+
+
 
 
 % Predicado: actualiza_vizinhas_entrada/5
