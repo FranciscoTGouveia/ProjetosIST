@@ -1,4 +1,3 @@
-%:- ['codigo_comum.pl', 'puzzles_publicos.pl'].
 % Predicado: extrai_ilhas_linha/3
 /* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
    com o numero de pontes de uma linha e a sua posicao no puzzle.
@@ -108,7 +107,7 @@ vizinhas(Ilhas, Ilha, Acc, Vizinhas) :-
 */
 estado(Ilhas, Estado) :- estado(Ilhas, Ilhas, [], Estado).
 estado([], _Ilhas, Estado, Estado).
-estado([Ilha | Resto], Ilhas, Acc, Estado) :- 
+estado([Ilha | Resto], Ilhas, Acc, Estado) :-
     vizinhas(Ilhas, Ilha, Vizinhas),
     StatusIlha = [Ilha, Vizinhas, []],
     append(Acc, [StatusIlha], NovoAcc),
@@ -119,25 +118,25 @@ estado([Ilha | Resto], Ilhas, Acc, Estado) :-
 
 % Predicado: posicoes_entre/3
 /* Objetivo: Devolve a lista ordenada de posicoes entre Pos1 e Pos2,
-   salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha 
+   salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha
    ou coluna, o resultado sera false.
 */
 posicoes_entre((L1,C1), (L2, C2), Posicoes) :-
     L1 == L2, C2 > C1, C1Novo is C1+1, C2Novo is C2-1, !,
     findall((L1, CC), between(C1Novo, C2Novo, CC), Posicoes).
-    
+
 posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
     L1 == L2, C2 < C1, C1Novo is C1-1, C2Novo is C2+1, !,
     findall((L1, CC), between(C2Novo, C1Novo, CC), Posicoes).
-    
+
 posicoes_entre((L1,C1), (L2, C2), Posicoes) :-
     C1 == C2, L2 > L1, L1Novo is L1+1, L2Novo is L2-1, !,
     findall((LL, C1), between(L1Novo, L2Novo, LL), Posicoes).
-    
+
 posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
     C1 == C2, L2 < L1, L1Novo is L1-1, L2Novo is L2+1, !,
     findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes).
-    
+
 
 % Predicado: cria_ponte/3
 % Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
@@ -155,10 +154,12 @@ caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_v
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
     intersection(EntreIlhaVz, Posicoes, Intersecoes),
     Intersecoes == [].
-caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
+caminho_livre(Pos1, Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
-    EntreIlhaVz == Posicoes.
-    
+    EntreIlhaVz == Posicoes,
+    ((Pos1 == (L_ilha, C_ilha), Pos2 == (L_vz, C_vz));
+    (Pos1 == (L_vz, C_vz), Pos2 == (L_ilha, C_ilha))).
+
 
 
 
@@ -225,7 +226,7 @@ ilhas_terminadas([_Estado | Resto], Acc, Ilhas_term) :-
 % Predicado: tira_ilhas_terminadas_entrada/3
 /* Objetivo: Retira as ilhas terminadas de uma entrada.
 */
-tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas) :- 
+tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas) :-
     tira_ilhas(Ilhas_term, Vizinhas, [], NovasVizinhas).
 tira_ilhas(_Ilhas_term, [], NovasVizinhas, NovasVizinhas).
 tira_ilhas(Ilhas_term, [Viz | Resto], Acc, NovasVizinhas) :-
@@ -236,7 +237,7 @@ tira_ilhas(Ilhas_term, [Viz | Resto], Acc, NovasVizinhas) :-
 
 tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
     tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas),
-    Nova_Entrada = [Ilha, NovasVizinhas, Pontes].    
+    Nova_Entrada = [Ilha, NovasVizinhas, Pontes].
 
 
 
@@ -291,3 +292,37 @@ trata_ilhas_terminadas(Estado, Novo_Estado) :-
    ilhas_terminadas(Estado, IlhasTerminadas),
    tira_ilhas_terminadas(Estado, IlhasTerminadas, EstadoAlpha),
    marca_ilhas_terminadas(EstadoAlpha, IlhasTerminadas, Novo_Estado).
+
+
+
+
+
+% Predicado: junta_pontes/5
+/* Objetivo: Atualiza o estado pela adicao das pontes entre Ilha1 e Ilha2.
+*/
+adiciona_ponte(Ilha1, _Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
+    ilha(P,(L,C)) == Ilha1,
+    ((Num_pontes == 1, !,
+    append(Pont, [Ponte], NovaPont));
+    (Num_pontes == 2, !,
+    append(Pont, [Ponte,Ponte], NovaPont))),
+    Nova_entrada = [ilha(P,(L,C)), Viz, NovaPont].
+adiciona_ponte(_Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
+    ilha(P,(L,C)) == Ilha2,
+    ((Num_pontes == 1, !,
+    append(Pont, [Ponte], NovaPont));
+    (Num_pontes == 2, !,
+    append(Pont, [Ponte,Ponte], NovaPont))),
+    Nova_entrada = [ilha(P,(L,C)), Viz, NovaPont].
+
+
+adiciona_ponte(_Ilha1, _Ilha2,  _Num_pontes, _Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
+    Nova_entrada = [ilha(P,(L,C)), Viz, Pont].
+
+
+
+junta_pontes(Estado, Num_pontes, ilha(P1,(L1,C1)), ilha(P2,(L2,C2)), Novo_estado) :-
+    cria_ponte((L1,C1), (L2,C2), Ponte),
+    maplist(adiciona_ponte(ilha(P1,(L1,C1)), ilha(P2,(L2,C2)), Num_pontes, Ponte), Estado, EstadoAlpha),
+    actualiza_vizinhas_apos_pontes(EstadoAlpha,(L1,C1),(L2,C2), EstadoPosPontes),
+    trata_ilhas_terminadas(EstadoPosPontes, Novo_estado).
