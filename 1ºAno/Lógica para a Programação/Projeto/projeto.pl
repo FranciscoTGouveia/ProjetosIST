@@ -9,9 +9,7 @@ extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
     Cabeca > 0, !,
     append(Acc, [ilha(Cabeca, (N_L, Index))], NovoAcc),
     NovoIndex is Index + 1,
-    extrai_ilhas_linha(N_L, Resto, NovoAcc, Ilhas, NovoIndex).
-
-extrai_ilhas_linha(N_L, [_Cabeca | Resto], Acc, Ilhas, Index) :-
+    extrai_ilhas_linha(N_L, Resto, NovoAcc, Ilhas, NovoIndex);
     NovoIndex is Index + 1,
     extrai_ilhas_linha(N_L, Resto, Acc, Ilhas, NovoIndex).
 
@@ -82,18 +80,12 @@ lista_direita([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) 
     lista_direita(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
 
 
-vizinhas(Ilhas, Ilha, Vizinhas) :- vizinhas(Ilhas, Ilha, [], Vizinhas).
-vizinhas([], _Ilha, Vizinhas, Vizinhas) :- !.
-vizinhas(Ilhas, Ilha, Acc, Vizinhas) :-
+vizinhas(Ilhas, Ilha, Vizinhas) :-
     lista_cima(Ilhas, Ilha, LimiteCima),
     lista_esquerda(Ilhas, Ilha, LimiteEsquerda),
     lista_baixo(Ilhas, Ilha, LimiteBaixo),
     lista_direita(Ilhas, Ilha, LimiteDireita),
-    append(Acc, LimiteCima, Acc1),
-    append(Acc1, LimiteEsquerda, Acc2),
-    append(Acc2, LimiteDireita, Acc3),
-    append(Acc3, LimiteBaixo, NovoAcc),
-    vizinhas([], Ilha, NovoAcc, Vizinhas).
+    append([LimiteCima, LimiteEsquerda, LimiteDireita, LimiteBaixo], Vizinhas).
 
 
 
@@ -258,9 +250,9 @@ tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
 */
 marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
     member(ilha(P,(L,C)), Ilhas_term),
-    Nova_Entrada = [ilha('X', (L,C)), Vizinhas, Pontes].
-marca_ilhas_terminadas_entrada(_Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
+    Nova_Entrada = [ilha('X', (L,C)), Vizinhas, Pontes];
     Nova_Entrada = [ilha(P, (L,C)), Vizinhas, Pontes].
+
 
 
 
