@@ -39,45 +39,29 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
        -> Entre elas nao existem outras ilhas;
        -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
 */
-lista_cima(Ilhas, Ilha, ListaFinal) :- lista_cima(Ilhas, Ilha, [], ListaFinal).
-lista_cima([], _Ilha, ListaFinal, ListaFinal).
-lista_cima([ilha(P, (L,C)) | Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
-    C == Coluna,
-    L < Linha, !,
-    NovoAcc = [ilha(P, (L,C))],
-    lista_cima(Resto, ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
-lista_cima([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
-    lista_cima(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+lista_cima(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
+    findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), C == Coluna, L < Linha), Aux),
+    length(Aux, LenLista),
+    (LenLista == 0, ListaFinal = []; 
+    last(Aux, UltimaIlha), ListaFinal = [UltimaIlha]).
 
-lista_esquerda(Ilhas, Ilha, ListaFinal) :- lista_esquerda(Ilhas, Ilha, [], ListaFinal).
-lista_esquerda([], _Ilha, ListaFinal, ListaFinal).
-lista_esquerda([ilha(P, (L,C)) | Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
-    L == Linha,
-    C < Coluna, !,
-    NovoAcc = [ilha(P, (L,C))],
-    lista_esquerda(Resto, ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
-lista_esquerda([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
-    lista_esquerda(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+lista_esquerda(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
+    findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), L = Linha, C < Coluna), Aux),
+    length(Aux, LenLista),
+    (LenLista == 0, ListaFinal = []; 
+    last(Aux, UltimaIlha), ListaFinal = [UltimaIlha]).
 
-lista_baixo(Ilhas, Ilha, ListaFinal) :- lista_baixo(Ilhas, Ilha, [], ListaFinal).
-lista_baixo([], _Ilha, ListaFinal, ListaFinal).
-lista_baixo([ilha(P, (L,C)) | _Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
-    C == Coluna,
-    L > Linha, !,
-    NovoAcc = [ilha(P, (L,C))],
-    lista_baixo([], ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
-lista_baixo([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
-    lista_baixo(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+lista_baixo(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
+    findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), C == Coluna, L > Linha), Aux),
+    length(Aux, LenLista),
+    (LenLista == 0, ListaFinal = []; 
+    nth1(1, Aux, UltimaIlha), ListaFinal = [UltimaIlha]).
 
-lista_direita(Ilhas, Ilha, ListaFinal) :- lista_direita(Ilhas, Ilha, [], ListaFinal).
-lista_direita([], _Ilha, ListaFinal, ListaFinal).
-lista_direita([ilha(P, (L,C)) | _Resto], ilha(Pontes, (Linha, Coluna)), _Acc, ListaFinal) :-
-    L == Linha,
-    C > Coluna, !,
-    NovoAcc = [ilha(P, (L,C))],
-    lista_direita([], ilha(Pontes,(Linha,Coluna)), NovoAcc, ListaFinal).
-lista_direita([_Cabeca | Resto], ilha(Pontes, (Linha,Coluna)), Acc, ListaFinal) :-
-    lista_direita(Resto, ilha(Pontes, (Linha, Coluna)), Acc, ListaFinal).
+lista_direita(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
+    findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), L == Linha, C > Coluna), Aux),
+    length(Aux, LenLista),
+    (LenLista == 0, ListaFinal = []; 
+    nth1(1, Aux, UltimaIlha), ListaFinal = [UltimaIlha]).
 
 
 vizinhas(Ilhas, Ilha, Vizinhas) :-
