@@ -246,13 +246,8 @@ tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada
 /* Objetivo: Recebe um estado e atualiza as vizinhas de cada ilha
    de acordo com as ilhas ja terminadas.
 */
-tira_ilhas_terminadas(Estado, Ilhas_term, Novo_Estado) :-
-    tira_ilhas_terminadas(Estado, Ilhas_term, [], Novo_Estado).
-tira_ilhas_terminadas([], _Ilhas_term, Novo_Estado, Novo_Estado).
-tira_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
-    tira_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
-    append(Acc, [AtualizaEntrada], NovoAcc),
-    tira_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
+tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
+    maplist(tira_ilhas_terminadas_entrada(Ilhas_term), Estado, Novo_estado).
 
 
 
@@ -273,13 +268,8 @@ marca_ilhas_terminadas_entrada(_Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], N
 /* Objetivo: Recebe um estado e atualiza as ilhas caso ja tenham
    sido marcadas com um x.
 */
-marca_ilhas_terminadas(Estado, Ilhas_term, Novo_Estado) :-
-    marca_ilhas_terminadas(Estado, Ilhas_term, [], Novo_Estado).
-marca_ilhas_terminadas([], _Ilhas_term, Novo_Estado, Novo_Estado).
-marca_ilhas_terminadas([Entrada | Resto], Ilhas_term, Acc, Novo_Estado) :-
-    marca_ilhas_terminadas_entrada(Ilhas_term, Entrada, AtualizaEntrada),
-    append(Acc, [AtualizaEntrada], NovoAcc),
-    marca_ilhas_terminadas(Resto, Ilhas_term, NovoAcc, Novo_Estado).
+marca_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
+      maplist(marca_ilhas_terminadas_entrada(Ilhas_term), Estado, Novo_estado).
 
 
 
