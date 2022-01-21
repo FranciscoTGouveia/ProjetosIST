@@ -63,7 +63,6 @@ lista_direita(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
     (LenLista == 0, ListaFinal = []; 
     nth1(1, Aux, UltimaIlha), ListaFinal = [UltimaIlha]).
 
-
 vizinhas(Ilhas, Ilha, Vizinhas) :-
     lista_cima(Ilhas, Ilha, LimiteCima),
     lista_esquerda(Ilhas, Ilha, LimiteEsquerda),
@@ -114,12 +113,14 @@ posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
     findall((LL, C1), between(L2Novo, L1Novo, LL), Posicoes).
 
 
+
+
 % Predicado: cria_ponte/3
 % Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
 cria_ponte((L1, C1), (L2, C2), Ponte) :-
-    (L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
+    L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
     L2 > L1, Ponte = ponte((L2,C2), (L1,C1));
-    ((C1 < C2) -> Ponte = ponte((L1,C1), (L2,C2)); Ponte = ponte((L2,C2), (L1,C1)))).
+    ((C1 < C2) -> Ponte = ponte((L1,C1), (L2,C2)); Ponte = ponte((L2,C2), (L1,C1))).
 
 
 
@@ -266,26 +267,14 @@ trata_ilhas_terminadas(Estado, Novo_Estado) :-
 % Predicado: junta_pontes/5
 /* Objetivo: Atualiza o estado pela adicao das pontes entre Ilha1 e Ilha2.
 */
-adiciona_ponte(Ilha1, _Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
-    ilha(P,(L,C)) == Ilha1,
+adiciona_ponte(Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
+    ((ilha(P,(L,C)) == Ilha1; ilha(P,(L,C)) == Ilha2),
     ((Num_pontes == 1, !,
     append(Pont, [Ponte], NovaPont));
     (Num_pontes == 2, !,
     append(Pont, [Ponte,Ponte], NovaPont))),
-    Nova_entrada = [ilha(P,(L,C)), Viz, NovaPont].
-adiciona_ponte(_Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
-    ilha(P,(L,C)) == Ilha2,
-    ((Num_pontes == 1, !,
-    append(Pont, [Ponte], NovaPont));
-    (Num_pontes == 2, !,
-    append(Pont, [Ponte,Ponte], NovaPont))),
-    Nova_entrada = [ilha(P,(L,C)), Viz, NovaPont].
-
-
-adiciona_ponte(_Ilha1, _Ilha2,  _Num_pontes, _Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
+    Nova_entrada = [ilha(P,(L,C)), Viz, NovaPont]);
     Nova_entrada = [ilha(P,(L,C)), Viz, Pont].
-
-
 
 junta_pontes(Estado, Num_pontes, ilha(P1,(L1,C1)), ilha(P2,(L2,C2)), Novo_estado) :-
     cria_ponte((L1,C1), (L2,C2), Ponte),
