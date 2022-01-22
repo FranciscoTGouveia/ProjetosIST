@@ -2,9 +2,8 @@
 /* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
    com o numero de pontes de uma linha e a sua posicao no puzzle.
 */
-extrai_ilhas_linha(N_L, Linha, Ilhas) :- extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1). % Engorda do predicado
+extrai_ilhas_linha(N_L, Linha, Ilhas) :- extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
 extrai_ilhas_linha(_N_L, [], Ilhas, Ilhas, _). % Condicao de paragem
-
 extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
     Cabeca > 0, !,
     append(Acc, [ilha(Cabeca, (N_L, Index))], NovoAcc),
@@ -186,16 +185,8 @@ actualiza_vizinhas_apos_pontes([_Est | Resto], Pos1, Pos2, Acc, Novo_Estado) :-
 /* Objetivo: Devolve as ilhas que ja tem todas as pontes associadas,
    tambem designdas por terminadas.
 */
-ilhas_terminadas(Estado, Ilhas_term) :- ilhas_terminadas(Estado, [], Ilhas_term).
-ilhas_terminadas([], Ilhas_term, Ilhas_term).
-ilhas_terminadas([[ilha(N_pontes, Pos), _Vizinhas, Pontes] | Resto], Acc, Ilhas_term) :-
-    N_pontes \== 'X',
-    length(Pontes, LenPontes),
-    LenPontes == N_pontes,
-    append(Acc, [ilha(N_pontes, Pos)], NovoAcc),
-    ilhas_terminadas(Resto, NovoAcc, Ilhas_term).
-ilhas_terminadas([_Estado | Resto], Acc, Ilhas_term) :-
-    ilhas_terminadas(Resto, Acc, Ilhas_term).
+ilhas_terminadas(Estado, Ilhas_term) :-
+    findall(ilha(N_pontes, Pos), (member([ilha(N_pontes, Pos), _Vizinhas, Pontes], Estado), length(Pontes, LenPontes), LenPontes == N_pontes), Ilhas_term).
 
 
 
@@ -247,9 +238,9 @@ marca_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
    tira_ilhas_terminadas e marca_ilhas_terminadas.
 */
 trata_ilhas_terminadas(Estado, Novo_Estado) :-
-   ilhas_terminadas(Estado, IlhasTerminadas),
-   tira_ilhas_terminadas(Estado, IlhasTerminadas, EstadoAlpha),
-   marca_ilhas_terminadas(EstadoAlpha, IlhasTerminadas, Novo_Estado).
+    ilhas_terminadas(Estado, IlhasTerminadas),
+    tira_ilhas_terminadas(Estado, IlhasTerminadas, EstadoAlpha),
+    marca_ilhas_terminadas(EstadoAlpha, IlhasTerminadas, Novo_Estado).
 
 
 
