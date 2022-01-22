@@ -203,17 +203,8 @@ ilhas_terminadas([_Estado | Resto], Acc, Ilhas_term) :-
 % Predicado: tira_ilhas_terminadas_entrada/3
 /* Objetivo: Retira as ilhas terminadas de uma entrada.
 */
-tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas) :-
-    tira_ilhas(Ilhas_term, Vizinhas, [], NovasVizinhas).
-tira_ilhas(_Ilhas_term, [], NovasVizinhas, NovasVizinhas).
-tira_ilhas(Ilhas_term, [Viz | Resto], Acc, NovasVizinhas) :-
-    (member(Viz, Ilhas_term),
-    tira_ilhas(Ilhas_term, Resto, Acc, NovasVizinhas);
-    append(Acc, [Viz], NovoAcc),
-    tira_ilhas(Ilhas_term, Resto, NovoAcc, NovasVizinhas)).
-
 tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
-    tira_ilhas(Ilhas_term, Vizinhas, NovasVizinhas),
+    findall(Viz, (member(Viz, Vizinhas), \+member(Viz, Ilhas_term)), NovasVizinhas),
     Nova_Entrada = [Ilha, NovasVizinhas, Pontes].
 
 
