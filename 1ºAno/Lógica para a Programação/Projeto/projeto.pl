@@ -167,16 +167,10 @@ actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Novo_
 /* Objetivo: Recebe um estado e atualiza cada entrada apois a colocaco de uma ponte
    entre Pos1 e Pos2.
 */
-actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_Estado) :-
-    actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, [], Novo_Estado).
-actualiza_vizinhas_apos_pontes([], _Pos1, _Pos2, Novo_Estado, Novo_Estado).
-actualiza_vizinhas_apos_pontes([Entrada | Resto], Pos1, Pos2, Acc, Novo_Estado) :-
+actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_estado) :-
     posicoes_entre(Pos1, Pos2, PosicoesEntrePos1Pos2),
-    actualiza_vizinhas_entrada(Pos1, Pos2, PosicoesEntrePos1Pos2, Entrada, Nova_Entrada),
-    append(Acc, [Nova_Entrada], NovoAcc),
-    actualiza_vizinhas_apos_pontes(Resto, Pos1, Pos2, NovoAcc, Novo_Estado).
-actualiza_vizinhas_apos_pontes([_Est | Resto], Pos1, Pos2, Acc, Novo_Estado) :-
-    actualiza_vizinhas_apos_pontes(Resto, Pos1, Pos2, Acc, Novo_Estado).
+    maplist(actualiza_vizinhas_entrada(Pos1, Pos2, PosicoesEntrePos1Pos2), Estado, Novo_estado);
+    Novo_estado = Estado.
 
 
 
