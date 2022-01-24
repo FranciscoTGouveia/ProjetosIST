@@ -2,7 +2,8 @@
 /* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
    com o numero de pontes de uma linha e a sua posicao no puzzle.
 */
-extrai_ilhas_linha(N_L, Linha, Ilhas) :- extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
+extrai_ilhas_linha(N_L, Linha, Ilhas) :-
+    extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
 extrai_ilhas_linha(_N_L, [], Ilhas, Ilhas, _). % Condicao de paragem
 extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
     Cabeca > 0, !,
@@ -19,7 +20,8 @@ extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
 /* Objetivo: Devolve uma lista com todos os predicados ilha/2,
    ordenados por posicao no puzzle.
 */
-ilhas(Puz, Ilhas) :- ilhas(Puz, [], Ilhas, 1). % Engorda do predicado
+ilhas(Puz, Ilhas) :- 
+    ilhas(Puz, [], Ilhas, 1).
 ilhas([], Ilhas, Ilhas, _). % Condicao de paragem
 
 ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
@@ -79,7 +81,8 @@ vizinhas(Ilhas, Ilha, Vizinhas) :-
    -> O segundo elemento e a lista das vizinhas dessa ilha;
    -> A terceira e a lista das pontes da ilha, (vazia no estado inicial);
 */
-estado(Ilhas, Estado) :- estado(Ilhas, Ilhas, Estado).
+estado(Ilhas, Estado) :-
+    estado(Ilhas, Ilhas, Estado).
 estado(Ilhas, IlhasFixas, Estado) :-
     findall([Ilha, Vizinhas, []], (member(Ilha, Ilhas), vizinhas(IlhasFixas, Ilha, Vizinhas)), Estado).
 
