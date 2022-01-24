@@ -79,13 +79,9 @@ vizinhas(Ilhas, Ilha, Vizinhas) :-
    -> O segundo elemento e a lista das vizinhas dessa ilha;
    -> A terceira e a lista das pontes da ilha, (vazia no estado inicial);
 */
-estado(Ilhas, Estado) :- estado(Ilhas, Ilhas, [], Estado).
-estado([], _Ilhas, Estado, Estado).
-estado([Ilha | Resto], Ilhas, Acc, Estado) :-
-    vizinhas(Ilhas, Ilha, Vizinhas),
-    StatusIlha = [Ilha, Vizinhas, []],
-    append(Acc, [StatusIlha], NovoAcc),
-    estado(Resto, Ilhas, NovoAcc, Estado).
+estado(Ilhas, Estado) :- estado(Ilhas, Ilhas, Estado).
+estado(Ilhas, IlhasFixas, Estado) :-
+    findall([Ilha, Vizinhas, []], (member(Ilha, Ilhas), vizinhas(IlhasFixas, Ilha, Vizinhas)), Estado).
 
 
 
