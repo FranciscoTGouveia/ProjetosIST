@@ -1,6 +1,6 @@
 % Predicado: extrai_ilhas_linha/3
-/* Objetivo: Transforma uma linha correspondente ao puzzle, numa lista
-   com o numero de pontes de uma linha e a sua posicao no puzzle.
+/* Ilhas e uma lista ordenada, da esquerda para a direita,
+   cujos elementos sao ilhas presentes em Linha.
 */
 extrai_ilhas_linha(N_L, Linha, Ilhas) :-
     extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
@@ -17,8 +17,9 @@ extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
 
 
 % Predicado: ilhas/2
-/* Objetivo: Devolve uma lista com todos os predicados ilha/2,
-   ordenados por posicao no puzzle.
+/* Ilhas e a lista ordenada, da esquerda para a direita,
+   e de cima para baixo, cujos elementos sao linhas,
+   tendo cada uma as ilhas presentes nessa linha.
 */
 ilhas(Puz, Ilhas) :- 
     ilhas(Puz, [], Ilhas, 1).
@@ -39,7 +40,13 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
        -> As ilhas encontram-se na mesma linha ou coluna;
        -> Entre elas nao existem outras ilhas;
        -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
+   Raciocinio:
+     Criar 4 listas, contendo as ilhas que se encontram acima,
+     a esquerda, a baixo e a direita da ilha em questao. Depois,
+     escolher a ultima ilha das listas cima e esquerda, e a primeira
+     ilha das listas baixo e direita.
 */
+
 lista_cima(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
     findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), C == Coluna, L < Linha), Aux),
     length(Aux, LenLista),
@@ -168,7 +175,9 @@ actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_estado) :-
    tambem designdas por terminadas.
 */
 ilhas_terminadas(Estado, Ilhas_term) :-
-    findall(ilha(N_pontes, Pos), (member([ilha(N_pontes, Pos), _Vizinhas, Pontes], Estado), length(Pontes, LenPontes), LenPontes == N_pontes), Ilhas_term).
+    findall(ilha(N_pontes, Pos),
+    (member([ilha(N_pontes, Pos), _Vizinhas, Pontes], Estado), length(Pontes, LenPontes), LenPontes == N_pontes), 
+    Ilhas_term).
 
 
 
