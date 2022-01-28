@@ -1,4 +1,14 @@
-% Predicado: extrai_ilhas_linha/3
+/*
+  Nome: Francisco Catanho Barreto Tomé Gouveia
+  IST ID: ist1102571
+  1ºAno LEIC-T
+*/
+
+
+%==============================================%
+%          2.1 - extrai_ilhas_linha/3          %
+%==============================================%
+
 /* Ilhas e uma lista ordenada, da esquerda para a direita,
    cujos elementos sao ilhas presentes em Linha.
 */
@@ -16,7 +26,10 @@ extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
 
 
 
-% Predicado: ilhas/2
+%=================================%
+%          2.2 - ilhas/2          %
+%=================================%
+
 /* Ilhas e a lista ordenada, da esquerda para a direita,
    e de cima para baixo, cujos elementos sao linhas,
    tendo cada uma as ilhas presentes nessa linha.
@@ -34,7 +47,10 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
 
 
 
-% Predicado: vizinhas/3
+%====================================%
+%          2.3 - vizinhas/3          %
+%====================================%
+
 /* Objetivo: Devolve a lista de ilhas vizinhas a Ilha.
    Criterio de vizinhanca:
        -> As ilhas encontram-se na mesma linha ou coluna;
@@ -46,7 +62,6 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
      escolher a ultima ilha das listas cima e esquerda, e a primeira
      ilha das listas baixo e direita.
 */
-
 lista_cima(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
     findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), C == Coluna, L < Linha), Aux),
     length(Aux, LenLista),
@@ -81,7 +96,10 @@ vizinhas(Ilhas, Ilha, Vizinhas) :-
 
 
 
-% Predicado: estado/2
+%==================================%
+%          2.4 - estado/2          %
+%==================================%
+
 /* Objetivo: Representar o estado de um puzzle durante a sua resolucao,
    num dado momento na seguinte disposicao:
    -> O primeiro elemento e uma ilha;
@@ -96,7 +114,10 @@ estado(Ilhas, IlhasFixas, Estado) :-
 
 
 
-% Predicado: posicoes_entre/3
+%==========================================%
+%          2.5 - posicoes_entre/3          %
+%==========================================%
+
 /* Objetivo: Devolve a lista ordenada de posicoes entre Pos1 e Pos2,
    salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha
    ou coluna, o resultado sera false.
@@ -120,7 +141,10 @@ posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
 
 
 
-% Predicado: cria_ponte/3
+%======================================%
+%          2.6 - cria_ponte/3          %
+%======================================%
+
 % Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
 cria_ponte((L1, C1), (L2, C2), Ponte) :-
     L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
@@ -130,7 +154,10 @@ cria_ponte((L1, C1), (L2, C2), Ponte) :-
 
 
 
-% Predicado: caminho_livre/5
+%=========================================%
+%          2.7 - caminho_livre/5          %
+%=========================================%
+
 % Objetivo: Devolve um valor logico conforme o caminho esteja ou nao livre.
 caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
@@ -145,8 +172,10 @@ caminho_livre(Pos1, Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,
 
 
 
+%======================================================%
+%          2.8 - actualiza_vizinhas_entrada/5          %
+%======================================================%
 
-% Predicado: actualiza_vizinhas_entrada/5
 /* Objetivo: Atualiza a entrada de uma determinada ilha e as suas respetivas
    vizinhas, apos a criacao de uma ponte entre Pos1 e Pos2. NovaEntrada ficara
    entao igual a Entrada com a respetiva atualizacao na lista das vizinhas.
@@ -158,7 +187,10 @@ actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Novo_
 
 
 
-% Predicado: actualiza_vizinhas_apos_pontes/4
+%==========================================================%
+%          2.9 - actualiza_vizinhas_apos_pontes/4          %
+%==========================================================%
+
 /* Objetivo: Recebe um estado e atualiza cada entrada apois a colocaco de uma ponte
    entre Pos1 e Pos2.
 */
@@ -170,7 +202,10 @@ actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_estado) :-
 
 
 
-% Predicado: ilhas_terminadas/2
+%=============================================%
+%          2.10 - ilhas_terminadas/2          %
+%=============================================%
+
 /* Objetivo: Devolve as ilhas que ja tem todas as pontes associadas,
    tambem designdas por terminadas.
 */
@@ -182,7 +217,10 @@ ilhas_terminadas(Estado, Ilhas_term) :-
 
 
 
-% Predicado: tira_ilhas_terminadas_entrada/3
+%==========================================================%
+%          2.11 - tira_ilhas_terminadas_entrada/3          %
+%==========================================================%
+
 /* Objetivo: Retira as ilhas terminadas de uma entrada.
 */
 tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
@@ -192,7 +230,10 @@ tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada
 
 
 
-% Predicado: tira_ilhas_terminadas/3
+%==================================================%
+%          2.12 - tira_ilhas_terminadas/3          %
+%==================================================%
+
 /* Objetivo: Recebe um estado e atualiza as vizinhas de cada ilha
    de acordo com as ilhas ja terminadas.
 */
@@ -202,7 +243,10 @@ tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
 
 
 
-% Predicado: marca_ilhas_terminadas_entrada/3
+%===========================================================%
+%          2.13 - marca_ilhas_terminadas_entrada/3          %
+%===========================================================%
+
 /* Objetivo: Caso a ilha de uma entrada esteja nas ilhas terminadas,
    o seu numero de pontes sera substituido por x.
 */
@@ -214,7 +258,10 @@ marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], No
 
 
 
-% Predicado: marca_ilhas_terminadas/3
+%===================================================%
+%          2.14 - marca_ilhas_terminadas/3          %
+%===================================================%
+
 /* Objetivo: Recebe um estado e atualiza as ilhas caso ja tenham
    sido marcadas com um x.
 */
@@ -224,7 +271,10 @@ marca_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
 
 
 
-% Predicado: trata_ilhas_terminadas/2
+%===================================================%
+%          2.15 - trata_ilhas_terminadas/2          %
+%===================================================%
+
 /* Objetivo: Atualiza estado apos a aplicacao dos prediacos
    tira_ilhas_terminadas e marca_ilhas_terminadas.
 */
@@ -236,8 +286,10 @@ trata_ilhas_terminadas(Estado, Novo_Estado) :-
 
 
 
+%=========================================%
+%          2.16 - junta_pontes/5          %
+%=========================================%
 
-% Predicado: junta_pontes/5
 /* Objetivo: Atualiza o estado pela adicao das pontes entre Ilha1 e Ilha2.
 */
 adiciona_ponte(Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
