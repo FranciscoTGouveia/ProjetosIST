@@ -122,7 +122,7 @@ vizinhas(Ilhas, Ilha, Vizinhas) :-
   Organizao do Estado:  
     -> O primeiro elemento eh uma ilha;
     -> O segundo elemento eh a lista das vizinhas dessa ilha;
-    -> O ultimo elemento eh a lista das pontes da ilha, (vazia no estado inicial).
+    -> O ultimo elemento eh a lista das pontes da ilha (vazia no estado inicial).
 */
 estado(Ilhas, Estado) :-
     estado(Ilhas, Ilhas, Estado).
@@ -136,9 +136,11 @@ estado(Ilhas, IlhasFixas, Estado) :-
 %          2.5 - posicoes_entre/3          %
 %==========================================%
 
-/* Objetivo: Devolve a lista ordenada de posicoes entre Pos1 e Pos2,
-   salvaguardando, que, se Pos1 e Pos2 nao pertencerem a mesma linha
-   ou coluna, o resultado sera false.
+/*Objetivo:
+    Sendo Pos1 e Pos2 posicoes no puzzle, representadas por (Linha, Coluna),
+    Posicoes sera a lista ordenada de posicoes entre Pos1 e Pos2.
+    Caso Pos1 e Pos2 nao se encontrem na mesma linha ou coluna,
+    entao nao havera unificacao possivel e o resultado sera false.
 */
 posicoes_entre((L1,C1), (L2, C2), Posicoes) :-
     L1 == L2, C2 > C1, C1Novo is C1+1, C2Novo is C2-1, !,
@@ -163,7 +165,10 @@ posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
 %          2.6 - cria_ponte/3          %
 %======================================%
 
-% Objetivo: Cria uma ponte entre Pos1 e Pos2, em que Pos1 e Pos2 estao ordenadas.
+/*Objetivo:
+    Sendo Pos1 e Pos2 duas posicoes, Ponte sera uma ponte que une
+    essas duas posicoes, tendo o formato, ponte(Pos1, Pos2).
+*/
 cria_ponte((L1, C1), (L2, C2), Ponte) :-
     L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
     L2 > L1, Ponte = ponte((L2,C2), (L1,C1));
@@ -176,7 +181,22 @@ cria_ponte((L1, C1), (L2, C2), Ponte) :-
 %          2.7 - caminho_livre/5          %
 %=========================================%
 
-% Objetivo: Devolve um valor logico conforme o caminho esteja ou nao livre.
+/*Objetivo:
+    Sendo Pos1 e Pos2 posicoes no puzzle, Posicoes a lista de
+    posicoes entre Pos1 e Pos2, I uma ilha do puzzle e Vz uma vizinha
+    de I, o predicado sera passivel de ser unificado caso a adicao
+    de uma ponte entre Pos1 e Pos2 nao invalide o facto de I e Vz
+    serem vizinhas.
+    Caso a colocacao de uma ponte faca com que I e Vz deixem de ser
+    vizinhas, o predicado nao ira conseguir unificar, devolvendo false.
+  Raciocinio:
+    Criar a lista de posicoes entre a ilha I e a sua vizinha Vz,
+    fazendo depois a sua intersecao com Posicoes, lista de posicoes
+    que a nova ponte ira ocupar. Caso a lista resultante da intersecao
+    seja vazia, entao o caminho estara livre, se ouver um elemento na 
+    intersecao, significara que a colocacao dessa ponte ira bloquear o
+    caminho entre a ilha I e a sua vizinha Vz.
+*/
 caminho_livre(_Pos1, _Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,C_vz))) :-
     posicoes_entre((L_ilha, C_ilha), (L_vz, C_vz), EntreIlhaVz),
     intersection(EntreIlhaVz, Posicoes, Intersecoes),
@@ -194,13 +214,16 @@ caminho_livre(Pos1, Pos2, Posicoes, ilha(_P1,(L_ilha, C_ilha)), ilha(_P2, (L_vz,
 %          2.8 - actualiza_vizinhas_entrada/5          %
 %======================================================%
 
-/* Objetivo: Atualiza a entrada de uma determinada ilha e as suas respetivas
-   vizinhas, apos a criacao de uma ponte entre Pos1 e Pos2. NovaEntrada ficara
-   entao igual a Entrada com a respetiva atualizacao na lista das vizinhas.
+/*Objetivo:
+    Sendo Pos1 e Pos2 as posicoes entre as quais sera inserida uma 
+    ponte, Posicoes a lista ordenada de posicoes entre Pos1 e Pos2
+    e Entrada uma entrada do puzzle, Nova_Entrada sera a entrada
+    mas com o paremetro Vizinhas atualizado tendo em conta a adicao
+    da nova ponte, e as possiveis ilhas que deixaram de ser vizinhas.
 */
-actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Novo_Estado) :-
+actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
     findall(Viz, (member(Viz, Vizinhas), caminho_livre(Pos1, Pos2, Posicoes, Ilha, Viz)), VizinhasFinal),
-    Novo_Estado = [Ilha, VizinhasFinal, Pontes].
+    Nova_Entrada = [Ilha, VizinhasFinal, Pontes].
 
 
 
