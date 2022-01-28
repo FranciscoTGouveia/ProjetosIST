@@ -21,11 +21,13 @@
 %          2.1 - extrai_ilhas_linha/3          %
 %==============================================%
 
-/* Ilhas e uma lista ordenada, da esquerda para a direita,
-   cujos elementos sao ilhas presentes em Linha.
+/*Objetivo:
+    Sendo N_L o numero da linha, e Linha uma lista correspondente
+    a uma linha do puzzle, Ilhas sera a lista ordenada, da esquerda
+    para a direita, cujos elementos sao ilhas da Linha.
 */
 extrai_ilhas_linha(N_L, Linha, Ilhas) :-
-    extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1).
+    extrai_ilhas_linha(N_L, Linha, [], Ilhas, 1). % Adicao de um contador
 extrai_ilhas_linha(_N_L, [], Ilhas, Ilhas, _). % Condicao de paragem
 extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
     Cabeca > 0, !,
@@ -42,12 +44,12 @@ extrai_ilhas_linha(N_L, [Cabeca | Resto], Acc, Ilhas, Index) :-
 %          2.2 - ilhas/2          %
 %=================================%
 
-/* Ilhas e a lista ordenada, da esquerda para a direita,
-   e de cima para baixo, cujos elementos sao linhas,
-   tendo cada uma as ilhas presentes nessa linha.
+/*Objetivo:
+    Sendo Puz um puzzle, Ilhas sera a lista ordenada, da esquerda
+    para a direita e de cima para baixo, de ilhas.
 */
 ilhas(Puz, Ilhas) :- 
-    ilhas(Puz, [], Ilhas, 1).
+    ilhas(Puz, [], Ilhas, 1). % Adicao de um acumulador e contador
 ilhas([], Ilhas, Ilhas, _). % Condicao de paragem
 
 ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
@@ -63,16 +65,18 @@ ilhas([Cabeca | Resto], Acc, Ilhas, Index) :-
 %          2.3 - vizinhas/3          %
 %====================================%
 
-/* Objetivo: Devolve a lista de ilhas vizinhas a Ilha.
-   Criterio de vizinhanca:
-       -> As ilhas encontram-se na mesma linha ou coluna;
-       -> Entre elas nao existem outras ilhas;
-       -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
-   Raciocinio:
-     Criar 4 listas, contendo as ilhas que se encontram acima,
-     a esquerda, a baixo e a direita da ilha em questao. Depois,
-     escolher a ultima ilha das listas cima e esquerda, e a primeira
-     ilha das listas baixo e direita.
+/*Objetivo:
+    Sendo Ilhas a lista de ilhas do puzzle e Ilha uma determinada
+    ilha desse puzzle, Vizinhas sera a lista ordenada das ilhas vizinhas.
+  Criterio de vizinhanca:
+    -> As ilhas encontram-se na mesma linha ou coluna;
+    -> Entre elas nao existem outras ilhas;
+    -> Entre elas nao existe nenhuma ponte que una duas outras ilhas;
+  Raciocinio:
+    Criar 4 listas, contendo as ilhas que se encontram acima,
+    a esquerda, a baixo e a direita da ilha em questao. Depois,
+    escolher a ultima ilha das listas cima e esquerda, e a primeira
+    ilha das listas baixo e direita.
 */
 lista_cima(Ilhas, ilha(_Pontes, (Linha, Coluna)), ListaFinal) :-
     findall(ilha(P, (L,C)), (member(ilha(P,(L,C)), Ilhas), C == Coluna, L < Linha), Aux),
@@ -112,11 +116,13 @@ vizinhas(Ilhas, Ilha, Vizinhas) :-
 %          2.4 - estado/2          %
 %==================================%
 
-/* Objetivo: Representar o estado de um puzzle durante a sua resolucao,
-   num dado momento na seguinte disposicao:
-   -> O primeiro elemento e uma ilha;
-   -> O segundo elemento e a lista das vizinhas dessa ilha;
-   -> A terceira e a lista das pontes da ilha, (vazia no estado inicial);
+/*Objetivo:
+    Sendo Ilhas a lista de ilhas do puzzle, Estado sera a lista com todas
+    as ilhas e respetivas informacoes.
+  Organizao do Estado:  
+    -> O primeiro elemento eh uma ilha;
+    -> O segundo elemento eh a lista das vizinhas dessa ilha;
+    -> O ultimo elemento eh a lista das pontes da ilha, (vazia no estado inicial).
 */
 estado(Ilhas, Estado) :-
     estado(Ilhas, Ilhas, Estado).
