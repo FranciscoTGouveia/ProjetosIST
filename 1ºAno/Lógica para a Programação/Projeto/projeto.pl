@@ -232,8 +232,10 @@ actualiza_vizinhas_entrada(Pos1, Pos2, Posicoes, [Ilha, Vizinhas, Pontes], Nova_
 %          2.9 - actualiza_vizinhas_apos_pontes/4          %
 %==========================================================%
 
-/* Objetivo: Recebe um estado e atualiza cada entrada apois a colocaco de uma ponte
-   entre Pos1 e Pos2.
+/*Objetivo:
+    Sendo Estado um estado e Pos1 e Pos2 posicoes entre as quais
+    foi colocada uma ponte, Novo_estado sera o estado que se 
+    obtem apos a atualizacao das ilhas vizinhas de cada entrada.
 */
 actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_estado) :-
     posicoes_entre(Pos1, Pos2, PosicoesEntrePos1Pos2),
@@ -247,8 +249,11 @@ actualiza_vizinhas_apos_pontes(Estado, Pos1, Pos2, Novo_estado) :-
 %          2.10 - ilhas_terminadas/2          %
 %=============================================%
 
-/* Objetivo: Devolve as ilhas que ja tem todas as pontes associadas,
-   tambem designdas por terminadas.
+/*Objetivo:
+    Sendo Estado um Estado, Ilhas_term sera a lista de ilhas
+    terminadas, ou seja, que ja tem todas as pontes associadas.
+    A ilhas ja terminadas teram o comprimento da lista Pontes
+    igual a N_pontes.
 */
 ilhas_terminadas(Estado, Ilhas_term) :-
     findall(ilha(N_pontes, Pos),
@@ -262,7 +267,11 @@ ilhas_terminadas(Estado, Ilhas_term) :-
 %          2.11 - tira_ilhas_terminadas_entrada/3          %
 %==========================================================%
 
-/* Objetivo: Retira as ilhas terminadas de uma entrada.
+/*Objetivo:
+    Sendo Ilhas_term a lista de ilhas terminadas e Entrada uma
+    entrada do puzzle, Nova_entrada sera a entrada atualizada 
+    apos a remocao das ilhas terminadas da lista de vizinhas
+    de cada ilha na entrada.
 */
 tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada) :-
     findall(Viz, (member(Viz, Vizinhas), \+member(Viz, Ilhas_term)), NovasVizinhas),
@@ -275,8 +284,12 @@ tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada
 %          2.12 - tira_ilhas_terminadas/3          %
 %==================================================%
 
-/* Objetivo: Recebe um estado e atualiza as vizinhas de cada ilha
-   de acordo com as ilhas ja terminadas.
+/*Objetivo:
+    Sendo Estado um estado e Ilhas_term a lista de ilhas
+    terminadas, Novo_estado sera o estado resultante de
+    retirar as ilhas terminadas da lista de vizinhas de
+    cada ilha do estado, fazedo recurso do predicado 
+    definido imediatamente antes.
 */
 tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
     maplist(tira_ilhas_terminadas_entrada(Ilhas_term), Estado, Novo_estado).
