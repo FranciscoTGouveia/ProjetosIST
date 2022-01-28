@@ -4,6 +4,19 @@
   1Ano LEIC-T
 */
 
+/*Introducao:
+    O proposito deste projeto e escrever a primeira parte
+    de um solucionador de puzzles Hashi.
+    Um puzzle e constituido por uma grelha n*m (n linhas, m colunas),
+    sendo portanto representada por uma matriz (lista de listas).
+    O puzzle so fica terminado quando todas as ilhas estiverem
+    ligadas por pontes, e a passagem for permitida entre quaisquer duas ilhas.
+    Nao pode haver mais que duas pontes entre duas ilhas.
+    As pontes apenas poderam ser horizontais ou verticais.
+    As pontes nao podem cruzar outras ilhas ou pontes.
+*/
+
+
 %==============================================%
 %          2.1 - extrai_ilhas_linha/3          %
 %==============================================%
