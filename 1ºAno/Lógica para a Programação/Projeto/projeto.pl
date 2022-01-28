@@ -1,9 +1,8 @@
 /*
-  Nome: Francisco Catanho Barreto Tomé Gouveia
+  Nome: Francisco Catanho Barreto Tome Gouveia
   IST ID: ist1102571
-  1ºAno LEIC-T
+  1Ano LEIC-T
 */
-
 
 %==============================================%
 %          2.1 - extrai_ilhas_linha/3          %
