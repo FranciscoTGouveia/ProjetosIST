@@ -288,7 +288,7 @@ tira_ilhas_terminadas_entrada(Ilhas_term, [Ilha, Vizinhas, Pontes], Nova_Entrada
     Sendo Estado um estado e Ilhas_term a lista de ilhas
     terminadas, Novo_estado sera o estado resultante de
     retirar as ilhas terminadas da lista de vizinhas de
-    cada ilha do estado, fazedo recurso do predicado 
+    cada ilha do estado, fazendo recurso do predicado 
     definido imediatamente antes.
 */
 tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
@@ -301,8 +301,11 @@ tira_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
 %          2.13 - marca_ilhas_terminadas_entrada/3          %
 %===========================================================%
 
-/* Objetivo: Caso a ilha de uma entrada esteja nas ilhas terminadas,
-   o seu numero de pontes sera substituido por x.
+/*Objetivo:
+    Sendo Ilhas_term a lista de ilhas terminadas e Entrada uma
+    entrada do puzzle, Nova_entrada sera a entrada obtida apos
+    substituir o numero de pontes por um 'X' caso a ilha da 
+    Entrada pertencer a Ilhas_Term.
 */
 marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], Nova_Entrada) :-
     member(ilha(P,(L,C)), Ilhas_term),
@@ -316,8 +319,12 @@ marca_ilhas_terminadas_entrada(Ilhas_term, [ilha(P,(L,C)), Vizinhas, Pontes], No
 %          2.14 - marca_ilhas_terminadas/3          %
 %===================================================%
 
-/* Objetivo: Recebe um estado e atualiza as ilhas caso ja tenham
-   sido marcadas com um x.
+/*Objetivo:
+    Sendo Estado um estado e Ilhas_term a lista de ilhas
+    terminadas de um puzzle, Novo_estado sera o estado
+    resultante de substituir por 'X' o numero de pontes
+    das ilhas ja terminadas, fazendo recurso do predicado
+    definido imediatamente antes.
 */
 marca_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
       maplist(marca_ilhas_terminadas_entrada(Ilhas_term), Estado, Novo_estado).
@@ -329,8 +336,12 @@ marca_ilhas_terminadas(Estado, Ilhas_term, Novo_estado) :-
 %          2.15 - trata_ilhas_terminadas/2          %
 %===================================================%
 
-/* Objetivo: Atualiza estado apos a aplicacao dos prediacos
-   tira_ilhas_terminadas e marca_ilhas_terminadas.
+/*Objetivo:
+    Sendo Estado um estado do puzzle, Novo_estado sera
+    o estado resultante de retirar as ilhas terminadas
+    das vizinhas e substituir por um 'X' o numero de pontes
+    de uma ilha caso esta ja esteja terminada, fazendo
+    recurso dos predicados definidos anteriormente.
 */
 trata_ilhas_terminadas(Estado, Novo_Estado) :-
     ilhas_terminadas(Estado, IlhasTerminadas),
@@ -344,7 +355,11 @@ trata_ilhas_terminadas(Estado, Novo_Estado) :-
 %          2.16 - junta_pontes/5          %
 %=========================================%
 
-/* Objetivo: Atualiza o estado pela adicao das pontes entre Ilha1 e Ilha2.
+/*Objetivo:
+    Sendo Estado um estado do puzzle, Ilha1 e Ilha2 duas
+    ilhas do puzzle e num_pontes um determinado numero de
+    pontes (max 2), Novo_estado sera o estado resultante
+    de adicionar as pontes entre a Ilha1 e Ilha2.
 */
 adiciona_ponte(Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
     ((ilha(P,(L,C)) == Ilha1; ilha(P,(L,C)) == Ilha2),
