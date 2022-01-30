@@ -360,6 +360,10 @@ trata_ilhas_terminadas(Estado, Novo_Estado) :-
     ilhas do puzzle e num_pontes um determinado numero de
     pontes (max 2), Novo_estado sera o estado resultante
     de adicionar as pontes entre a Ilha1 e Ilha2.
+  Raciocinio:
+    Antes de efetuar as alteracoes necessarias devido ah
+    adicao da ponte, criou-se um predicado auxiliar com o
+    intuito de adicionar as pontes as ilhas respetivas. 
 */
 adiciona_ponte(Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova_entrada) :-
     ((ilha(P,(L,C)) == Ilha1; ilha(P,(L,C)) == Ilha2),
