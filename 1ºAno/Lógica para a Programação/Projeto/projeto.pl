@@ -172,8 +172,9 @@ posicoes_entre((L1,C1), (L2,C2), Posicoes) :-
 */
 cria_ponte((L1, C1), (L2, C2), Ponte) :-
     L1 < L2, Ponte = ponte((L1,C1), (L2,C2));
-    L2 > L1, Ponte = ponte((L2,C2), (L1,C1));
-    ((C1 < C2) -> Ponte = ponte((L1,C1), (L2,C2)); Ponte = ponte((L2,C2), (L1,C1))).
+    L1 > L2, Ponte = ponte((L2,C2), (L1,C1));
+    C1 < C2, Ponte = ponte((L1,C1), (L2,C2));
+    C1 > C2, Ponte = ponte((L2,C2), (L1,C1)).
 
 
 
