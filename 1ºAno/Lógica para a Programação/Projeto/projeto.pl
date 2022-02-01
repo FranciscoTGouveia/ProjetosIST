@@ -379,5 +379,5 @@ adiciona_ponte(Ilha1, Ilha2, Num_pontes, Ponte, [ilha(P,(L,C)), Viz, Pont], Nova
 junta_pontes(Estado, Num_pontes, ilha(P1,(L1,C1)), ilha(P2,(L2,C2)), Novo_estado) :-
     cria_ponte((L1,C1), (L2,C2), Ponte),
     maplist(adiciona_ponte(ilha(P1,(L1,C1)), ilha(P2,(L2,C2)), Num_pontes, Ponte), Estado, EstadoAlpha),
-    actualiza_vizinhas_apos_pontes(EstadoAlpha,(L1,C1),(L2,C2), EstadoPosPontes),
+    actualiza_vizinhas_apos_pontes(EstadoAlpha, (L1,C1), (L2,C2), EstadoPosPontes),
     trata_ilhas_terminadas(EstadoPosPontes, Novo_estado).
