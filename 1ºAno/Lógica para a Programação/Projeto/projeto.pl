@@ -16,6 +16,7 @@
     As pontes nao podem cruzar outras ilhas ou pontes.
 */
 
+:- ['codigo_comum.pl'].
 
 %==============================================%
 %          2.1 - extrai_ilhas_linha/3          %
