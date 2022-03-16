@@ -1,6 +1,6 @@
 # **Projetos IST**
 ---
-This repository has the purpose of storing all of the projects realizde for my Bsc in CS.
+This repository has the purpose of storing all of the projects realized for my Bachelor's degree in CS.
 
 Este repositório tem o propóstio de arquivar todos os projetos realizados no âmbito do curso. 
 
