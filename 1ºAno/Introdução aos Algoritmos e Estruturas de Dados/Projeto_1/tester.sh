@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Compile the program
+gcc -ansi -pedantic -Wall -Wextra -Wall -o main main.c
+
 cd tests/ || exit
 # Pass the tests to the algorithm
 mkdir eheh
