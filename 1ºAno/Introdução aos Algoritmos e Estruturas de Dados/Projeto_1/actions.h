@@ -1,14 +1,17 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
+#define MAX_ID 3
+#define MAX_COUNTRY 30
+#define MAX_CITY 50
+
 typedef struct {
-    char id;
-    int country;
-    int city;
+    char id[MAX_ID + 1];
+    char country[MAX_COUNTRY + 1];
+    char city[MAX_CITY + 1];
 } Airport;
 
 /* "Add" command functions: */
-Airport *new_airport(char id, int country, int city);
-void print_new_airport(Airport *airport);
+void new_airport();
 
 #endif
