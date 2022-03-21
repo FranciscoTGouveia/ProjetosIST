@@ -3,23 +3,27 @@
 
 int main() {
     char action;
-    switch (action) {
-        case 'q':
-            return 0;
-        case 'a':
-            return 0;
-        case 'l':
-            return 0;
-        case 'v':
-            return 0;
-        case 'p':
-            return 0;
-        case 'c':
-            return 0;
-        case 't':
-            return 0;
-        default:
-            printf("Indisponível!\n");
+    while ((action = getchar()) != EOF) {
+        switch (action) {
+            case 'q': {
+                return 0;
+            }
+            case 'a': {
+                new_airport();
+                break;
+            }
+            case 'l':
+                return 0;
+            case 'v':
+                return 0;
+            case 'p':
+                return 0;
+            case 'c':
+                return 0;
+            case 't':
+                return 0;
+        }
+        action = getchar();
     }
     return 0;
 }
