@@ -4,6 +4,7 @@
 #define MAX_ID 3
 #define MAX_COUNTRY 30
 #define MAX_CITY 50
+#define MAX_AIRPORTS 40
 
 typedef struct {
     char id[MAX_ID + 1];
@@ -12,6 +13,6 @@ typedef struct {
 } Airport;
 
 /* "Add" command functions: */
-void new_airport();
+int new_airport();
 
 #endif
