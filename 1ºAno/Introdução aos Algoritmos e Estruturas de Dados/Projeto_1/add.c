@@ -39,16 +39,29 @@ static int check_2_many(int airports_counter) {
     return 0;
 }
 
+static int check_duplicates(Airport airports_vector[], char id[],
+                            int airports_counter) {
+    int i;
+    for (i = 0; i < airports_counter; i++) {
+        if (strcmp(airports_vector[i].id, id) == 0) {
+            printf("duplicate airport\n");
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int new_airport(Airport airports_vector[], int airports_counter) {
     char id[MAX_ID + 1];
     char country[MAX_COUNTRY + 1];
     char city[MAX_CITY + 1];
-    int status_id, status_2_many;
+    int status_id, status_2_many, status_duplicate;
     scanf("%s %s %[^\n]s", id, country, city);
     status_id = check_invalid_id(id);
     status_2_many = check_2_many(airports_counter);
-    /*check_duplicate();*/
-    if (status_id || status_2_many) {
+    status_duplicate =
+        check_duplicates(airports_vector, id, airports_counter);
+    if (status_id || status_2_many || status_duplicate) {
         return 1;
     }
     add_airport_to_vector(id, country, city, airports_vector,
