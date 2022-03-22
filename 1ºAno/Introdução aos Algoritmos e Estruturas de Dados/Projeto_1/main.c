@@ -12,7 +12,7 @@ int main() {
                 return 0;
             }
             case 'a': {
-                if (new_airport(airports_vector, airports_counter)) {
+                if (new_airport(airports_vector, airports_counter) == 0) {
                     airports_counter++;
                 }
                 break;
