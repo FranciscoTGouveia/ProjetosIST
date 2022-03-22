@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "actions.h"
+#include "commands.h"
 
 int main() {
     char action;
@@ -8,24 +7,24 @@ int main() {
 
     while ((action = getchar()) != EOF) {
         switch (action) {
-            case 'q': {
+            case QUIT_CMD: {
                 return 0;
             }
-            case 'a': {
+            case ADD_AIRPORT_CMD: {
                 if (new_airport(airports_vector, airports_counter) == 0) {
                     airports_counter++;
                 }
                 break;
             }
-            case 'l':
+            case LIST_AIRPORTS_CMD:
                 return 0;
-            case 'v':
+            case ADD_FLIGHT_CMD:
                 return 0;
-            case 'p':
+            case LIST_DEPARTURES_CMD:
                 return 0;
-            case 'c':
+            case LIST_ARRIVALS_CMD:
                 return 0;
-            case 't':
+            case STEP_TIME_CMD:
                 return 0;
         }
         action = getchar();
