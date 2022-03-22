@@ -3,13 +3,18 @@
 
 int main() {
     char action;
+    Airport airports_vector[MAX_AIRPORTS];
+    int airports_counter = 0;
+
     while ((action = getchar()) != EOF) {
         switch (action) {
             case 'q': {
                 return 0;
             }
             case 'a': {
-                new_airport();
+                if (new_airport(airports_vector, airports_counter)) {
+                    airports_counter++;
+                }
                 break;
             }
             case 'l':
