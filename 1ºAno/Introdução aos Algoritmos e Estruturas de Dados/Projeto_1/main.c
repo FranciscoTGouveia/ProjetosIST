@@ -11,13 +11,16 @@ int main() {
                 return 0;
             }
             case ADD_AIRPORT_CMD: {
-                if (new_airport(airports_vector, airports_counter) == 0) {
+                if (new_airport(airports_vector, airports_counter)) {
                     airports_counter++;
                 }
                 break;
             }
-            case LIST_AIRPORTS_CMD:
-                return 0;
+            case LIST_AIRPORTS_CMD: {
+                list_airports(airports_vector, airports_counter);
+                break;
+            }
+
             case ADD_FLIGHT_CMD:
                 return 0;
             case LIST_DEPARTURES_CMD:
@@ -27,7 +30,6 @@ int main() {
             case STEP_TIME_CMD:
                 return 0;
         }
-        action = getchar();
     }
     return 0;
 }

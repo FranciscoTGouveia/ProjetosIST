@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compile the program
-gcc -ansi -pedantic -Wall -Wextra -Wall -o main main.c add.c
+gcc -ansi -pedantic -Wall -Wextra -Wall -o main main.c add.c list.c
 
 cd tests/ || exit
 # Pass the tests to the algorithm
