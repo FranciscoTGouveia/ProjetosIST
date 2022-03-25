@@ -1,4 +1,5 @@
 #include "commands.h"
+#include <string.h>
 
 static void add_airport_to_vector(char id[], char country[], char city[],
                                   Airport airports_vector[],
@@ -50,6 +51,21 @@ static int check_errors_new_airport(Airport airports_vector[],
     status_duplicate =
         check_duplicates(airports_vector, id, airports_counter);
     return (status_id && status_2_many && status_duplicate) ? 1 : 0;
+}
+
+void sort_airports(Airport air_vec[], int vec_size) {
+    /* Sort airports by ID (bubble sort) */
+    int i, j;
+    Airport temp;
+    for (i = 0; i < (vec_size - 1); i++) {
+        for (j = 0; j < (vec_size - i - 1); j++) {
+            if (strcmp(air_vec[j + 1].id, air_vec[j].id) < 0) {
+                temp = air_vec[j];
+                air_vec[j] = air_vec[j + 1];
+                air_vec[j + 1] = temp;
+            }
+        }
+    }
 }
 
 int new_airport(Airport airports_vector[], int airports_counter) {
