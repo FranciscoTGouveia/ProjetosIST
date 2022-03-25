@@ -13,9 +13,9 @@ static int check_if_airport(Airport airports_vector[], int airports_counter,
     return 0;
 }
 
-static int get_num_flights_airport(Airport airport) {
-    /* FIXME: Add function to iterate over all flights and see which ones have
-     * the airport em questao */
+static int get_num_flights_airport() {
+    /*FIXME: Add function to iterate over all flights and see which ones have
+    the airport em questao */
     return 0;
 }
 
@@ -25,30 +25,24 @@ static void print_airport_info(Airport airport) {
     strcpy(id, airport.id);
     strcpy(city, airport.city);
     strcpy(country, airport.country);
-    num_flights = get_num_flights_airport(airport);
+    num_flights = get_num_flights_airport();
     printf("%s %s %s %d\n", id, city, country, num_flights);
 }
 
-static void print_all_airports(Airport airports_vector[],
-                               int airports_counter) {
-    int i;
-    for (i = 0; i < airports_counter; i++) {
-        print_airport_info(airports_vector[i]);
-    }
-}
-
-void get_airport_info_by_id(char id[MAX_ID + 1], Airport airports_vector[],
-                            int airports_counter) {
+static void get_airport_info_by_id(char id[MAX_ID + 1],
+                                   Airport airports_vector[],
+                                   int airports_counter) {
     int i;
     for (i = 0; i < airports_counter; i++) {
         if (strcmp(airports_vector[i].id, id) == 0) {
             print_airport_info(airports_vector[i]);
+            break;
         }
     }
 }
 
 int list_airports(Airport airports_vector[], int airports_counter) {
-    int ids_counter = 0, no_arguments = 1;
+    int ids_counter = 0, no_arguments = 1, i;
     char ids_vector[MAX_AIRPORTS][MAX_ID + 1], listen_char;
 
     while ((listen_char = getchar()) != '\n') {
@@ -64,7 +58,9 @@ int list_airports(Airport airports_vector[], int airports_counter) {
         }
     }
     if (no_arguments) {
-        print_all_airports(airports_vector, airports_counter);
+        for (i = 0; i < airports_counter; i++) {
+            print_airport_info(airports_vector[i]);
+        }
     }
     return 1;
 }

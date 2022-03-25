@@ -4,6 +4,8 @@ int main() {
     char action;
     Airport airports_vector[MAX_AIRPORTS];
     int airports_counter = 0;
+    /*Flight flights_vector[MAX_FLIGHTS];*/
+    /*int flights_counter = 0;*/
 
     while ((action = getchar()) != EOF) {
         switch (action) {
@@ -13,6 +15,7 @@ int main() {
             case ADD_AIRPORT_CMD: {
                 if (new_airport(airports_vector, airports_counter)) {
                     airports_counter++;
+                    sort_airports(airports_vector, airports_counter);
                 }
                 break;
             }
@@ -21,14 +24,21 @@ int main() {
                 break;
             }
 
-            case ADD_FLIGHT_CMD:
-                return 0;
+            case ADD_FLIGHT_CMD: {
+                printf("eheh");
+                /*new_flight(flights_vector, flights_counter);*/
+                /*if (new_flight(flights_vector, flights_counter)) {
+                    flights_counter++;
+                }*/
+                break;
+            }
             case LIST_DEPARTURES_CMD:
                 return 0;
             case LIST_ARRIVALS_CMD:
                 return 0;
-            case STEP_TIME_CMD:
+            case STEP_DATE_CMD: {
                 return 0;
+            }
         }
     }
     return 0;
