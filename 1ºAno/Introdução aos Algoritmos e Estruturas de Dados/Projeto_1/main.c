@@ -33,9 +33,9 @@ int main() {
                 break;
             }
             case LIST_DEPARTURES_CMD: {
-                list_departures(airports_vector, airports_counter,
+                /*list_departures(airports_vector, airports_counter,
                                 flights_vector, flights_counter);
-                break;
+                break;*/
             }
             case LIST_ARRIVALS_CMD:
                 return 0;
