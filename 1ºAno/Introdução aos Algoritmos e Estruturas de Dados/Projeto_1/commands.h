@@ -1,6 +1,3 @@
-#ifndef COMMANDS_H
-#define COMMANDS_H
-
 /* Include Standart Libraries */
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,6 +32,8 @@
 #define ERR_NO_SUCH_AIRPORT_ID "no such airport ID\n"
 #define ERR_INVALID_FLIGHT_CODE "invalid flight code\n"
 
+#define ERR_INVALID_DATE "invalid date\n"
+
 /* Custom Types (Structures) */
 typedef struct {
     char id[MAX_ID + 1];
@@ -55,11 +54,13 @@ typedef struct {
 /* "Add Airport" command function: */
 int new_airport(Airport airports_vector[], int airports_counter);
 void sort_airports(Airport airports_vector[], int airports_counter);
-int new_flight(Flight flight_vec[], int flight_count);
 
-/* "List" command function */
+/* "List" command function: */
 int list_airports();
 
-/* "Add Flight" command function */
+/* "Add Flight" command function: */
+int new_flight(Flight flight_vec[], int flight_count);
 
-#endif
+/* "Set time" command function: */
+int step_date(int last_date);
+int get_date(int day, int month, int year);
