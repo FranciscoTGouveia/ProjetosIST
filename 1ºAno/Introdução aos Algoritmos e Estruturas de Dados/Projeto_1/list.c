@@ -41,7 +41,7 @@ static void get_airport_info_by_id(char id[MAX_ID + 1],
     }
 }
 
-int list_airports(Airport airports_vector[], int airports_counter) {
+void list_airports(Airport airports_vector[], int airports_counter) {
     int ids_counter = 0, no_arguments = 1, i;
     char ids_vector[MAX_AIRPORTS][MAX_ID + 1], listen_char;
 
@@ -53,8 +53,6 @@ int list_airports(Airport airports_vector[], int airports_counter) {
             get_airport_info_by_id(ids_vector[ids_counter], airports_vector,
                                    airports_counter);
             ids_counter++;
-        } else {
-            return 0;
         }
     }
     if (no_arguments) {
@@ -62,5 +60,4 @@ int list_airports(Airport airports_vector[], int airports_counter) {
             print_airport_info(airports_vector[i]);
         }
     }
-    return 1;
 }

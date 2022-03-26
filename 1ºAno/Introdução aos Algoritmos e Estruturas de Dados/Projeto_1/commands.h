@@ -56,7 +56,7 @@ int new_airport(Airport airports_vector[], int airports_counter);
 void sort_airports(Airport airports_vector[], int airports_counter);
 
 /* "List" command function: */
-int list_airports();
+void list_airports();
 
 /* "Add Flight" command function: */
 int new_flight(Flight flight_vec[], int flight_count);
