@@ -13,35 +13,34 @@ static int check_if_airport(Airport airports_vector[], int airports_counter,
     return 0;
 }
 
-static int get_num_flights_airport() {
-    /*FIXME: Add function to iterate over all flights and see which ones have
-    the airport em questao */
-    return 0;
-}
-
-static void print_airport_info(Airport airport) {
+static void print_airport_info(Airport airport, Flight flight_vec[],
+                               int flight_count) {
     int num_flights;
     char id[MAX_ID + 1], city[MAX_CITY + 1], country[MAX_COUNTRY + 1];
     strcpy(id, airport.id);
     strcpy(city, airport.city);
     strcpy(country, airport.country);
-    num_flights = get_num_flights_airport();
+    num_flights =
+        get_num_flights_airport(airport.id, flight_vec, flight_count);
     printf("%s %s %s %d\n", id, city, country, num_flights);
 }
 
 static void get_airport_info_by_id(char id[MAX_ID + 1],
                                    Airport airports_vector[],
-                                   int airports_counter) {
+                                   int airports_counter, Flight flight_vec[],
+                                   int flight_count) {
     int i;
+    /* Implement binary_search if needed */
     for (i = 0; i < airports_counter; i++) {
         if (strcmp(airports_vector[i].id, id) == 0) {
-            print_airport_info(airports_vector[i]);
+            print_airport_info(airports_vector[i], flight_vec, flight_count);
             break;
         }
     }
 }
 
-void list_airports(Airport airports_vector[], int airports_counter) {
+void list_airports(Airport airports_vector[], int airports_counter,
+                   Flight flight_vec[], int flight_count) {
     int ids_counter = 0, no_arguments = 1, i;
     char ids_vector[MAX_AIRPORTS][MAX_ID + 1], listen_char;
 
@@ -51,13 +50,14 @@ void list_airports(Airport airports_vector[], int airports_counter) {
         if (check_if_airport(airports_vector, airports_counter,
                              ids_vector[ids_counter])) {
             get_airport_info_by_id(ids_vector[ids_counter], airports_vector,
-                                   airports_counter);
+                                   airports_counter, flight_vec,
+                                   flight_count);
             ids_counter++;
         }
     }
     if (no_arguments) {
         for (i = 0; i < airports_counter; i++) {
-            print_airport_info(airports_vector[i]);
+            print_airport_info(airports_vector[i], flight_vec, flight_count);
         }
     }
 }

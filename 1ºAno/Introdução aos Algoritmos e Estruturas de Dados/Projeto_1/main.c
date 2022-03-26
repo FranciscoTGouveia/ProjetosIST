@@ -33,7 +33,8 @@ int main() {
                 break;
             }
             case LIST_DEPARTURES_CMD: {
-                list_departures();
+                list_departures(airports_vector, airports_counter,
+                                flights_vector, flights_counter);
                 break;
             }
             case LIST_ARRIVALS_CMD:
