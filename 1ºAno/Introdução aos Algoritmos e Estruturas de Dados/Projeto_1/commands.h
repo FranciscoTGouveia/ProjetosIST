@@ -45,10 +45,10 @@ typedef struct {
     char flight_code[MAX_FLIGHT_CODE + 1];
     char id_departure[MAX_ID + 1];
     char id_arrival[MAX_ID + 1];
-    char date[MAX_DATE + 1];
-    char time[MAX_TIME + 1];
-    short duration;
-    short capacity;
+    int date;
+    int time;
+    int duration;
+    int capacity;
 } Flight;
 
 /* "Add Airport" command function: */
@@ -63,4 +63,5 @@ int new_flight(Flight flight_vec[], int flight_count);
 
 /* "Set time" command function: */
 int step_date(int last_date);
-int get_date(int day, int month, int year);
+int date2int(int day, int month, int year);
+int time2int(int hours, int minutes);
