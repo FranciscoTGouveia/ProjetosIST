@@ -26,17 +26,21 @@ int main() {
             }
 
             case ADD_FLIGHT_CMD: {
-                if (new_flight(flights_vector, flights_counter)) {
+                if (new_flight(airports_vector, airports_counter,
+                               flights_vector, flights_counter, date)) {
                     flights_counter++;
                 }
                 break;
             }
-            case LIST_DEPARTURES_CMD:
-                return 0;
+            case LIST_DEPARTURES_CMD: {
+                list_departures();
+                break;
+            }
             case LIST_ARRIVALS_CMD:
                 return 0;
             case STEP_DATE_CMD: {
                 date = step_date(date);
+                break;
             }
         }
     }
