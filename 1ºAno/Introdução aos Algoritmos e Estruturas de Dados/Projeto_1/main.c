@@ -4,9 +4,9 @@ int main() {
     char action;
     Airport airports_vector[MAX_AIRPORTS];
     int airports_counter = 0;
-    /*Flight flights_vector[MAX_FLIGHTS];
-    int flights_counter = 0;*/
-    int date = get_date(1, 1, 2022);
+    Flight flights_vector[MAX_FLIGHTS];
+    int flights_counter = 0;
+    int date = date2int(1, 1, 2022);
 
     while ((action = getchar()) != EOF) {
         switch (action) {
@@ -26,10 +26,9 @@ int main() {
             }
 
             case ADD_FLIGHT_CMD: {
-                /*new_flight(flights_vector, flights_counter);*/
-                /*if (new_flight(flights_vector, flights_counter)) {
+                if (new_flight(flights_vector, flights_counter)) {
                     flights_counter++;
-                }*/
+                }
                 break;
             }
             case LIST_DEPARTURES_CMD:
