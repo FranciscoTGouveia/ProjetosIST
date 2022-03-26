@@ -31,8 +31,11 @@
 #define ERR_DUPLICATE_AIRPORT "duplicate airport\n"
 #define ERR_NO_SUCH_AIRPORT_ID "no such airport ID\n"
 #define ERR_INVALID_FLIGHT_CODE "invalid flight code\n"
-
+#define ERR_FLIGHT_ALREADY_EXISTS "flight already exists\n"
+#define ERR_TOO_MANY_FLIGHTS "too many flights\n"
 #define ERR_INVALID_DATE "invalid date\n"
+#define ERR_INVALID_DURATION "invalid duration\n"
+#define ERR_INVALID_CAPACITY "invalid capacity\n"
 
 /* Custom Types (Structures) */
 typedef struct {
@@ -51,7 +54,7 @@ typedef struct {
     int capacity;
 } Flight;
 
-/* "Add Airport" command function: */
+/* "Add Airport" command functions: */
 int new_airport(Airport airports_vector[], int airports_counter);
 void sort_airports(Airport airports_vector[], int airports_counter);
 
@@ -59,9 +62,14 @@ void sort_airports(Airport airports_vector[], int airports_counter);
 void list_airports();
 
 /* "Add Flight" command function: */
-int new_flight(Flight flight_vec[], int flight_count);
+int new_flight(Airport air_vec[], int air_count, Flight flight_vec[],
+               int flight_count, int date);
 
-/* "Set time" command function: */
+/* "List departures" command function */
+
+/* "Set time" command functions: */
 int step_date(int last_date);
+int check_date(int last_date, int new_date);
 int date2int(int day, int month, int year);
 int time2int(int hours, int minutes);
+int same_day(int date, int day, int month, int year);

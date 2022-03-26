@@ -1,5 +1,4 @@
 #include "commands.h"
-#include <string.h>
 
 static void add_airport_to_vector(char id[], char country[], char city[],
                                   Airport airports_vector[],
@@ -23,7 +22,7 @@ static int check_invalid_id(char id[]) {
 }
 
 /* Check if the new airport will not exceed the limit */
-static int check_2_many(int airports_counter) {
+static int check_2_many_airports(int airports_counter) {
     if (airports_counter >= MAX_AIRPORTS) {
         printf(ERR_TOO_MANY_AIRPORTS);
         return 0;
@@ -47,7 +46,7 @@ static int check_errors_new_airport(Airport airports_vector[],
                                     int airports_counter, char id[]) {
     int status_id, status_2_many, status_duplicate;
     status_id = check_invalid_id(id);
-    status_2_many = check_2_many(airports_counter);
+    status_2_many = check_2_many_airports(airports_counter);
     status_duplicate =
         check_duplicates(airports_vector, id, airports_counter);
     return (status_id && status_2_many && status_duplicate) ? 1 : 0;
