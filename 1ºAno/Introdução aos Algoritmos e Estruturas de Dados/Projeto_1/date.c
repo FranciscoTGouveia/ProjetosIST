@@ -49,3 +49,52 @@ int date2int(int day, int month, int year) {
 
     return date;
 }
+
+static int advance1day(int date) {
+    int date_day = (date & 0xff);
+    int date_month = ((date >> 8) & 0xff);
+    int date_year = ((date >> 16) & 0xffff);
+    if (date_month == 12 && date_day == 31) {
+        date = date2int(1, 1, date_year + 1);
+    } else if (date_month == 1 || date_month == 3 || date_month == 5 ||
+               date_month == 7 || date_month == 8 || date_month == 10 ||
+               date_month == 12) {
+        if (date_day < 31) {
+            date = date2int(date_day + 1, date_month, date_year);
+        } else {
+            date = date2int(1, date_month + 1, date_year);
+        }
+    } else if (date_month == 2) {
+        if (date_day < 28) {
+            date = date2int(date_day + 1, date_month, date_year);
+        } else {
+            date = date2int(1, date_month + 1, date_year);
+        }
+
+    } else {
+        if (date_day < 30) {
+            date = date2int(date_day + 1, date_month, date_year);
+        } else {
+            date = date2int(1, date_month + 1, date_year);
+        }
+    }
+
+    return date;
+}
+
+int calculate_arrival_time(int arr_time) {
+    int new_hour, new_min;
+    if (((arr_time / 60) - 24) >= 0) {
+        new_hour = (arr_time / 60) - 24;
+        new_min = arr_time % 60;
+        arr_time = time2int(new_hour, new_min);
+    }
+    return arr_time;
+}
+
+int calculate_arrival_date(int arr_time, int date) {
+    if (((arr_time / 60) - 24) >= 0) {
+        date = advance1day(date);
+    }
+    return date;
+}

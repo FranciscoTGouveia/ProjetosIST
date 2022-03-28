@@ -21,7 +21,8 @@ int main() {
                 break;
             }
             case LIST_AIRPORTS_CMD: {
-                list_airports(airports_vector, airports_counter);
+                list_airports(airports_vector, airports_counter,
+                              flights_vector, flights_counter);
                 break;
             }
 
@@ -33,12 +34,15 @@ int main() {
                 break;
             }
             case LIST_DEPARTURES_CMD: {
-                /*list_departures(airports_vector, airports_counter,
+                list_departures(airports_vector, airports_counter,
                                 flights_vector, flights_counter);
-                break;*/
+                break;
             }
-            case LIST_ARRIVALS_CMD:
-                return 0;
+            case LIST_ARRIVALS_CMD: {
+                list_arrivals(airports_vector, airports_counter,
+                              flights_vector, flights_counter);
+                break;
+            }
             case STEP_DATE_CMD: {
                 date = step_date(date);
                 break;

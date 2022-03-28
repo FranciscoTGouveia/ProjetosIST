@@ -59,13 +59,24 @@ int new_airport(Airport airports_vector[], int airports_counter);
 void sort_airports(Airport airports_vector[], int airports_counter);
 
 /* "List" command function: */
-void list_airports(Airport airports_vector[], int airports_counter);
+void list_airports(Airport airports_vector[], int airports_counter,
+                   Flight flight_vec[], int flight_count);
+int get_num_flights_airport(Flight flight_vec[], int flight_count, char id[]);
 
 /* "Add Flight" command function: */
 int new_flight(Airport air_vec[], int air_count, Flight flight_vec[],
                int flight_count, int date);
+int binary_search(Airport air_vec[], char target[], int l, int r);
 
 /* "List departures" command function */
+void list_departures(Airport air_vec[], int air_count, Flight flight_vec[],
+                     int flight_count);
+void sort_flights(Flight flight_vec[], int flights_count);
+int check_airport(Airport air_vec[], int air_count, char air_target[]);
+void list_arrivals(Airport air_vec[], int air_count, Flight flight_vec[],
+                   int flight_count);
+int calculate_arrival_time(int arr_time);
+int calculate_arrival_date(int arr_time, int date);
 
 /* "Set time" command functions: */
 int step_date(int last_date);
