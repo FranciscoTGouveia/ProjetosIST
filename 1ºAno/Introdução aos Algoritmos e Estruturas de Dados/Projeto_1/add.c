@@ -1,12 +1,11 @@
 #include "commands.h"
 
 static void add_airport_to_vector(char id[], char country[], char city[],
-                                  Airport airports_vector[],
-                                  int airports_counter) {
+                                  Airport air_vec[], int air_count) {
     /* Add new airport to airports vector */
-    strcpy(airports_vector[airports_counter].id, id);
-    strcpy(airports_vector[airports_counter].country, country);
-    strcpy(airports_vector[airports_counter].city, city);
+    strcpy(air_vec[air_count].id, id);
+    strcpy(air_vec[air_count].country, country);
+    strcpy(air_vec[air_count].city, city);
 }
 
 static int check_invalid_id(char id[]) {
@@ -27,12 +26,11 @@ static int check_2_many_airports(int air_count) {
     return (air_count < MAX_AIRPORTS);
 }
 
-static int check_duplicates(Airport airports_vector[], char id[],
-                            int airports_counter) {
+static int check_duplicates(Airport air_vec[], char id[], int air_count) {
     /* Check if there isn't already an airport with the same ID */
     int i;
-    for (i = 0; i < airports_counter; i++) {
-        if (strcmp(airports_vector[i].id, id) == 0) {
+    for (i = 0; i < air_count; i++) {
+        if (strcmp(air_vec[i].id, id) == 0) {
             printf(ERR_DUPLICATE_AIRPORT);
             return 0;
         }
@@ -40,11 +38,11 @@ static int check_duplicates(Airport airports_vector[], char id[],
     return 1;
 }
 
-static int check_errors_new_airport(Airport airports_vector[],
-                                    int airports_counter, char id[]) {
+static int check_errors_new_airport(Airport air_vec[], int air_count,
+                                    char id[]) {
     /* Agreggate all error-checking in a single function */
-    return (check_invalid_id(id) && check_2_many_airports(airports_counter) &&
-            check_duplicates(airports_vector, id, airports_counter));
+    return (check_invalid_id(id) && check_2_many_airports(air_count) &&
+            check_duplicates(air_vec, id, air_count));
 }
 
 void sort_airports(Airport air_vec[], int vec_size) {
