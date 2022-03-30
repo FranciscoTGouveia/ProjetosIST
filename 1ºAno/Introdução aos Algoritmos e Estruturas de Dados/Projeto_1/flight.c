@@ -34,23 +34,23 @@ int binary_search(Airport air_vec[], char target[], int l, int r) {
     if (r >= l) {
         mid = l + (r - l) / 2;
         if (strcmp(air_vec[mid].id, target) == 0) {
-            return 1;
+            return mid;
         } else if (strcmp(air_vec[mid].id, target) > 0) {
             return binary_search(air_vec, target, l, mid - 1);
         } else {
             return binary_search(air_vec, target, mid + 1, r);
         }
     }
-    return 0;
+    return -1;
 }
 
 static int check_airports_exist(Airport air_vec[], char id_dep[],
                                 char id_arr[], int air_count) {
-    if (!(binary_search(air_vec, id_dep, 0, air_count - 1))) {
+    if (binary_search(air_vec, id_dep, 0, air_count - 1) == -1) {
         printf("%s: ", id_dep);
         printf(ERR_NO_SUCH_AIRPORT_ID);
         return 0;
-    } else if (!(binary_search(air_vec, id_arr, 0, air_count - 1))) {
+    } else if (binary_search(air_vec, id_arr, 0, air_count - 1) == -1) {
         printf("%s: ", id_arr);
         printf(ERR_NO_SUCH_AIRPORT_ID);
         return 0;

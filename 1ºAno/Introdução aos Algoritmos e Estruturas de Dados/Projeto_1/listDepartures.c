@@ -37,7 +37,7 @@ static void list_flights_dep(Flight flight_vec[], int flight_count) {
 }
 
 int check_airport(Airport air_vec[], int air_count, char air_target[]) {
-    if (!(binary_search(air_vec, air_target, 0, air_count))) {
+    if (binary_search(air_vec, air_target, 0, air_count) == -1) {
         printf("%s: ", air_target);
         printf(ERR_NO_SUCH_AIRPORT_ID);
         return 0;
