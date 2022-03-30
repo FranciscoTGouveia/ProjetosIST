@@ -23,13 +23,10 @@ static int check_invalid_id(char id[]) {
 }
 
 
-static int check_2_many_airports(int airports_counter) {
-    /* Check if the new airport will not exceed the limit */    
-    if (airports_counter >= MAX_AIRPORTS) { 
-        printf(ERR_TOO_MANY_AIRPORTS);
-        return 0;
-    }
-    return 1;
+static int check_2_many_airports(int air_count) {
+    /* Check if the new airport will not exceed the limit */
+    if (air_count >= MAX_AIRPORTS) printf(ERR_TOO_MANY_AIRPORTS);
+    return (air_count < MAX_AIRPORTS);
 }
 
 

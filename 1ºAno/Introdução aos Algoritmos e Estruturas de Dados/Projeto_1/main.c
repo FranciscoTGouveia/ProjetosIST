@@ -10,43 +10,34 @@ int main() {
 
     while ((action = getchar()) != EOF) {
         switch (action) {
-            case QUIT_CMD: {
+            case QUIT_CMD:
                 return 0;
-            }
-            case ADD_AIRPORT_CMD: {
+            case ADD_AIRPORT_CMD:
                 if (new_airport(airports_vector, airports_counter)) {
                     airports_counter++;
                     sort_airports(airports_vector, airports_counter);
                 }
                 break;
-            }
-            case LIST_AIRPORTS_CMD: {
+            case LIST_AIRPORTS_CMD:
                 list_airports(airports_vector, airports_counter,
                               flights_vector, flights_counter);
                 break;
-            }
-
-            case ADD_FLIGHT_CMD: {
+            case ADD_FLIGHT_CMD:
                 if (new_flight(airports_vector, airports_counter,
-                               flights_vector, flights_counter, date)) {
+                               flights_vector, flights_counter, date))
                     flights_counter++;
-                }
                 break;
-            }
-            case LIST_DEPARTURES_CMD: {
+            case LIST_DEPARTURES_CMD:
                 list_departures(airports_vector, airports_counter,
                                 flights_vector, flights_counter);
                 break;
-            }
-            case LIST_ARRIVALS_CMD: {
+            case LIST_ARRIVALS_CMD:
                 list_arrivals(airports_vector, airports_counter,
                               flights_vector, flights_counter);
                 break;
-            }
-            case STEP_DATE_CMD: {
+            case STEP_DATE_CMD:
                 date = step_date(date);
                 break;
-            }
         }
     }
     return 0;
