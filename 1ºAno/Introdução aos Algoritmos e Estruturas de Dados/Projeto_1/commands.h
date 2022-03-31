@@ -55,7 +55,7 @@ typedef struct {
 } Flight;
 
 /* "Add Airport" command functions: */
-int new_airport(Airport airports_vector[], int airports_counter);
+int new_airport(Airport airports_vector[], int *airports_counter);
 void sort_airports(Airport airports_vector[], int airports_counter);
 
 /* "List" command function: */
@@ -63,8 +63,8 @@ void list_airports(Airport airports_vector[], int airports_counter,
                    Flight flight_vec[], int flight_count);
 
 /* "Add Flight" command function: */
-int new_flight(Airport air_vec[], int air_count, Flight flight_vec[],
-               int flight_count, int date);
+void new_flight(Airport air_vec[], int air_count, Flight flight_vec[],
+                int *flight_count, int date);
 int binary_search(Airport air_vec[], char target[], int l, int r);
 
 /* "List departures" command function */

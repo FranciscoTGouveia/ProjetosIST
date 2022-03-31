@@ -4,18 +4,14 @@ static void execute(char action, Airport air_vec[], int *air_count,
                     Flight flights_vec[], int *flights_count, int *date) {
     switch (action) {
         case ADD_AIRPORT_CMD:
-            if (new_airport(air_vec, *air_count)) {
-                (*air_count)++;
-                sort_airports(air_vec, *air_count);
-            }
+            new_airport(air_vec, air_count);
             break;
         case LIST_AIRPORTS_CMD:
             list_airports(air_vec, *air_count, flights_vec, *flights_count);
             break;
         case ADD_FLIGHT_CMD:
-            if (new_flight(air_vec, *air_count, flights_vec, *flights_count,
-                           *date))
-                (*flights_count)++;
+            new_flight(air_vec, *air_count, flights_vec, flights_count,
+                       *date);
             break;
         case LIST_DEPARTURES_CMD:
             list_departures(air_vec, *air_count, flights_vec, *flights_count);
