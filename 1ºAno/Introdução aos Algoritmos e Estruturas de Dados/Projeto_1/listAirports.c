@@ -7,6 +7,7 @@ static int check_if_airport(Airport air_vec[], int air_count, char id[]) {
     return 0;
 }
 
+
 static int num_flights(Flight flight_vec[], int flight_count, char id[]) {
     /* Iterate over flight's vector and count the departures */
     int i, counter = 0;
@@ -16,6 +17,7 @@ static int num_flights(Flight flight_vec[], int flight_count, char id[]) {
     return counter;
 }
 
+
 static void print_airport_info(Airport airport, Flight flight_vec[],
                                int flight_count) {
     int flights = num_flights(flight_vec, flight_count, airport.id);
@@ -23,12 +25,14 @@ static void print_airport_info(Airport airport, Flight flight_vec[],
            flights);
 }
 
+
 static void get_airport_info_by_id(char id[MAX_ID + 1], Airport air_vec[],
                                    int air_count, Flight flight_vec[],
                                    int flight_count) {
     int index = binary_search(air_vec, id, 0, air_count);
     print_airport_info(air_vec[index], flight_vec, flight_count);
 }
+
 
 void list_airports(Airport air_vec[], int air_count, Flight flight_vec[],
                    int flight_count) {
