@@ -1,10 +1,10 @@
 #include "commands.h"
 #include <stdio.h>
 
-/* Date is stored in a single bit:
-    1ºbit: day
-    2ºbit: month
-    3º and 4º bits: year
+/* Date is stored in a single byte:
+    1ºbyte: day
+    2ºbyte: month
+    3º and 4º bytes: year
 */
 
 int time2int(int hours, int minutes) { return (hours * 60) + minutes; }
