@@ -10,6 +10,7 @@
 int time2int(int hours, int minutes) { return (hours * 60) + minutes; }
 
 int same_day(int date, int day, int month, int year) {
+    /*  */
     int date_day = (date & 0xff);
     int date_month = ((date >> 8) & 0xff);
     int date_year = ((date >> 16) & 0xffff);
@@ -50,33 +51,32 @@ int date2int(int day, int month, int year) {
     return date;
 }
 
+static int number_in_vector(int num_vec[], int num_count, int target) {
+    int i;
+    for (i = 0; i < num_count; i++) {
+        if (num_vec[i] == target) return 1;
+    }
+    return 0;
+}
+
 static int advance1day(int date) {
-    int date_day = (date & 0xff);
-    int date_month = ((date >> 8) & 0xff);
-    int date_year = ((date >> 16) & 0xffff);
-    if (date_month == 12 && date_day == 31) {
-        date = date2int(1, 1, date_year + 1);
-    } else if (date_month == 1 || date_month == 3 || date_month == 5 ||
-               date_month == 7 || date_month == 8 || date_month == 10 ||
-               date_month == 12) {
-        if (date_day < 31) {
-            date = date2int(date_day + 1, date_month, date_year);
-        } else {
-            date = date2int(1, date_month + 1, date_year);
-        }
-    } else if (date_month == 2) {
-        if (date_day < 28) {
-            date = date2int(date_day + 1, date_month, date_year);
-        } else {
-            date = date2int(1, date_month + 1, date_year);
-        }
+    int day = (date & 0xff);
+    int month = ((date >> 8) & 0xff);
+    int year = ((date >> 16) & 0xffff);
+    int months31[7] = {1, 3, 5, 7, 8, 10, 12};
+    if (month == 12 && day == 31) {
+        date = date2int(1, 1, year + 1);
+    } else if (number_in_vector(months31, 7, month)) {
+        date = (day < 31) ? date2int(day + 1, month, year)
+                          : date2int(1, month + 1, year);
+
+    } else if (month == 2) {
+        date = (day < 28) ? date2int(day + 1, month, year)
+                          : date2int(1, month + 1, year);
 
     } else {
-        if (date_day < 30) {
-            date = date2int(date_day + 1, date_month, date_year);
-        } else {
-            date = date2int(1, date_month + 1, date_year);
-        }
+        date = (day < 30) ? date2int(day + 1, month, year)
+                          : date2int(1, month + 1, year);
     }
 
     return date;
