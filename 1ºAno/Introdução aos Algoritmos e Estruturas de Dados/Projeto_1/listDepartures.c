@@ -1,6 +1,7 @@
 #include "commands.h"
 
 void sort_flights(Flight flight_vec[], int flights_count) {
+    /* Implement a bubble sort to sort by date and time */
     int i, j;
     Flight temp;
     for (i = 0; i < (flights_count - 1); i++) {
@@ -16,7 +17,9 @@ void sort_flights(Flight flight_vec[], int flights_count) {
     }
 }
 
+
 static void list_flights_dep(Flight flight_vec[], int flight_count) {
+    /* Print flight's info that departure from the airport (argument) */
     int i, day, month, year, hours, minutes, date, time;
     char flight_code[MAX_FLIGHT_CODE + 1], id_dep[MAX_ID + 1],
         id_arr[MAX_ID + 1];
@@ -36,7 +39,9 @@ static void list_flights_dep(Flight flight_vec[], int flight_count) {
     }
 }
 
+
 int check_airport(Airport air_vec[], int air_count, char air_target[]) {
+    /* Check if there the air_target airport in airports_vector */
     if (binary_search(air_vec, air_target, 0, air_count) == -1) {
         printf("%s: ", air_target);
         printf(ERR_NO_SUCH_AIRPORT_ID);
@@ -47,6 +52,7 @@ int check_airport(Airport air_vec[], int air_count, char air_target[]) {
 
 void list_departures(Airport air_vec[], int air_count, Flight flight_vec[],
                      int flight_count) {
+    /* Create a vector with the flights that departure from air_target */
     int i, size_new_flight_vec = 0;
     char air_target[MAX_ID + 1];
     Flight new_flight_vec[MAX_FLIGHTS];

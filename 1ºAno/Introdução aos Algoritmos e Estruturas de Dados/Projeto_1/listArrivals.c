@@ -1,6 +1,7 @@
 #include "commands.h"
 
 static void list_flights_arr(Flight flight_vec[], int flight_count) {
+    /* Print all flights info that land in the airport passed as argument */
     int i, day, month, year, hours, minutes, date, time;
     char flight_code[MAX_FLIGHT_CODE + 1], id_dep[MAX_ID + 1],
         id_arr[MAX_ID + 1];
@@ -20,8 +21,10 @@ static void list_flights_arr(Flight flight_vec[], int flight_count) {
     }
 }
 
+
 void list_arrivals(Airport air_vec[], int air_count, Flight flight_vec[],
                    int flight_count) {
+    /* Create a vector with just the flights that land in air_target */
     int i, size_new_flight_vec = 0, new_time, new_date;
     char air_target[MAX_ID + 1];
     Flight new_flight_vec[MAX_FLIGHTS];

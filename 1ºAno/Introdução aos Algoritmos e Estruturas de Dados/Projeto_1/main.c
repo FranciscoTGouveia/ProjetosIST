@@ -2,6 +2,7 @@
 
 static void execute(char action, Airport air_vec[], int *air_count,
                     Flight flights_vec[], int *flights_count, int *date) {
+    /* Call the appropriate function for the command */
     switch (action) {
         case ADD_AIRPORT_CMD:
             new_airport(air_vec, air_count);
@@ -25,15 +26,17 @@ static void execute(char action, Airport air_vec[], int *air_count,
     }
 }
 
+
 int main() {
-    char action;
+    /* Read a command key and send it to execute */
+    char command;
     Airport air_vec[MAX_AIRPORTS];
     Flight flights_vec[MAX_FLIGHTS];
     int air_count = 0, flights_count = 0;
     int date = date2int(1, 1, 2022);
 
-    while ((action = getchar()) != EOF && action != QUIT_CMD) {
-        execute(action, air_vec, &air_count, flights_vec, &flights_count,
+    while ((command = getchar()) != EOF && command != QUIT_CMD) {
+        execute(command, air_vec, &air_count, flights_vec, &flights_count,
                 &date);
     }
     return 0;
