@@ -1,6 +1,6 @@
 #include "commands.h"
 
-static int check_flight_code(char code[]) {
+int check_flight_code(char code[]) {
     /* A flight code has 2 uppercase letters anda number between 1 and 9999 */
     int status = 1;
     if (strlen(code) < 3 || strlen(code) > 6) {
@@ -16,7 +16,6 @@ static int check_flight_code(char code[]) {
     return status;
 }
 
-
 static int check_already_exists(Flight flight_vec[], int flight_count,
                                 char code[], int day, int month, int year) {
     /* Iterate over flights and check if there isn't a similar code */
@@ -30,7 +29,6 @@ static int check_already_exists(Flight flight_vec[], int flight_count,
     }
     return 1;
 }
-
 
 int binary_search(Airport air_vec[], char target[], int l, int r) {
     /* Implement binary search since the air_vec is sorted */
@@ -48,10 +46,9 @@ int binary_search(Airport air_vec[], char target[], int l, int r) {
     return -1;
 }
 
-
 static int check_airports_exist(Airport air_vec[], char id_dep[],
                                 char id_arr[], int air_count) {
-    /* Check if the airports of arrival and departure exist */ 
+    /* Check if the airports of arrival and departure exist */
     if (binary_search(air_vec, id_dep, 0, air_count - 1) == -1) {
         printf("%s: ", id_dep);
         printf(ERR_NO_SUCH_AIRPORT_ID);
@@ -64,7 +61,6 @@ static int check_airports_exist(Airport air_vec[], char id_dep[],
     return 1;
 }
 
-
 static int check_2_many_flights(int flight_count) {
     /* Check if the flight_vector can take more flights */
     if (flight_count >= MAX_FLIGHTS) {
@@ -73,7 +69,6 @@ static int check_2_many_flights(int flight_count) {
     }
     return 1;
 }
-
 
 static int check_flight_date(int day, int month, int year, int date) {
     /* Check if the flight has a valid date */
@@ -84,7 +79,6 @@ static int check_flight_date(int day, int month, int year, int date) {
     }
     return 1;
 }
-
 
 static int check_duration(int dur_h, int dur_m) {
     /* Check if the flight has a valid duration */
@@ -97,16 +91,14 @@ static int check_duration(int dur_h, int dur_m) {
     return 1;
 }
 
-
 static int check_capacity(int capacity) {
     /* Check if the capacity of the flight is valid */
-    if (!(capacity >= 10 && capacity <= 100)) {
+    if (!(capacity >= 10)) {
         printf(ERR_INVALID_CAPACITY);
         return 0;
     }
     return 1;
 }
-
 
 static int check_if_flight(Airport air_vec[], int air_count,
                            Flight flight_vec[], int flight_count,
@@ -122,7 +114,6 @@ static int check_if_flight(Airport air_vec[], int air_count,
             check_flight_date(day, month, year, date) &&
             check_duration(dur_h, dur_m) && check_capacity(capacity));
 }
-
 
 static void print_all_flights(Flight flight_vec[], int flight_count) {
     /* Iterate over flights_vector and print flight info */
@@ -145,7 +136,6 @@ static void print_all_flights(Flight flight_vec[], int flight_count) {
     }
 }
 
-
 static void add_flight_to_vector(Flight flight_vec[], int flight_count,
                                  char flight_code[], char id_dep[],
                                  char id_arr[], int day, int month, int year,
@@ -159,6 +149,8 @@ static void add_flight_to_vector(Flight flight_vec[], int flight_count,
     flight_vec[flight_count].time = time2int(dep_h, dep_m);
     flight_vec[flight_count].duration = time2int(dur_h, dur_m);
     flight_vec[flight_count].capacity = capacity;
+    flight_vec[flight_count].reservations = NULL;
+    flight_vec[flight_count].num_res = 0;
 }
 
 void new_flight(Airport air_vec[], int air_count, Flight flight_vec[],
