@@ -41,6 +41,10 @@
 #define ERR_NOT_FOUND "not found\n"
 #define ERR_INVALID_RESERVATION_CODE "invalid reservation code\n"
 #define ERR_FLIGHT_DOES_NOT_EXIST "flight does not exist\n"
+#define ERR_RESERVATION_ALREADY_USED "flight reservation already used\n"
+#define ERR_TOO_MANY_RESERVATIONS "too many reservations\n"
+#define ERR_INVALID_PASSENGERS "invalid passenger number\n"
+#define ERR_NO_MEMORY "No memory\n"
 
 /* Custom Types (Structures) */
 typedef struct {
@@ -112,11 +116,16 @@ int same_day(int date, int day, int month, int year);
 
 /* "Add reservation" command functions: */
 void add_reservation(int last_date, Flight flight_vec[], int flight_count);
+int check_invalid_reservation(char *res_code);
 
 /* "Delete" command functions: */
 int delete_fl_rs(Flight flights_vec[], int *flights_count);
 Reservation *llist_destroy(Reservation *head);
+Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
+                          int *status);
 int destroy_all_res(Flight flight_vec[], int flight_count);
+int check_if_flight_code(Flight flight_vec[], int flight_count,
+                         char *flight_code, int date);
 
 /* Hash Table related functions: */
 /*HT_Item *create_item(char *key, Reservation *res);
