@@ -71,7 +71,7 @@ typedef struct {
     int capacity;
 } Flight;
 
-/*typedef struct {
+typedef struct {
     char *key;
     Reservation *res;
 } HT_Item;
@@ -80,7 +80,7 @@ typedef struct {
     HT_Item **items;
     int size;
     int count;
-} Hash_Table;*/
+} Hash_Table;
 
 /* "Add Airport" command functions: */
 int new_airport(Airport airports_vector[], int *airports_counter);
@@ -115,7 +115,8 @@ int time2int(int hours, int minutes);
 int same_day(int date, int day, int month, int year);
 
 /* "Add reservation" command functions: */
-void add_reservation(int last_date, Flight flight_vec[], int flight_count);
+void add_reservation(int last_date, Flight flight_vec[], int flight_count,
+                     Hash_Table *my_ht, int hash_size);
 int check_invalid_reservation(char *res_code);
 
 /* "Delete" command functions: */
@@ -123,15 +124,14 @@ int delete_fl_rs(Flight flights_vec[], int *flights_count);
 Reservation *llist_destroy(Reservation *head);
 Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
                           int *status);
-int destroy_all_res(Flight flight_vec[], int flight_count);
+int destroy_all_res(Flight flight_vec[], int flight_count,
+                    Hash_Table *my_table);
 int check_if_flight_code(Flight flight_vec[], int flight_count,
                          char *flight_code, int date);
 
 /* Hash Table related functions: */
-/*HT_Item *create_item(char *key, Reservation *res);
-Hash_Table *create_table(int size);
-void free_ht_item(HT_Item *item);
-void free_ht_table(Hash_Table *table);
-void ht_insert(Hash_Table *table, char *key, Reservation *value,
-               int hash_size);
-Reservation *ht_search(Hash_Table *table, char *key, int hash_size);*/
+Hash_Table *create_hash_table(int size);
+void create_ht_item(char *res_code, int hash_size, Hash_Table *htable,
+                    Reservation *res);
+Reservation *ht_search(Hash_Table *htable, char *res_code);
+void destroy_hash_table(Hash_Table *my_ht);

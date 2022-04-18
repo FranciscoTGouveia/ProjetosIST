@@ -22,6 +22,7 @@ Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
             flight->num_res -= temp->num_pass;
             free(temp->res_code);
             free(temp);
+            break;
         }
         prev = temp;
         temp = temp->next;
@@ -29,14 +30,25 @@ Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
     return head;
 }
 
-Reservation *llist_push(Reservation *head, char *res_code, int num_pass) {
+Reservation *llist_push(Flight flight_vec[], int flight_count,
+                        Reservation *head, char *res_code, int num_pass,
+                        Hash_Table *my_ht, int hash_size) {
+
     Reservation *current;
     Reservation *new = (Reservation *)malloc(sizeof(Reservation));
+    char *code = (char *)malloc(strlen(res_code) + 1);
+    if (new == NULL || code == NULL) {
+        printf(ERR_NO_MEMORY);
+        destroy_all_res(flight_vec, flight_count, my_ht);
+        exit(0);
+    }
+    strcpy(code, res_code);
     new->num_pass = num_pass;
-    new->res_code = res_code;
-    if (head == NULL || strcmp(head->res_code, new->res_code) >= 0) {
+    new->res_code = code;
+    if (head == NULL || strcmp(head->res_code, new->res_code) > 0) {
         new->next = head;
         head = new;
+        create_ht_item(code, hash_size, my_ht, new);
         return new;
     }
     current = head;
@@ -46,6 +58,8 @@ Reservation *llist_push(Reservation *head, char *res_code, int num_pass) {
     }
     new->next = current->next;
     current->next = new;
+
+    create_ht_item(code, hash_size, my_ht, new);
     return head;
 }
 
@@ -65,13 +79,14 @@ void llist_print(Reservation *head) {
 
 int add_reservation2flight(Flight flight_vec[], int flight_count,
                            char *flight_code, int date, char *res_code,
-                           int passengers) {
+                           int passengers, Hash_Table *my_ht, int hash_size) {
     int i;
     for (i = 0; i < flight_count; i++) {
         if (date == flight_vec[i].date &&
             strcmp(flight_code, flight_vec[i].flight_code) == 0) {
-            flight_vec[i].reservations =
-                llist_push(flight_vec[i].reservations, res_code, passengers);
+            flight_vec[i].reservations = llist_push(
+                flight_vec, flight_count, flight_vec[i].reservations,
+                res_code, passengers, my_ht, hash_size);
             flight_vec[i].num_res += passengers;
             return 1;
         }
@@ -123,9 +138,15 @@ int check_if_flight_code(Flight flight_vec[], int flight_count,
     return 0;
 }
 
-int check_reservation_code_used(Flight flight_vec[], int flight_count,
-                                char *res_code) {
-    int i;
+int check_reservation_code_used(char *res_code, Hash_Table *htable) {
+    Reservation *res = ht_search(htable, res_code);
+    if (res != NULL) {
+        printf("%s: ", res_code);
+        printf(ERR_RESERVATION_ALREADY_USED);
+        return 0;
+    }
+    return 1;
+    /*int i;
     Reservation *temp;
     for (i = 0; i < flight_count; i++) {
         temp = flight_vec[i].reservations;
@@ -138,7 +159,7 @@ int check_reservation_code_used(Flight flight_vec[], int flight_count,
             temp = temp->next;
         }
     }
-    return 1;
+    return 1;*/
 }
 
 int check_2_many_reservations(Flight flight_vec[], int flight_count,
@@ -172,11 +193,11 @@ int check_passengers_num(int passengers) {
 
 int check_reservation(char *res_code, int last_date, int new_date,
                       Flight flight_vec[], int flight_count,
-                      char *flight_code, int passengers) {
+                      char *flight_code, int passengers, Hash_Table *ht) {
     return (check_invalid_reservation(res_code) &&
             check_if_flight_code(flight_vec, flight_count, flight_code,
                                  new_date) &&
-            check_reservation_code_used(flight_vec, flight_count, res_code) &&
+            check_reservation_code_used(res_code, ht) &&
             check_2_many_reservations(flight_vec, flight_count, flight_code,
                                       passengers) &&
             check_reservation_date(last_date, new_date) &&
@@ -185,12 +206,13 @@ int check_reservation(char *res_code, int last_date, int new_date,
                : 0;
 }
 
-void add_reservation(int last_date, Flight flight_vec[], int flight_count) {
+void add_reservation(int last_date, Flight flight_vec[], int flight_count,
+                     Hash_Table *my_ht, int hash_size) {
     /* Max input is 65535 chars */
     /* flight_code is 7, day 1, month 1, year 1, passengers 1 */
     /* the final 65524 */
     char buffer[65535];
-    char flight_code[7], aux_code[65524], *res_code;
+    char flight_code[7], aux_code[65524] /*, *res_code*/;
     int day, month, year, date, passengers, args;
     scanf("%[^\n]s", buffer);
     args = sscanf(buffer, "%s %d-%d-%d %s %d", flight_code, &day, &month,
@@ -198,11 +220,10 @@ void add_reservation(int last_date, Flight flight_vec[], int flight_count) {
     date = date2int(day, month, year);
     if (args == 6) {
         if (check_reservation(aux_code, last_date, date, flight_vec,
-                              flight_count, flight_code, passengers)) {
-            res_code = (char *)malloc(strlen(aux_code) + 1);
-            strcpy(res_code, aux_code);
+                              flight_count, flight_code, passengers, my_ht)) {
             add_reservation2flight(flight_vec, flight_count, flight_code,
-                                   date, res_code, passengers);
+                                   date, aux_code, passengers, my_ht,
+                                   hash_size);
         }
     } else {
         if (check_if_flight_code(flight_vec, flight_count, flight_code,

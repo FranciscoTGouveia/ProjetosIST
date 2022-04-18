@@ -20,12 +20,9 @@ void delete_flight(Flight flight_vec[], int *flight_count,
 void delete_reservation(Flight flight_vec[], int *flight_count,
                         char *res_code) {
     int i, status = 0;
-    if (check_invalid_reservation(res_code)) {
-        for (i = 0; i < *flight_count; i++) {
-            flight_vec[i].reservations =
-                llist_delete(flight_vec[i].reservations, res_code,
-                             &flight_vec[i], &status);
-        }
+    for (i = 0; i < *flight_count; i++) {
+        flight_vec[i].reservations = llist_delete(
+            flight_vec[i].reservations, res_code, &flight_vec[i], &status);
     }
     if (status == 0) printf(ERR_NOT_FOUND);
 }
@@ -45,11 +42,13 @@ int delete_fl_rs(Flight flight_vec[], int *flight_count) {
     return 0;
 }
 
-int destroy_all_res(Flight flight_vec[], int flight_count) {
+int destroy_all_res(Flight flight_vec[], int flight_count,
+                    Hash_Table *my_table) {
     /* Cleaning before the program shuts down */
     int i;
     for (i = 0; i < flight_count; i++) {
         llist_destroy(flight_vec[i].reservations);
     }
+    destroy_hash_table(my_table);
     return 1;
 }
