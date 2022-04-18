@@ -1,6 +1,4 @@
 #include "commands.h"
-#include <stdio.h>
-#include <string.h>
 
 Reservation *llist_pop(Reservation *head) {
     Reservation *n = head->next;
@@ -32,7 +30,7 @@ Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
 
 Reservation *llist_push(Flight flight_vec[], int flight_count,
                         Reservation *head, char *res_code, int num_pass,
-                        Hash_Table *my_ht, int hash_size) {
+                        Hash_Table *my_ht) {
 
     Reservation *current;
     Reservation *new = (Reservation *)malloc(sizeof(Reservation));
@@ -48,7 +46,7 @@ Reservation *llist_push(Flight flight_vec[], int flight_count,
     if (head == NULL || strcmp(head->res_code, new->res_code) > 0) {
         new->next = head;
         head = new;
-        create_ht_item(code, hash_size, my_ht, new);
+        create_ht_item(code, my_ht, new);
         return new;
     }
     current = head;
@@ -59,7 +57,7 @@ Reservation *llist_push(Flight flight_vec[], int flight_count,
     new->next = current->next;
     current->next = new;
 
-    create_ht_item(code, hash_size, my_ht, new);
+    create_ht_item(code, my_ht, new);
     return head;
 }
 
@@ -79,14 +77,14 @@ void llist_print(Reservation *head) {
 
 int add_reservation2flight(Flight flight_vec[], int flight_count,
                            char *flight_code, int date, char *res_code,
-                           int passengers, Hash_Table *my_ht, int hash_size) {
+                           int passengers, Hash_Table *my_ht) {
     int i;
     for (i = 0; i < flight_count; i++) {
         if (date == flight_vec[i].date &&
             strcmp(flight_code, flight_vec[i].flight_code) == 0) {
             flight_vec[i].reservations = llist_push(
                 flight_vec, flight_count, flight_vec[i].reservations,
-                res_code, passengers, my_ht, hash_size);
+                res_code, passengers, my_ht);
             flight_vec[i].num_res += passengers;
             return 1;
         }
@@ -163,10 +161,11 @@ int check_reservation_code_used(char *res_code, Hash_Table *htable) {
 }
 
 int check_2_many_reservations(Flight flight_vec[], int flight_count,
-                              char *flight_code, int pass) {
+                              char *flight_code, int pass, int date) {
     int i;
     for (i = 0; i < flight_count; i++) {
         if (strcmp(flight_vec[i].flight_code, flight_code) == 0 &&
+            flight_vec[i].date == date &&
             flight_vec[i].num_res + pass > flight_vec[i].capacity) {
             printf(ERR_TOO_MANY_RESERVATIONS);
             return 0;
@@ -199,7 +198,7 @@ int check_reservation(char *res_code, int last_date, int new_date,
                                  new_date) &&
             check_reservation_code_used(res_code, ht) &&
             check_2_many_reservations(flight_vec, flight_count, flight_code,
-                                      passengers) &&
+                                      passengers, new_date) &&
             check_reservation_date(last_date, new_date) &&
             check_passengers_num(passengers))
                ? 1
@@ -207,7 +206,7 @@ int check_reservation(char *res_code, int last_date, int new_date,
 }
 
 void add_reservation(int last_date, Flight flight_vec[], int flight_count,
-                     Hash_Table *my_ht, int hash_size) {
+                     Hash_Table *my_ht) {
     /* Max input is 65535 chars */
     /* flight_code is 7, day 1, month 1, year 1, passengers 1 */
     /* the final 65524 */
@@ -222,8 +221,7 @@ void add_reservation(int last_date, Flight flight_vec[], int flight_count,
         if (check_reservation(aux_code, last_date, date, flight_vec,
                               flight_count, flight_code, passengers, my_ht)) {
             add_reservation2flight(flight_vec, flight_count, flight_code,
-                                   date, aux_code, passengers, my_ht,
-                                   hash_size);
+                                   date, aux_code, passengers, my_ht);
         }
     } else {
         if (check_if_flight_code(flight_vec, flight_count, flight_code,

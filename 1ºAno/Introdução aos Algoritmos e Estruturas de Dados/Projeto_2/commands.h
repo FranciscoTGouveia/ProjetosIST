@@ -116,7 +116,7 @@ int same_day(int date, int day, int month, int year);
 
 /* "Add reservation" command functions: */
 void add_reservation(int last_date, Flight flight_vec[], int flight_count,
-                     Hash_Table *my_ht, int hash_size);
+                     Hash_Table *my_ht);
 int check_invalid_reservation(char *res_code);
 
 /* "Delete" command functions: */
@@ -131,7 +131,6 @@ int check_if_flight_code(Flight flight_vec[], int flight_count,
 
 /* Hash Table related functions: */
 Hash_Table *create_hash_table(int size);
-void create_ht_item(char *res_code, int hash_size, Hash_Table *htable,
-                    Reservation *res);
+void create_ht_item(char *res_code, Hash_Table *htable, Reservation *res);
 Reservation *ht_search(Hash_Table *htable, char *res_code);
 void destroy_hash_table(Hash_Table *my_ht);

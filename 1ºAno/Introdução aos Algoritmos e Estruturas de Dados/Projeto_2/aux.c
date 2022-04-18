@@ -7,13 +7,11 @@ unsigned int hash(char *res_code, int hash_size) {
     return h;
 }
 
-void create_ht_item(char *res_code, int hash_size, Hash_Table *htable,
-                    Reservation *res) {
+void create_ht_item(char *res_code, Hash_Table *htable, Reservation *res) {
     HT_Item *item = (HT_Item *)malloc(sizeof(HT_Item));
-    int hash_index = hash(res_code, hash_size);
-    if (htable->items[hash_index] != NULL) {
-        hash_index =
-            (hash_index % 13 * res_code[1] + res_code[8]) % hash_size;
+    int hash_index = hash(res_code, htable->size);
+    while (htable->items[hash_index] != NULL && hash_index < htable->size) {
+        hash_index += 7;
     }
     item->key = res_code;
     item->res = res;
@@ -35,6 +33,12 @@ Reservation *ht_search(Hash_Table *htable, char *res_code) {
     if (item != NULL) {
         if (strcmp(item->key, res_code) == 0) return item->res;
     }
+    /*while (htable->items[ht_index] != NULL) {
+        if (strcmp(htable->items[ht_index]->key, res_code) == 0)
+            return htable->items[ht_index]->res;
+        else
+            ht_index = (ht_index + 7) % htable->size;
+    }*/
     return NULL;
 }
 
