@@ -1,7 +1,7 @@
 #include "commands.h"
 
 unsigned int hash(char *res_code, int hash_size) {
-    int h, a = 31415, b = 27183;
+    long int h, a = 31415, b = 27183;
     for (h = 0; *res_code != '\0'; res_code++, a = a * b % (hash_size - 1))
         h = (a * h + *res_code) % hash_size;
     return h;
@@ -33,12 +33,6 @@ Reservation *ht_search(Hash_Table *htable, char *res_code) {
     if (item != NULL) {
         if (strcmp(item->key, res_code) == 0) return item->res;
     }
-    /*while (htable->items[ht_index] != NULL) {
-        if (strcmp(htable->items[ht_index]->key, res_code) == 0)
-            return htable->items[ht_index]->res;
-        else
-            ht_index = (ht_index + 7) % htable->size;
-    }*/
     return NULL;
 }
 
