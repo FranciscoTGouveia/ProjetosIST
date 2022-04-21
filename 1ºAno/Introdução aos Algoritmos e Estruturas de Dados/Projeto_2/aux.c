@@ -1,7 +1,7 @@
 #include "commands.h"
 
 unsigned int hash(char *res_code, int hash_size) {
-    long int h, a = 31415, b = 27183;
+    int h, a = 31415, b = 27183;
     for (h = 0; *res_code != '\0'; res_code++, a = a * b % (hash_size - 1))
         h = (a * h + *res_code) % hash_size;
     return h;

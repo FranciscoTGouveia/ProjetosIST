@@ -43,7 +43,7 @@ int main() {
     Airport air_vec[MAX_AIRPORTS];
     Flight flights_vec[MAX_FLIGHTS];
     int air_count = 0, flights_count = 0, date, execute_status = 1,
-        hash_size = 35027;
+        hash_size = 19213;
     Hash_Table *my_ht;
     date = date2int(1, 1, 2022);
     my_ht = create_hash_table(hash_size);

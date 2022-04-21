@@ -9,6 +9,7 @@ Reservation *llist_pop(Reservation *head) {
 
 Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
                           int *status) {
+    /* Traverse through the linked list and remove element */
     Reservation *prev = NULL, *temp = head;
     while (temp) {
         if (strcmp(res_code, temp->res_code) == 0) {
@@ -31,7 +32,7 @@ Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
 Reservation *llist_push(Flight flight_vec[], int flight_count,
                         Reservation *head, char *res_code, int num_pass,
                         Hash_Table *my_ht) {
-
+    /* Add a new reservation keeping the linked list sorted */
     Reservation *current;
     Reservation *new = (Reservation *)malloc(sizeof(Reservation));
     char *code = (char *)malloc(strlen(res_code) + 1);
