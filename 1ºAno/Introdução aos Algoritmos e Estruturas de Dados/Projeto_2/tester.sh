@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compile the program
-gcc -ansi -pedantic -Wall -Wextra -Wall -o main main.c add.c listAirports.c flight.c date.c listDepartures.c listArrivals.c reservation.c cleaning.c
+gcc -ansi -pedantic -Wall -Wextra -Wall -p -o main main.c add.c listAirports.c flight.c date.c listDepartures.c listArrivals.c reservation.c cleaning.c aux.c
 
 cd tests/ || exit
 # Pass the tests to the algorithm

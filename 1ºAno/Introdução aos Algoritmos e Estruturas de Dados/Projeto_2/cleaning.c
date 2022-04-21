@@ -2,6 +2,8 @@
 
 void delete_flight(Flight flight_vec[], int *flight_count,
                    char *flight_code) {
+    /* Iterate over the flights vector, and delete a flight from the vector,
+    and delete the linked list of reservations associated with it */
     int i, j, status = 0;
     for (i = 0; i < *flight_count; i++) {
         if (strcmp(flight_code, flight_vec[i].flight_code) == 0) {
@@ -19,6 +21,8 @@ void delete_flight(Flight flight_vec[], int *flight_count,
 
 void delete_reservation(Flight flight_vec[], int *flight_count,
                         char *res_code) {
+    /* Iterate over the flight vector and delete a reservation from the linked
+    list associated with that flight */
     int i, status = 0;
     for (i = 0; i < *flight_count; i++) {
         flight_vec[i].reservations = llist_delete(
@@ -28,7 +32,7 @@ void delete_reservation(Flight flight_vec[], int *flight_count,
 }
 
 int delete_fl_rs(Flight flight_vec[], int *flight_count) {
-    /* This may be the root of the Mooshak's problems! */
+    /* Delete a flight or a reservation, according to the input */
     char buffer[65535];
     scanf("%s", buffer);
 
@@ -44,7 +48,7 @@ int delete_fl_rs(Flight flight_vec[], int *flight_count) {
 
 int destroy_all_res(Flight flight_vec[], int flight_count,
                     Hash_Table *my_table) {
-    /* Cleaning before the program shuts down */
+    /* Clean all the reservations linked lists and the hash table */
     int i;
     for (i = 0; i < flight_count; i++) {
         llist_destroy(flight_vec[i].reservations);

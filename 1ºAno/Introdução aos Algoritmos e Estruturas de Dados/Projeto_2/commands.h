@@ -118,6 +118,8 @@ int same_day(int date, int day, int month, int year);
 void add_reservation(int last_date, Flight flight_vec[], int flight_count,
                      Hash_Table *my_ht);
 int check_invalid_reservation(char *res_code);
+int check_if_flight_code(Flight flight_vec[], int flight_count,
+                         char *flight_code, int date);
 
 /* "Delete" command functions: */
 int delete_fl_rs(Flight flights_vec[], int *flights_count);
@@ -126,8 +128,6 @@ Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
                           int *status);
 int destroy_all_res(Flight flight_vec[], int flight_count,
                     Hash_Table *my_table);
-int check_if_flight_code(Flight flight_vec[], int flight_count,
-                         char *flight_code, int date);
 
 /* Hash Table related functions: */
 Hash_Table *create_hash_table(int size);
