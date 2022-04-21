@@ -1,6 +1,7 @@
 #include "commands.h"
 
 Reservation *llist_pop(Reservation *head) {
+    /* Delete the first element of the linked list */
     Reservation *n = head->next;
     free(head->res_code);
     free(head);
@@ -63,6 +64,7 @@ Reservation *llist_push(Flight flight_vec[], int flight_count,
 }
 
 Reservation *llist_destroy(Reservation *head) {
+    /* Traverse through the linked list and destroy all items */
     while (head) {
         head = llist_pop(head);
     }
@@ -79,6 +81,8 @@ void llist_print(Reservation *head) {
 int add_reservation2flight(Flight flight_vec[], int flight_count,
                            char *flight_code, int date, char *res_code,
                            int passengers, Hash_Table *my_ht) {
+    /* Add a reservation to the reservations linked list associated with the
+    flight */
     int i;
     for (i = 0; i < flight_count; i++) {
         if (date == flight_vec[i].date &&
@@ -95,6 +99,7 @@ int add_reservation2flight(Flight flight_vec[], int flight_count,
 
 int list_reservations(Flight flight_vec[], int flight_count,
                       char *flight_code, int date) {
+    /* List all the reservations for a certain flight */
     int i;
     for (i = 0; i < flight_count; i++) {
         if (date == flight_vec[i].date &&
@@ -125,6 +130,7 @@ int check_invalid_reservation(char *res_code) {
 
 int check_if_flight_code(Flight flight_vec[], int flight_count,
                          char *flight_code, int date) {
+    /* Check if there is a flight with that code */
     int i;
     for (i = 0; i < flight_count; i++) {
         if (strcmp(flight_vec[i].flight_code, flight_code) == 0 &&
@@ -138,6 +144,7 @@ int check_if_flight_code(Flight flight_vec[], int flight_count,
 }
 
 int check_reservation_code_used(char *res_code, Hash_Table *htable) {
+    /* Check if there isn't already a reservation with the same code */
     Reservation *res = ht_search(htable, res_code);
     if (res != NULL) {
         printf("%s: ", res_code);
@@ -145,24 +152,11 @@ int check_reservation_code_used(char *res_code, Hash_Table *htable) {
         return 0;
     }
     return 1;
-    /*int i;
-    Reservation *temp;
-    for (i = 0; i < flight_count; i++) {
-        temp = flight_vec[i].reservations;
-        while (temp) {
-            if (strcmp(temp->res_code, res_code) == 0) {
-                printf("%s: ", res_code);
-                printf(ERR_RESERVATION_ALREADY_USED);
-                return 0;
-            }
-            temp = temp->next;
-        }
-    }
-    return 1;*/
 }
 
 int check_2_many_reservations(Flight flight_vec[], int flight_count,
                               char *flight_code, int pass, int date) {
+    /* Check if a flight can take more passengers */
     int i;
     for (i = 0; i < flight_count; i++) {
         if (strcmp(flight_vec[i].flight_code, flight_code) == 0 &&
@@ -176,6 +170,7 @@ int check_2_many_reservations(Flight flight_vec[], int flight_count,
 }
 
 int check_reservation_date(int last_date, int new_date) {
+    /* Check if the reservation date is valid */
     if (!check_date(last_date, new_date)) {
         printf(ERR_INVALID_DATE);
         return 0;
@@ -184,6 +179,7 @@ int check_reservation_date(int last_date, int new_date) {
 }
 
 int check_passengers_num(int passengers) {
+    /* Check if the number of passengers is valid */
     if (passengers <= 0) {
         printf(ERR_INVALID_PASSENGERS);
         return 0;
@@ -194,6 +190,7 @@ int check_passengers_num(int passengers) {
 int check_reservation(char *res_code, int last_date, int new_date,
                       Flight flight_vec[], int flight_count,
                       char *flight_code, int passengers, Hash_Table *ht) {
+    /* Aggregate all error-checking before adding the reservation */
     return (check_invalid_reservation(res_code) &&
             check_if_flight_code(flight_vec, flight_count, flight_code,
                                  new_date) &&
@@ -211,6 +208,7 @@ void add_reservation(int last_date, Flight flight_vec[], int flight_count,
     /* Max input is 65535 chars */
     /* flight_code is 7, day 1, month 1, year 1, passengers 1 */
     /* the final 65524 */
+    /* Scan for input and had a new reservation */
     char buffer[65535];
     char flight_code[7], aux_code[65524] /*, *res_code*/;
     int day, month, year, date, passengers, args;
