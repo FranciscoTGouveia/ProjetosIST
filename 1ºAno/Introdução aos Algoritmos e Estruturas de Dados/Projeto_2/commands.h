@@ -99,7 +99,7 @@ int binary_search(Airport air_vec[], char target[], int l, int r);
 
 /* "List departures" command function */
 void list_departures(Airport air_vec[], int air_count, Flight flight_vec[],
-                     int flight_count);
+                     int flight_count, int curr_date);
 void sort_flights(Flight flight_vec[], int flights_count);
 int check_airport(Airport air_vec[], int air_count, char air_target[]);
 void list_arrivals(Airport air_vec[], int air_count, Flight flight_vec[],
@@ -122,7 +122,7 @@ int check_if_flight_code(Flight flight_vec[], int flight_count,
                          char *flight_code, int date);
 
 /* "Delete" command functions: */
-int delete_fl_rs(Flight flights_vec[], int *flights_count);
+int delete_fl_rs(Flight flight_vec[], int *flight_count, int curr_date);
 Reservation *llist_destroy(Reservation *head);
 Reservation *llist_delete(Reservation *head, char *res_code, Flight *flight,
                           int *status);

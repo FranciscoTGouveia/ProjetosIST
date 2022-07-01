@@ -16,7 +16,8 @@ static int execute(char action, Airport air_vec[], int *air_count,
                        *date);
             break;
         case LIST_DEPARTURES_CMD:
-            list_departures(air_vec, *air_count, flights_vec, *flights_count);
+            list_departures(air_vec, *air_count, flights_vec, *flights_count,
+                            *date);
             break;
         case LIST_ARRIVALS_CMD:
             list_arrivals(air_vec, *air_count, flights_vec, *flights_count);
@@ -28,7 +29,7 @@ static int execute(char action, Airport air_vec[], int *air_count,
             add_reservation(*date, flights_vec, *flights_count, table);
             break;
         case DELETE_RESERVATION_CMD:
-            delete_fl_rs(flights_vec, flights_count);
+            delete_fl_rs(flights_vec, flights_count, *date);
             break;
         case QUIT_CMD:
             destroy_all_res(flights_vec, *flights_count, table);

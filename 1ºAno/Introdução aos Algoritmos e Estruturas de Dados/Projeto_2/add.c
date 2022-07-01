@@ -10,13 +10,24 @@ static void add_airport_to_vector(char id[], char country[], char city[],
 
 static int check_invalid_id(char id[]) {
     /* Check if an ID is valid (all upper letters) */
-    int i;
-    for (i = 0; i < MAX_ID; i++) {
-        if (!isupper(id[i])) {
+    int i, length;
+    length = strlen(id);
+    if (length < 3 || length > 5) {
+        printf(ERR_INVALID_AIRPORT_ID);
+        return 0;
+    }
+    for (i = 0; i < length; i++) {
+        if (!(islower(id[i]) || isupper(id[i]))) {
             printf(ERR_INVALID_AIRPORT_ID);
             return 0;
         }
     }
+    /*for (i = 0; i < MAX_ID; i++) {
+        if (!isupper(id[i])) {
+            printf(ERR_INVALID_AIRPORT_ID);
+            return 0;
+        }
+    }*/
     return 1;
 }
 

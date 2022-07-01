@@ -17,8 +17,8 @@ void sort_flights(Flight flight_vec[], int flights_count) {
     }
 }
 
-
-static void list_flights_dep(Flight flight_vec[], int flight_count) {
+static void list_flights_dep(Flight flight_vec[], int flight_count,
+                             int curr_date) {
     /* Print flight's info that departure from the airport (argument) */
     int i, day, month, year, hours, minutes, date, time;
     char flight_code[MAX_FLIGHT_CODE + 1], id_dep[MAX_ID + 1],
@@ -31,14 +31,15 @@ static void list_flights_dep(Flight flight_vec[], int flight_count) {
         year = ((date >> 16) & 0xffff);
         hours = time / 60;
         minutes = time % 60;
-        strcpy(flight_code, flight_vec[i].flight_code);
-        strcpy(id_dep, flight_vec[i].id_departure);
-        strcpy(id_arr, flight_vec[i].id_arrival);
-        printf("%s %s %02d-%02d-%02d %02d:%02d\n", flight_code, id_arr, day,
-               month, year, hours, minutes);
+        if (same_day(curr_date, day, month, year)) {
+            strcpy(flight_code, flight_vec[i].flight_code);
+            strcpy(id_dep, flight_vec[i].id_departure);
+            strcpy(id_arr, flight_vec[i].id_arrival);
+            printf("%s %s %02d-%02d-%02d %02d:%02d\n", flight_code, id_arr,
+                   day, month, year, hours, minutes);
+        }
     }
 }
-
 
 int check_airport(Airport air_vec[], int air_count, char air_target[]) {
     /* Check if there the air_target airport in airports_vector */
@@ -51,7 +52,7 @@ int check_airport(Airport air_vec[], int air_count, char air_target[]) {
 }
 
 void list_departures(Airport air_vec[], int air_count, Flight flight_vec[],
-                     int flight_count) {
+                     int flight_count, int curr_date) {
     /* Create a vector with the flights that departure from air_target */
     int i, size_new_flight_vec = 0;
     char air_target[MAX_ID + 1];
@@ -67,5 +68,5 @@ void list_departures(Airport air_vec[], int air_count, Flight flight_vec[],
         }
     }
     sort_flights(new_flight_vec, size_new_flight_vec);
-    list_flights_dep(new_flight_vec, size_new_flight_vec);
+    list_flights_dep(new_flight_vec, size_new_flight_vec, curr_date);
 }
