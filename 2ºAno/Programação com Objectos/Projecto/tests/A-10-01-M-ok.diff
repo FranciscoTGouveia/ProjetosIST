@@ -1,0 +1,20 @@
+*** tests/A-10-01-M-ok.out	2022-10-09 21:58:48.182795003 +0100
+--- tests/A-10-01-M-ok.outhyp	2022-10-11 23:02:08.030066852 +0100
+***************
+*** 15,22 ****
+  6 - Mostrar terminais sem actividade
+  7 - Mostrar terminais com saldo positivo
+  0 - Sair
+! Escolha uma opção: BASIC|969001|cli002|IDLE|0|0
+! CONSULTAS
+  1 - Mostrar todas as comunicações
+  2 - Mostrar comunicações feitas por um cliente
+  3 - Mostrar comunicações recebidas por um cliente
+--- 15,21 ----
+  6 - Mostrar terminais sem actividade
+  7 - Mostrar terminais com saldo positivo
+  0 - Sair
+! Escolha uma opção: CONSULTAS
+  1 - Mostrar todas as comunicações
+  2 - Mostrar comunicações feitas por um cliente
+  3 - Mostrar comunicações recebidas por um cliente

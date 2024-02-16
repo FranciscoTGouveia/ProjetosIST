@@ -1,0 +1,44 @@
+*** tests/A-07-01-M-ok.out	2022-10-02 13:23:26.325478306 +0100
+--- tests/A-07-01-M-ok.outhyp	2022-10-11 23:02:07.186733501 +0100
+***************
+*** 27,42 ****
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Número do terminal: Tipo de terminal (BASIC ou FANCY): Identificador do cliente: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: BASIC|100000|cli002|IDLE|0|0
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+  Escolha uma opção: MENU PRINCIPAL
+  1 - Abrir
+--- 27,49 ----
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Opção inválida!
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
++ 0 - Sair
++ Escolha uma opção: Número inválido!
++ Escolha uma opção: Número inválido!
++ Escolha uma opção: GESTÃO DE TERMINAIS
++ 1 - Mostrar todos os terminais
++ 2 - Registar terminal
++ 3 - Operações de terminal
+  0 - Sair
+  Escolha uma opção: MENU PRINCIPAL
+  1 - Abrir

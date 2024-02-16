@@ -1,0 +1,30 @@
+*** tests/A-03-03-M-ok.out	2022-10-01 17:51:24.183957184 +0100
+--- tests/A-03-03-M-ok.outhyp	2022-10-11 23:02:06.853400160 +0100
+***************
+*** 14,21 ****
+  5 - Desactivar notificações
+  6 - Mostrar saldo de cliente
+  0 - Sair
+! Escolha uma opção: Identificador do cliente: CLIENT|cli001|Manuel Pinheiro|103443|NORMAL|YES|0|0|0
+! GESTÃO DE CLIENTES
+  1 - Visualizar cliente
+  2 - Visualizar todos os clientes
+  3 - Registar cliente
+--- 14,20 ----
+  5 - Desactivar notificações
+  6 - Mostrar saldo de cliente
+  0 - Sair
+! Escolha uma opção: GESTÃO DE CLIENTES
+  1 - Visualizar cliente
+  2 - Visualizar todos os clientes
+  3 - Registar cliente
+***************
+*** 23,28 ****
+--- 22,28 ----
+  5 - Desactivar notificações
+  6 - Mostrar saldo de cliente
+  0 - Sair
++ Escolha uma opção: Número inválido!
+  Escolha uma opção: MENU PRINCIPAL
+  1 - Abrir
+  2 - Guardar

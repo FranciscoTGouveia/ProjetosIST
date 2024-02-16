@@ -1,0 +1,24 @@
+*** tests/A-09-01-M-ok.out	2022-10-10 09:58:27.357984839 +0100
+--- tests/A-09-01-M-ok.outhyp	2022-10-11 23:02:07.813400180 +0100
+***************
+*** 11,17 ****
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: Número do terminal: Operações de terminal: Operação inválida: O terminal '969000' não existe.
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+--- 11,22 ----
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: GESTÃO DE TERMINAIS
+! 1 - Mostrar todos os terminais
+! 2 - Registar terminal
+! 3 - Operações de terminal
+! 0 - Sair
+! Escolha uma opção: Opção inválida!
+  GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal

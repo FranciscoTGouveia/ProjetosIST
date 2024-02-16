@@ -1,0 +1,47 @@
+*** tests/A-01-03-M-ok.out	2022-09-30 23:23:22.135219089 +0100
+--- tests/A-01-03-M-ok.outhyp	2022-10-11 23:02:06.443400151 +0100
+***************
+*** 6,12 ****
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
+! Escolha uma opção: Ficheiro a abrir: MENU PRINCIPAL
+  1 - Abrir
+  2 - Guardar
+  3 - Gestão de clientes
+--- 6,12 ----
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
+! Escolha uma opção: MENU PRINCIPAL
+  1 - Abrir
+  2 - Guardar
+  3 - Gestão de clientes
+***************
+*** 14,19 ****
+--- 14,20 ----
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
++ Escolha uma opção: Número inválido!
+  Escolha uma opção: GESTÃO DE CLIENTES
+  1 - Visualizar cliente
+  2 - Visualizar todos os clientes
+***************
+*** 22,29 ****
+  5 - Desactivar notificações
+  6 - Mostrar saldo de cliente
+  0 - Sair
+! Escolha uma opção: CLIENT|cli001|Manuel Pinheiro|103443|NORMAL|YES|0|0|0
+! GESTÃO DE CLIENTES
+  1 - Visualizar cliente
+  2 - Visualizar todos os clientes
+  3 - Registar cliente
+--- 23,29 ----
+  5 - Desactivar notificações
+  6 - Mostrar saldo de cliente
+  0 - Sair
+! Escolha uma opção: GESTÃO DE CLIENTES
+  1 - Visualizar cliente
+  2 - Visualizar todos os clientes
+  3 - Registar cliente

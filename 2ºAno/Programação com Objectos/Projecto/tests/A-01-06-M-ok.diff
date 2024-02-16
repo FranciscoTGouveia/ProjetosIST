@@ -1,0 +1,29 @@
+*** tests/A-01-06-M-ok.out	2022-10-01 08:05:11.702763012 +0100
+--- tests/A-01-06-M-ok.outhyp	2022-10-11 23:02:06.650066822 +0100
+***************
+*** 6,13 ****
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
+! Escolha uma opção: Ficheiro a abrir: Abrir: Operação inválida: Problema ao abrir ficheiro: Erro a processar ficheiro wqrqwrwqqw
+! MENU PRINCIPAL
+  1 - Abrir
+  2 - Guardar
+  3 - Gestão de clientes
+--- 6,12 ----
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
+! Escolha uma opção: MENU PRINCIPAL
+  1 - Abrir
+  2 - Guardar
+  3 - Gestão de clientes
+***************
+*** 15,18 ****
+--- 14,18 ----
+  5 - Menu de consultas
+  6 - Ver saldo global
+  0 - Sair
++ Escolha uma opção: Número inválido!
+  Escolha uma opção: 
+\ No newline at end of file

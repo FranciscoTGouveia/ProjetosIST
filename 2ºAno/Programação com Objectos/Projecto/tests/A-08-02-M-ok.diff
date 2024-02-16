@@ -1,0 +1,20 @@
+*** tests/A-08-02-M-ok.out	2022-10-05 19:31:03.889986943 +0100
+--- tests/A-08-02-M-ok.outhyp	2022-10-11 23:02:07.596733509 +0100
+***************
+*** 11,18 ****
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: BASIC|969001|cli002|OFF|0|0
+! GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
+--- 11,17 ----
+  2 - Registar terminal
+  3 - Operações de terminal
+  0 - Sair
+! Escolha uma opção: GESTÃO DE TERMINAIS
+  1 - Mostrar todos os terminais
+  2 - Registar terminal
+  3 - Operações de terminal
