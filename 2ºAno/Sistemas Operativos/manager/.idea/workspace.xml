@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eaf8234f-ced2-4f8b-8fbf-1d95cd9b29b2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../autodep" beforeDir="false" afterPath="$PROJECT_DIR$/../autodep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fs/operations.o" beforeDir="false" afterPath="$PROJECT_DIR$/../fs/operations.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fs/state.o" beforeDir="false" afterPath="$PROJECT_DIR$/../fs/state.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manager.c" beforeDir="false" afterPath="$PROJECT_DIR$/manager.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mbroker/mbroker.c" beforeDir="false" afterPath="$PROJECT_DIR$/../mbroker/mbroker.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mbroker/mbroker.o" beforeDir="false" afterPath="$PROJECT_DIR$/../mbroker/mbroker.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../producer-consumer/producer-consumer.c" beforeDir="false" afterPath="$PROJECT_DIR$/../producer-consumer/producer-consumer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../publisher/pub.c" beforeDir="false" afterPath="$PROJECT_DIR$/../publisher/pub.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../subscriber/sub.c" beforeDir="false" afterPath="$PROJECT_DIR$/../subscriber/sub.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/betterassert.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/logging.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/logging.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/logging.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/pipeflow.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/reader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/reader.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/reader.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/task.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/teste" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/writer.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utils/writer.h" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="3.1" />
+  </component>
+  <component name="ProjectId" id="2JtFnZldmvLTM0U4IEdSlNFbPCg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/home/olione/CLionProjects/ProjectSO/manager/manager.c",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="manager.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="manager" TARGET_NAME="manager.c" CONFIG_NAME="manager.c">
+      <option name="sourceFile" value="$PROJECT_DIR$/manager.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eaf8234f-ced2-4f8b-8fbf-1d95cd9b29b2" name="Changes" comment="" />
+      <created>1672889639210</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1672889639210</updated>
+      <workItem from="1672889640492" duration="172000" />
+      <workItem from="1672890827619" duration="521000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

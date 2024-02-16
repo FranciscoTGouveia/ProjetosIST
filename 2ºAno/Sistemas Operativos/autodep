@@ -1,0 +1,60 @@
+t1_2_3_symlink_resolution_failure.o: \
+ tests/t1_2_3_symlink_resolution_failure.c tests/../fs/operations.h \
+ tests/../fs/config.h
+z_copy_1.o: tests/z_copy_1.c fs/operations.h fs/config.h
+copy_from_external_errors.o: tests/copy_from_external_errors.c \
+ fs/operations.h fs/config.h
+t1_2_7_create_hard_link_with_soft_link.o: \
+ tests/t1_2_7_create_hard_link_with_soft_link.c fs/operations.h \
+ fs/config.h
+t1_2_4_hardlink_indep.o: tests/t1_2_4_hardlink_indep.c fs/operations.h \
+ fs/config.h
+z_threads_1.o: tests/z_threads_1.c fs/operations.h fs/config.h
+t1_2_5_clear_data_blocks.o: tests/t1_2_5_clear_data_blocks.c \
+ fs/operations.h fs/config.h
+t1_2_6_remove_file_create_new.o: tests/t1_2_6_remove_file_create_new.c \
+ tests/../fs/operations.h tests/../fs/config.h
+z_link_2.o: tests/z_link_2.c fs/operations.h fs/config.h
+z_link_3.o: tests/z_link_3.c fs/operations.h fs/config.h
+z_link_4.o: tests/z_link_4.c fs/operations.h fs/config.h
+copy_from_external_small.o: tests/copy_from_external_small.c \
+ fs/operations.h fs/config.h
+copy_from_external_empty.o: tests/copy_from_external_empty.c \
+ fs/operations.h fs/config.h
+z_copy_2.o: tests/z_copy_2.c fs/operations.h fs/config.h
+t1_2_1a_symlink_simple.o: tests/t1_2_1a_symlink_simple.c fs/operations.h \
+ fs/config.h
+z_link_5.o: tests/z_link_5.c fs/operations.h fs/config.h
+z_copy_3.o: tests/z_copy_3.c fs/operations.h fs/config.h
+z_copy_4.o: tests/z_copy_4.c fs/operations.h fs/config.h
+copy_from_external_large.o: tests/copy_from_external_large.c \
+ fs/operations.h fs/config.h
+z_threads_2.o: tests/z_threads_2.c fs/operations.h fs/config.h
+z_threads_3.o: tests/z_threads_3.c fs/operations.h fs/config.h
+test1.o: tests/test1.c fs/operations.h fs/config.h
+t1_2_1b_hardlink_simple.o: tests/t1_2_1b_hardlink_simple.c \
+ fs/operations.h fs/config.h
+z_link_1.o: tests/z_link_1.c fs/operations.h fs/config.h
+t1_2_8_hard_link_unlinking.o: tests/t1_2_8_hard_link_unlinking.c \
+ tests/../fs/operations.h tests/../fs/config.h
+sub.o: subscriber/sub.c subscriber/../utils/logging.h \
+ subscriber/../utils/pipeflow.h subscriber/../utils/writer.h \
+ subscriber/../utils/pipeflow.h subscriber/../utils/reader.h
+state.o: fs/state.c fs/state.h fs/config.h fs/operations.h \
+ fs/betterassert.h
+operations.o: fs/operations.c fs/operations.h fs/config.h fs/state.h \
+ fs/betterassert.h
+pub.o: publisher/pub.c publisher/../utils/logging.h \
+ publisher/../utils/pipeflow.h publisher/../utils/writer.h \
+ publisher/../utils/pipeflow.h
+producer-consumer.o: producer-consumer/producer-consumer.c \
+ producer-consumer/producer-consumer.h producer-consumer/../utils/task.h
+logging.o: utils/logging.c utils/logging.h
+writer.o: utils/writer.c utils/writer.h utils/pipeflow.h
+reader.o: utils/reader.c utils/reader.h utils/pipeflow.h
+mbroker.o: mbroker/mbroker.c mbroker/../utils/logging.h \
+ mbroker/../utils/task.h mbroker/../utils/reader.h \
+ mbroker/../utils/pipeflow.h mbroker/../utils/pipeflow.h \
+ mbroker/../utils/server_structures.h \
+ mbroker/../producer-consumer/producer-consumer.h
+manager.o: manager/manager.c utils/logging.h
