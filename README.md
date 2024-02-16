@@ -14,7 +14,7 @@ Este repositório tem o propóstio de arquivar todos os projetos realizados no �
 + [Programação com objetos (*Java*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/2%C2%BAAno/Programa%C3%A7%C3%A3o%20com%20Objectos)
 + [Análise e Sintese de Algoritmos (*C++*)]()
 + [Sistemas Operativos (*C*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/2%C2%BAAno/Sistemas%20Operativos)
-+ [Interação Pessoa Máquina (*JavaScript*)] (https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/2%C2%BAAno/Intera%C3%A7%C3%A3o%20Pessoa%20M%C3%A1quina)
++ [Interação Pessoa Máquina (*JavaScript*)](https://github.com/FranciscoTGouveia/ProjetosIST/tree/main/2%C2%BAAno/Intera%C3%A7%C3%A3o%20Pessoa%20M%C3%A1quina)
 + [Inteligência Artificial (*Python*)] ()
 + [Bases de Dados (*SQL*)] ()
 
