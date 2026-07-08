@@ -10,7 +10,7 @@ void *my_malloc(size_t size) {
     void *ptr = malloc(size);
     if (!ptr) {
         printf("Falha na alocação de memória.\n");
-        // codigo para limpar todas as merdas
+        // limpar recursos alocados antes de terminar
         exit(1);
     }
     return ptr;
